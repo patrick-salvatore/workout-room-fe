@@ -2,11 +2,10 @@ import 'reflect-metadata';
 import 'dotenv/config';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
-import { UserResolver } from './modules/user/userResolver';
 import { createConnection } from 'typeorm';
 import cookieParser from 'cookie-parser';
 import { handleRefresh } from './modules/user/helpers';
+import _schema from './modules';
 
 (async () => {
   const app = express();
@@ -29,9 +28,7 @@ import { handleRefresh } from './modules/user/helpers';
     entities: [`${__dirname}/src/entity/**/*.ts`],
   });
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [UserResolver],
-    }),
+    schema: await _schema,
     context: ({ req, res }) => ({ req, res }),
   });
 
