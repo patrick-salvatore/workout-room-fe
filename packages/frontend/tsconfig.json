@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "plugins": [{ "name": "typescript-tslint-plugin" }],
+    "outDir": "./build",
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "pages/*": ["src/Pages/*"],
+      "routes/*": ["src/routes/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "components/*": ["./src/components/*"],
+      "styledComponents/*": ["./src/styledComponents/*"],
+      "scss/*": ["./src/scss/*"],
+      "img/*": ["./src/img/*"],
+      "utils/*": ["./src/utils/*"],
+    },
+    "target": "es5",
+    "declaration": false,
+    "lib": ["es5", "es6", "dom"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strict": true,
+    "removeComments": true,
+    "noImplicitAny": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "jsx": "react",
+    "typeRoots": ["node_modules/@types"]
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": ["./src/**/**/*",]
+  },
+  "exclude": [
+    "./node_modules",
+    "./public",
+    "./build",
+    "./.vscode",
+    "**/*.test.tsx"
+  ],
+  "include": [
+    "<rootDir>/src/__test__/test-setup.js",
+    "./src/**/**/*",
+  ]
+}

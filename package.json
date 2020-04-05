@@ -1,0 +1,19 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  },
+  "private": true,
+  "scripts": {
+    "backend": "yarn workspaces backend start",
+    "frontend": "yarn workspaces frontend start"
+  }
+}
