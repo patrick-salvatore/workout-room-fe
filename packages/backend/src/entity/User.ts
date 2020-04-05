@@ -12,7 +12,7 @@ import { ObjectType, Field, Int } from 'type-graphql';
 @Unique(['email', 'userName'])
 export default class User extends BaseEntity {
   @Field(() => Int)
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Field()

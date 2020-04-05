@@ -128,26 +128,26 @@ export class UserResolver {
     @Arg('newPassword') newPassword: string,
     @Arg('retypePassword') retypePassword: string
   ) {
-    const user = await User.findOne({ where: { userName } });
-    const doesMatch = newPassword === retypePassword;
-
-    if (!user) {
-      throw new Error(`A user under ${userName} does not exist`);
-    }
-
-    if (!doesMatch) {
-      throw new Error(`Your password entries do not match`);
-    }
-
-    if (!validatePassword(newPassword)) {
-      throw new Error(`The password you entered is not long enough`);
-    }
-
     try {
+      const user = await User.findOne({ where: { userName } });
+      const doesMatch = newPassword === retypePassword;
       const newHashedPassword = await hash(newPassword, 14);
-      user.password = newHashedPassword;
 
+      if (!user) {
+        throw new Error(`A user under ${userName} does not exist`);
+      }
+
+      if (!doesMatch) {
+        throw new Error(`Your password entries do not match`);
+      }
+
+      if (!validatePassword(newPassword)) {
+        throw new Error(`The password you entered is not long enough`);
+      }
+
+      user.password = newHashedPassword;
       await user.save();
+
       return {
         success: true,
         message: 'you have successfully updated your password',
@@ -162,9 +162,9 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async revokeUserRefreshTokens(@Arg('userId') userId: number) {
-    const user = await User.findOne({ where: { id: userId } });
-
     try {
+      const user = await User.findOne({ where: { id: userId } });
+
       if (!user) {
         throw new Error('there is no user with this ID');
       }
