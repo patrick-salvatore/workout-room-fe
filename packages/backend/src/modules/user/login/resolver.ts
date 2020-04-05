@@ -1,5 +1,5 @@
 import { createToken } from '../helpers';
-import User from 'entity/User';
+import User from '../../../entity/User';
 import { Resolver, Mutation, Arg, Ctx } from 'type-graphql';
 import { compare } from 'bcrypt';
 import { LoginResponse } from '../shared/response';

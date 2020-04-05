@@ -6,7 +6,7 @@ import { buildSchema } from 'type-graphql';
 import { UserResolver } from './modules/user/userResolver';
 import { createConnection } from 'typeorm';
 import cookieParser from 'cookie-parser';
-import handleRefresh from './modules/user/helpers/handleRefresh';
+import { handleRefresh } from './modules/user/helpers';
 
 (async () => {
   const app = express();

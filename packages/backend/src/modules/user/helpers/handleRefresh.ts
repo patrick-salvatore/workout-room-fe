@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import User from '../../../entity/User';
-import { createToken } from './auth';
+import { createToken } from './tokens';
 
 export default async (req: Request, res: Response): Promise<Response> => {
   const refreshToken = req.cookies.jid;

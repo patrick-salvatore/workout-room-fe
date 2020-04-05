@@ -1,5 +1,5 @@
 import { validateUserCredentials } from '../helpers';
-import User from '../../entity/User';
+import User from '../../../entity/User';
 import { Resolver, Mutation, Arg } from 'type-graphql';
 import { hash } from 'bcrypt';
 import { BasicResponse } from '../shared/response';
