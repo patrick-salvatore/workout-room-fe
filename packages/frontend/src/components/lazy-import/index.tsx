@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export const LazyImport = props => {
-  const [component, setComponent] = useState();
+  const [component, setComponent] = useState<any>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);

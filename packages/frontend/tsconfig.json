@@ -5,8 +5,8 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
-      "pages/*": ["src/Pages/*"],
-      "routes/*": ["src/routes/*"],
+      "pages/*": ["./src/pages/*"],
+      "routes/*": ["./src/routes/*"],
       "hooks/*": ["./src/hooks/*"],
       "components/*": ["./src/components/*"],
       "styledComponents/*": ["./src/styledComponents/*"],
@@ -29,17 +29,21 @@
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "jsx": "react",
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["../../node_modules/@types"],
   },
   "awesomeTypescriptLoaderOptions": {
     "reportFiles": ["./src/**/**/*",]
   },
   "exclude": [
-    "./node_modules",
     "./public",
     "./build",
     "./.vscode",
-    "**/*.test.tsx"
+    "**/*.test.tsx",
+    "node_modules",
+    "build",
+    "scripts",
+    "webpack",
+    "jest",
   ],
   "include": [
     "<rootDir>/src/__test__/test-setup.js",
