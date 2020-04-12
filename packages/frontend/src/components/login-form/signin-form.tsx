@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Visibility from '@material-ui/icons/Visibility';
 import { makeStyles } from '@material-ui/core/styles';
+import { FormFields } from '../form/interfaces';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Form from '../form';
 
@@ -48,12 +49,16 @@ const SignInFields: React.FC<any> = ({
   showPassword,
   handleClickShowPassword,
   handleFieldView,
-  signinFields,
 }) => {
   const classes = useStyles();
+  const signinFields: FormFields = {
+    username: '',
+    password: '',
+    rememberMe: false,
+  };
   return (
     <Form
-      initialValues={signinFields}
+      formFields={signinFields}
       render={({
         fields,
         handleChange,

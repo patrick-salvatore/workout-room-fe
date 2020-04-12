@@ -22,42 +22,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const signinFields = {
-  username: '',
-  password: '',
-  rememberMe: false,
-};
-
-const forgotPasswordFields = {
-  username: '',
-  newPassword: '',
-  rememberMe: false,
-};
-
-const registerFields = {
-  firstname: '',
-  lastname: '',
-  email: '',
-  username: '',
-  password: '',
-  passwordRepeat: '',
+const fieldViews = {
+  0: { component: SignInFields, props: {}, title: 'Sign In' },
+  1: {
+    component: ForgotPasswordFields,
+    props: {},
+    title: 'Forgot Your Password :(',
+  },
+  2: {
+    component: RegisterFields,
+    props: {},
+    title: 'Sign Up',
+  },
 };
 
 const index = function(): JSX.Element {
   const classes = useStyles();
-  const fieldViews = {
-    0: { component: SignInFields, props: { signinFields }, title: 'Sign In' },
-    1: {
-      component: ForgotPasswordFields,
-      props: { forgotPasswordFields },
-      title: 'Forgot Your Password :(',
-    },
-    2: {
-      component: RegisterFields,
-      props: { registerFields },
-      title: 'Sign Up',
-    },
-  };
   const [showPassword, setShowPassword] = useState(false);
   const [view, setView] = useState(fieldViews[0]);
 

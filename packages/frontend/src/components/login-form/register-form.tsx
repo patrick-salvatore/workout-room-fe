@@ -2,12 +2,15 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { FormFields } from '../form/interfaces';
 import Form from '../form';
 
 const useStyles = makeStyles(theme => ({
@@ -42,15 +45,28 @@ const useStyles = makeStyles(theme => ({
 const RegisterFields: React.FC<any> = ({
   handleClickShowPassword,
   handleFieldView,
-  registerFields,
   showPassword,
 }) => {
   const classes = useStyles();
+  const registerFields: FormFields = {
+    firstname: '',
+    lastname: '',
+    email: '',
+    username: '',
+    password: '',
+    passwordRepeat: '',
+    rememberMe: false,
+  };
 
   return (
     <Form
-      initialValues={registerFields}
-      render={({ fields, handleChange, handleSubmit }): JSX.Element => (
+      formFields={registerFields}
+      render={({
+        fields,
+        handleChange,
+        handleSubmit,
+        handleCheckbox,
+      }): JSX.Element => (
         <form className={classes.formColumn} onSubmit={handleSubmit}>
           <div className={classes.formRow}>
             <OutlinedInput
@@ -118,6 +134,17 @@ const RegisterFields: React.FC<any> = ({
             placeholder="Confirm Password"
             name="passwordRepeat"
             onChange={handleChange}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={fields.rememberMe}
+                color="primary"
+                onChange={handleCheckbox}
+                name="rememberMe"
+              />
+            }
+            label="Remember me"
           />
           <Button
             type="submit"

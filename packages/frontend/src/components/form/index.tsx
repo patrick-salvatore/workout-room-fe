@@ -1,29 +1,8 @@
 import { useState } from 'react';
+import { FormProps } from './interfaces';
 
-interface InitialValues {
-  name?: string;
-  password?: string;
-  userName?: string;
-  title?: string;
-  author?: string;
-  subject?: string;
-  email?: string;
-  msg?: string;
-  owner?: string;
-  type?: string;
-  body?: string;
-  date?: Date;
-}
-
-interface FormProps extends React.Props<any> {
-  initialValues: InitialValues;
-  render: Function;
-  className?: string;
-}
-
-const Form = (props: FormProps): JSX.Element => {
-  const { initialValues } = props;
-  const [fields, setFields] = useState(initialValues);
+const Form: React.FC<FormProps> = ({ formFields, render }) => {
+  const [fields, setFields] = useState(formFields);
 
   const handleChange = (e: React.ChangeEvent): void => {
     const { name, value } = e.target as HTMLInputElement;
@@ -45,7 +24,7 @@ const Form = (props: FormProps): JSX.Element => {
       `);
   };
 
-  return props.render({ fields, handleChange, handleSubmit, handleCheckbox });
+  return render({ fields, handleChange, handleSubmit, handleCheckbox });
 };
 
 export default Form;

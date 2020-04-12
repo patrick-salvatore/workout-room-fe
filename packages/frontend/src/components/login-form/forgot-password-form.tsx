@@ -8,6 +8,8 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { makeStyles } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { FormFields } from '../form/interfaces';
+
 import Form from '../form';
 
 const useStyles = makeStyles(theme => ({
@@ -45,14 +47,17 @@ const useStyles = makeStyles(theme => ({
 const ForgotPasswordFields: React.FC<any> = ({
   handleClickShowPassword,
   handleFieldView,
-  forgotPasswordFields,
   showPassword,
 }) => {
   const classes = useStyles();
+  const forgotPasswordFields: FormFields = {
+    username: '',
+    newPassword: '',
+  };
 
   return (
     <Form
-      initialValues={forgotPasswordFields}
+      formFields={forgotPasswordFields}
       render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className={classes.form} onSubmit={handleSubmit}>
           <OutlinedInput
