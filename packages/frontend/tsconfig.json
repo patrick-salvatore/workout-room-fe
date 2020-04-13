@@ -13,6 +13,7 @@
       "scss/*": ["./src/scss/*"],
       "img/*": ["./src/img/*"],
       "utils/*": ["./src/utils/*"],
+      "providers/*": ["./src/providers/*"],
     },
     "target": "es5",
     "declaration": false,

@@ -1,8 +1,7 @@
-const LANDING = '/';
+const INDEX = '/';
 const ADMIN = '/admin';
 const ABOUT = '/about';
-const SIGN_UP = '/signup';
-const SIGN_IN = '/signin';
+const LOGIN = '/login';
 const DONATE = '/donate';
 const HOME = '/home';
 const ACCOUNT = '/account';
@@ -12,9 +11,8 @@ const CONTACT = '/contact';
 export default {
   ADMIN,
   ABOUT,
-  LANDING,
-  SIGN_UP,
-  SIGN_IN,
+  INDEX,
+  LOGIN,
   DONATE,
   HOME,
   ACCOUNT,

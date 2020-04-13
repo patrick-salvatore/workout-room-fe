@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { AuthDataProvider } from '../providers';
+import { useAuthDataContext } from '../providers/auth-provider';
+
 import ROUTES from './constants';
 
 /**
@@ -12,13 +15,31 @@ import LOGIN from 'pages/user-form';
 // import Tabs from '@material-ui/core/Tabs';
 // import Tab from '@material-ui/core/Tab';
 
+const PrivateRoute: React.FC<any> = ({
+  component,
+  ...options
+}): JSX.Element => {
+  const { isAuthenticated } = useAuthDataContext();
+  const finalComponent = isAuthenticated ? component : LOGIN;
+
+  return <Route {...options} component={finalComponent} />;
+};
+
 export const AppView: React.FC = (): JSX.Element => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route exact={true} path={ROUTES.LANDING} component={LOGIN} />
-        <Route component={() => <h1>OOPS</h1>} />
-      </Switch>
+      <AuthDataProvider>
+        <Switch>
+          <PrivateRoute
+            exact={true}
+            path={ROUTES.INDEX}
+            component={() => <h1>DASHBOARD</h1>}
+            isAuthenticated={false}
+          />
+          <Route exact={true} path={ROUTES.LOGIN} component={LOGIN} />
+          <Route component={() => <h1>OOPS</h1>} />
+        </Switch>
+      </AuthDataProvider>
     </BrowserRouter>
   );
 };
