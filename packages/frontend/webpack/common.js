@@ -20,10 +20,8 @@ const output = {
 
 const optimization = {
   runtimeChunk: 'single',
-  namedChunks: true,
-  sideEffects: true,
   splitChunks: {
-    chunks: 'async',
+    chunks: 'all',
     minSize: 10000,
     minChunks: 1,
     maxAsyncRequests: 5,
@@ -33,9 +31,13 @@ const optimization = {
     cacheGroups: {
       vendor: {
         test: /[\\/]node_modules[\\/]/,
-        priority: -10,
-        chunks: 'async',
-        name: 'vendor',
+        chunks: 'all',
+        minChunks: 2,
+      },
+      styles: {
+        test: /\.(sa|sc|c)ss$/,
+        chunks: 'all',
+        minChunks: 2,
       },
     },
   },

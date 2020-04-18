@@ -8,7 +8,8 @@ import ROUTES from './constants';
 /**
  * PAGES
  */
-import LOGIN from 'pages/user-form';
+import Login from 'pages/user-form';
+import Feed from 'pages/feed';
 
 // import { makeStyles, Theme } from '@material-ui/core/styles';
 // import AppBar from '@material-ui/core/AppBar';
@@ -20,7 +21,7 @@ const PrivateRoute: React.FC<any> = ({
   ...options
 }): JSX.Element => {
   const { isAuthenticated } = useAuthDataContext();
-  const finalComponent = isAuthenticated ? component : LOGIN;
+  const finalComponent = isAuthenticated ? component : Login;
 
   return <Route {...options} component={finalComponent} />;
 };
@@ -30,13 +31,7 @@ export const AppView: React.FC = (): JSX.Element => {
     <BrowserRouter>
       <AuthDataProvider>
         <Switch>
-          <PrivateRoute
-            exact={true}
-            path={ROUTES.INDEX}
-            component={() => <h1>FEED</h1>}
-            isAuthenticated={false}
-          />
-          {/* <Route exact={true} path={ROUTES.LOGIN} component={LOGIN} /> */}
+          <PrivateRoute exact={true} path={ROUTES.INDEX} component={Feed} />
           <Route component={() => <h1>OOPS</h1>} />
         </Switch>
       </AuthDataProvider>

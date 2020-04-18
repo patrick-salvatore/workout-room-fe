@@ -13,7 +13,8 @@
   },
   "private": true,
   "scripts": {
-    "frontend": "yarn workspaces frontend start",
-    "backend": "yarn workspaces backend start"
+    "frontend": "yarn workspace frontend start",
+    "backend": "yarn workspace backend start", 
+    "build-frontend": "yarn workspace frontend build"
   }
 }
