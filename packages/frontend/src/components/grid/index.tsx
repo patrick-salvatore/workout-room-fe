@@ -1,5 +1,7 @@
 import React from 'react';
 
-export const Grid = (): JSX.Element => {
+const Grid = (): JSX.Element => {
   return <div></div>;
 };
+
+export default Grid;

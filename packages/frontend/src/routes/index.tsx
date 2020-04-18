@@ -33,10 +33,10 @@ export const AppView: React.FC = (): JSX.Element => {
           <PrivateRoute
             exact={true}
             path={ROUTES.INDEX}
-            component={() => <h1>DASHBOARD</h1>}
+            component={() => <h1>FEED</h1>}
             isAuthenticated={false}
           />
-          <Route exact={true} path={ROUTES.LOGIN} component={LOGIN} />
+          {/* <Route exact={true} path={ROUTES.LOGIN} component={LOGIN} /> */}
           <Route component={() => <h1>OOPS</h1>} />
         </Switch>
       </AuthDataProvider>
