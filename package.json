@@ -14,7 +14,7 @@
   "private": true,
   "scripts": {
     "frontend": "yarn workspace frontend start",
-    "backend": "yarn workspace backend start", 
-    "build-frontend": "yarn workspace frontend build"
+    "backend": "yarn workspace backend start",
+    "build:frontend": "lerna run build --scope={@abb/frontend}"
   }
 }
