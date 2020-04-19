@@ -4,10 +4,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { FullPage } from 'styledComponents/containers';
-import SignInFields from 'components/login-form/signin-form';
-import ForgotPasswordFields from 'components/login-form/forgot-password-form';
-import RegisterFields from 'components/login-form/register-form';
+import { FullPageColor } from 'styledComponents/containers';
+import SignInFields from './from-types/signin-form';
+import ForgotPasswordFields from './from-types/forgot-password-form';
+import RegisterFields from './from-types/register-form';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -55,7 +55,7 @@ const index = function(): JSX.Element {
   };
 
   return (
-    <FullPage>
+    <FullPageColor>
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <div className={classes.paper}>
@@ -71,7 +71,7 @@ const index = function(): JSX.Element {
           showPassword,
         } as any)}
       </Container>
-    </FullPage>
+    </FullPageColor>
   );
 };
 

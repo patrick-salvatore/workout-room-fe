@@ -1,17 +1,15 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Visibility from '@material-ui/icons/Visibility';
 import { makeStyles } from '@material-ui/core/styles';
-import { FormFields } from '../form/interfaces';
+import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Form from '../form';
+import { FormFields } from 'components/form/interfaces';
+import Form from 'components/form';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -45,26 +43,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignInFields: React.FC<any> = ({
-  showPassword,
+const ForgotPasswordFields: React.FC<any> = ({
   handleClickShowPassword,
   handleFieldView,
+  showPassword,
 }) => {
   const classes = useStyles();
-  const signinFields: FormFields = {
+  const forgotPasswordFields: FormFields = {
     username: '',
-    password: '',
-    rememberMe: false,
+    newPassword: '',
   };
+
   return (
     <Form
-      formFields={signinFields}
-      render={({
-        fields,
-        handleChange,
-        handleSubmit,
-        handleCheckbox,
-      }): JSX.Element => (
+      formFields={forgotPasswordFields}
+      render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className={classes.form} onSubmit={handleSubmit}>
           <OutlinedInput
             className={classes.input}
@@ -79,9 +72,9 @@ const SignInFields: React.FC<any> = ({
             className={classes.input}
             id="outlined-adornment-password"
             type={showPassword ? 'text' : 'password'}
-            value={fields.password}
-            placeholder="Password"
-            name="password"
+            value={fields.newPassword}
+            placeholder="New Password"
+            name="newPassword"
             onChange={handleChange}
             endAdornment={
               <InputAdornment position="end">
@@ -95,17 +88,6 @@ const SignInFields: React.FC<any> = ({
               </InputAdornment>
             }
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                value={fields.rememberMe}
-                color="primary"
-                onChange={handleCheckbox}
-                name="rememberMe"
-              />
-            }
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -117,8 +99,8 @@ const SignInFields: React.FC<any> = ({
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link variant="body2" onClick={handleFieldView} data-key={1}>
-                Forgot password?
+              <Link variant="body2" onClick={handleFieldView} data-key={0}>
+                Sign In
               </Link>
             </Grid>
             <Grid item>
@@ -133,4 +115,4 @@ const SignInFields: React.FC<any> = ({
   );
 };
 
-export default SignInFields;
+export default ForgotPasswordFields;

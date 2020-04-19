@@ -19,6 +19,6 @@ export const ColumnContainer = styled.div`
   align-content: center;
 `;
 
-export const FullPage = styled.div`
+export const FullPageColor = styled.div`
   height: 100vh;
 `;

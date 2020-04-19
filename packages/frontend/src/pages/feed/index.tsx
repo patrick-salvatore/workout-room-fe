@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { FullPage, Container } from 'styledComponents/containers';
+import { FullPageColor, Container } from 'styledComponents/containers';
 import NavBar from 'components/navbar';
 
 const useStyles = makeStyles(theme => ({
@@ -13,15 +13,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const index = function(): JSX.Element {
-  const classes = useStyles();
-
   return (
-    <FullPage>
+    <FullPageColor>
       <Container>
         <NavBar />
         <h1>FEED</h1>
       </Container>
-    </FullPage>
+    </FullPageColor>
   );
 };
 

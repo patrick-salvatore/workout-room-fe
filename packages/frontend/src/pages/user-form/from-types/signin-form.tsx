@@ -1,117 +1,86 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import { makeStyles } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
+import { makeStyles } from '@material-ui/core/styles';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { FormFields } from '../form/interfaces';
-import Form from '../form';
+import { FormFields } from 'components/form/interfaces';
+import Form from 'components/form';
 
 const useStyles = makeStyles(theme => ({
-  formColumn: {
-    width: '100%',
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  formRow: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  fullInput: {
-    width: '100%',
-    margin: '7px 0',
-    padding: '10px 20px',
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
   input: {
     width: '100%',
-
     margin: '7px 0',
     padding: '10px 20px',
   },
 }));
 
-const RegisterFields: React.FC<any> = ({
+const SignInFields: React.FC<any> = ({
+  showPassword,
   handleClickShowPassword,
   handleFieldView,
-  showPassword,
 }) => {
   const classes = useStyles();
-  const registerFields: FormFields = {
-    firstname: '',
-    lastname: '',
-    email: '',
+  const signinFields: FormFields = {
     username: '',
     password: '',
-    passwordRepeat: '',
     rememberMe: false,
   };
-
   return (
     <Form
-      formFields={registerFields}
+      formFields={signinFields}
       render={({
         fields,
         handleChange,
         handleSubmit,
         handleCheckbox,
       }): JSX.Element => (
-        <form className={classes.formColumn} onSubmit={handleSubmit}>
-          <div className={classes.formRow}>
-            <OutlinedInput
-              className={classes.input}
-              id="outlined"
-              type={'text'}
-              value={fields.firstname}
-              placeholder="First Name"
-              name="firstname"
-              onChange={handleChange}
-            />
-            <OutlinedInput
-              className={classes.input}
-              id="outlined"
-              type={'text'}
-              value={fields.lastname}
-              placeholder="Last Name"
-              name="lastname"
-              onChange={handleChange}
-            />
-          </div>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <OutlinedInput
-            className={classes.fullInput}
+            className={classes.input}
             id="outlined"
             type={'text'}
-            value={fields.email}
-            placeholder="Email"
-            name="email"
-            onChange={handleChange}
-          />
-          <OutlinedInput
-            className={classes.fullInput}
-            id="outlined"
-            type={'text'}
-            value={fields.userName}
+            value={fields.username}
             placeholder="User Name"
             name="username"
             onChange={handleChange}
           />
           <OutlinedInput
-            className={classes.fullInput}
+            className={classes.input}
             id="outlined-adornment-password"
             type={showPassword ? 'text' : 'password'}
             value={fields.password}
-            placeholder="New Password"
+            placeholder="Password"
             name="password"
             onChange={handleChange}
             endAdornment={
@@ -125,15 +94,6 @@ const RegisterFields: React.FC<any> = ({
                 </IconButton>
               </InputAdornment>
             }
-          />
-          <OutlinedInput
-            className={classes.fullInput}
-            id="outlined-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            value={fields.passwordRepeat}
-            placeholder="Confirm Password"
-            name="passwordRepeat"
-            onChange={handleChange}
           />
           <FormControlLabel
             control={
@@ -157,13 +117,13 @@ const RegisterFields: React.FC<any> = ({
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link variant="body2" onClick={handleFieldView} data-key={0}>
-                Sign In
+              <Link variant="body2" onClick={handleFieldView} data-key={1}>
+                Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link variant="body2" onClick={handleFieldView} data-key={1}>
-                Forgot Password?
+              <Link variant="body2" onClick={handleFieldView} data-key={2}>
+                <>Don&apos;t have an account? Sign Up</>
               </Link>
             </Grid>
           </Grid>
@@ -173,4 +133,4 @@ const RegisterFields: React.FC<any> = ({
   );
 };
 
-export default RegisterFields;
+export default SignInFields;

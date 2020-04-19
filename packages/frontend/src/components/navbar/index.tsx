@@ -1,63 +1,62 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { withRouter } from 'react-router';
-import { useLocalStorage } from 'hooks/useLocalStorage';
-import {
-  IconLookup,
-  IconDefinition,
-  findIconDefinition,
-  library,
-} from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronRight,
-  faChevronLeft,
-} from '@fortawesome/free-solid-svg-icons';
-import { SubMenu } from './submenu';
-import './nav.scss';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Add from '@material-ui/icons/Add';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SideNav from './sidenav';
 
-library.add(faChevronRight, faChevronLeft);
+const useStyles = makeStyles(() => ({
+  topBar: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: '#424242',
+    zIndex: 99,
+    padding: '0',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '45px',
+    height: '100vh',
+  },
+}));
 
-const chevronRLookup: IconLookup = { prefix: 'fas', iconName: 'chevron-right' };
-const chevronRIconDefinition: IconDefinition = findIconDefinition(
-  chevronRLookup
-);
-
-const chevronLLookup: IconLookup = { prefix: 'fas', iconName: 'chevron-left' };
-const chevronLIconDefinition: IconDefinition = findIconDefinition(
-  chevronLLookup
-);
-
-const Navbar: React.FC = (): JSX.Element => {
-  const [isOpen, setIsOpen] = useLocalStorage<boolean>('navKey', false);
+const TopNavBar = (): JSX.Element => {
+  const classes = useStyles();
 
   return (
-    <nav className="nav__wrapper">
-      <div
-        data-testid="clickElm"
-        className="icon__wrapper"
-        onClick={(): void => setIsOpen(!isOpen)}
-      >
-        {isOpen ? (
-          <FontAwesomeIcon
-            className="icon"
-            icon={chevronLIconDefinition}
-            size="2x"
-          />
-        ) : (
-          <FontAwesomeIcon
-            className="icon"
-            icon={chevronRIconDefinition}
-            size="2x"
-          />
-        )}
-      </div>
-      <div className="nav-contents__wrapper">
-        <div className="nav__user-section"></div>
-        <div className="nav__main-section"></div>
-      </div>
-    </nav>
+    <>
+      <AppBar>
+        <Toolbar className={classes.topBar}>
+          <div>
+            <IconButton color="inherit">
+              <Badge color="secondary">
+                <Add />
+              </Badge>
+            </IconButton>
+            <IconButton color="inherit">
+              <Badge color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <SideNav />
+    </>
   );
 };
 
-export default withRouter(Navbar);
+export default TopNavBar;
