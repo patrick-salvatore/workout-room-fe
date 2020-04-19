@@ -21,4 +21,10 @@ export const ColumnContainer = styled.div`
 
 export const FullPageColor = styled.div`
   height: 100vh;
+  width: 100vw;
+`;
+
+export const AppContainer = styled.div`
+  height: 100vh;
+  margin-left: 75px;
 `;
