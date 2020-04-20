@@ -1,5 +1,5 @@
 {
-  "name": "dashboard",
+  "name": "workout.room",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -13,6 +13,9 @@
   },
   "private": true,
   "scripts": {
+    "test": "lerna run test",
+    "start": "lerna run start",
+    "start:frontend": "lerna run start",
     "frontend": "yarn workspace frontend start",
     "backend": "yarn workspace backend start",
     "build:frontend": "lerna run build --scope={@abb/frontend}"

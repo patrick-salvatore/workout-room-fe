@@ -1,7 +1,7 @@
 .sidenav__wrapper {
   display: grid;
   grid-template-areas: 'body icon';
-  grid-template-columns: 1fr 30px;
+  grid-template-columns: 1fr 20px;
   position: absolute;
   top: 0;
   left: 0;
@@ -16,7 +16,7 @@
   }
 
   &.slide-left {
-    transform: translateX(-77%);
+    transform: translateX(-80%);
     transition: linear 500ms;
   }
 
@@ -26,13 +26,13 @@
     display: flex;
 
     .sidebar-btn__wrapper {
-      width: 55px;
-      height: 48px;
+      position: absolute;
+      right: -12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: absolute;
       padding-top: 55px;
+      height: 48px;
 
       .icon {
         position: relative;

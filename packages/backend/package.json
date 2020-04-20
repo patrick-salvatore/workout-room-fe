@@ -1,5 +1,5 @@
 {
-   "name": "dashboard-backend",
+   "name": "workout.room.backend",
    "version": "1.0.0",
    "main": "index.js",
    "license": "MIT",
@@ -46,6 +46,7 @@
       "typescript": "3.3.3333"
    },
    "scripts": {
-      "start": "nodemon src/index.ts"
+      "start": "nodemon src/index.ts",
+      "test": "echo backend test"
    }
 }

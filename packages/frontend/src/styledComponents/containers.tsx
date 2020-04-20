@@ -26,5 +26,5 @@ export const FullPageColor = styled.div`
 
 export const AppContainer = styled.div`
   height: 100vh;
-  margin-left: 75px;
+  margin-left: 65px;
 `;
