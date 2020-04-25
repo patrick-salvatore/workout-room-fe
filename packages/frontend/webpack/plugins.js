@@ -31,6 +31,7 @@ const plugins = [
   }),
   // new ExtractCssChunks({
   //   filename: 'css/[name].min.css',
+  //   chunkFilename: 'css/[id].min.css',
   // }),
 ];
 

@@ -18,6 +18,7 @@
     "start:frontend": "lerna run start",
     "frontend": "yarn workspace frontend start",
     "backend": "yarn workspace backend start",
-    "build:frontend": "lerna run build --scope={@abb/frontend}"
+    "build:frontend": "lerna run build --scope=@workout.room/frontend",
+    "build:backend": "lerna run build --scope=@workout.room/backend"
   }
 }

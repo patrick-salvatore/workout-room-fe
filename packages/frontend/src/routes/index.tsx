@@ -12,6 +12,7 @@ import NavBar from 'components/navbar';
 /*PAGES*/
 import Login from 'pages/user-form';
 import Feed from 'pages/feed';
+import Calendar from 'pages/calendar';
 
 const PrivateRoute: React.FC<any> = ({
   component,
@@ -26,6 +27,7 @@ const PrivateRoute: React.FC<any> = ({
 const Router = () => (
   <Switch>
     <PrivateRoute exact={true} path={ROUTES.INDEX} component={Feed} />
+    <PrivateRoute exact={true} path={ROUTES.CALENDAR} component={Calendar} />
     <Route component={() => <h1>OOPS</h1>} />
   </Switch>
 );

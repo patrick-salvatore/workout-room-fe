@@ -1,5 +1,5 @@
 {
-   "name": "workout.room.backend",
+   "name": "@workout.room/backend",
    "version": "1.0.0",
    "main": "index.js",
    "license": "MIT",
@@ -47,6 +47,7 @@
    },
    "scripts": {
       "start": "nodemon src/index.ts",
-      "test": "echo backend test"
+      "test": "echo backend test",
+      "build": "tsc -b"
    }
 }

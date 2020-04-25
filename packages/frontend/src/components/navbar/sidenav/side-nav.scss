@@ -9,6 +9,7 @@
   min-width: 330px;
   min-height: 100vh;
   border-right: white solid 1px;
+  z-index: 99;
 
   &.slide-right {
     transform: translateX(13%);

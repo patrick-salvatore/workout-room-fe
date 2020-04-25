@@ -9,22 +9,6 @@
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread",
     "@babel/plugin-proposal-json-strings",
-    "babel-plugin-styled-components",
-    // [
-    //   "module-resolver",
-    //   {
-    //     "alias": {
-    //       "scss": "./src/scss",
-    //       "shared": "./src/shared",
-    //       "styledComponents": "./src/styledComponents",
-    //       "hooks": "./src/hooks",
-    //       "components": "./src/components",
-    //       "pages": "./src/Pages",
-    //       "routes": "./src/Routes",
-    //       "assets": "./src/assets",
-    //     },
-    //     "root": ["./src", "./public", "./"]
-    //   }
-    // ],
+    "babel-plugin-styled-components"
   ]
 }
