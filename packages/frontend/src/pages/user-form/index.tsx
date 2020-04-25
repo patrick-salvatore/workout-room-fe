@@ -22,14 +22,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const fieldViews = {
-  0: { component: SignInFields, props: {}, title: 'Sign In' },
-  1: {
+const formViews = {
+  'sign-in': { component: SignInFields, props: {}, title: 'Sign In' },
+  'forgot-password': {
     component: ForgotPasswordFields,
     props: {},
     title: 'Forgot Your Password :(',
   },
-  2: {
+  'sign-up': {
     component: RegisterFields,
     props: {},
     title: 'Sign Up',
@@ -39,7 +39,7 @@ const fieldViews = {
 const index = function(): JSX.Element {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
-  const [view, setView] = useState(fieldViews[0]);
+  const [view, setView] = useState(formViews['sign-in']);
 
   const handleClickShowPassword = (): void => {
     setShowPassword(!showPassword);
@@ -50,7 +50,7 @@ const index = function(): JSX.Element {
     const key = target.getAttribute('data-key');
 
     if (key) {
-      setView(fieldViews[key]);
+      setView(formViews[key]);
     }
   };
 

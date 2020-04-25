@@ -157,12 +157,20 @@ const RegisterFields: React.FC<any> = ({
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link variant="body2" onClick={handleFieldView} data-key={0}>
+              <Link
+                variant="body2"
+                onClick={handleFieldView}
+                data-key="sign-in"
+              >
                 Sign In
               </Link>
             </Grid>
             <Grid item>
-              <Link variant="body2" onClick={handleFieldView} data-key={1}>
+              <Link
+                variant="body2"
+                onClick={handleFieldView}
+                data-key="forgot-password"
+              >
                 Forgot Password?
               </Link>
             </Grid>

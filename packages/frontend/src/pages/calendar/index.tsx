@@ -44,8 +44,6 @@ const index: React.FC = (): JSX.Element => {
   const calendarComponentRef = React.createRef<FullCalendar>();
   const [state, dispatch] = useReducer(calendarReducer, calendarState);
 
-  console.log(state);
-
   const handleDateClick = (arg: any): void => {
     const newEvent = {
       title: `New Event ${state.events.length + 1}`,

@@ -99,12 +99,20 @@ const ForgotPasswordFields: React.FC<any> = ({
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link variant="body2" onClick={handleFieldView} data-key={0}>
+              <Link
+                variant="body2"
+                onClick={handleFieldView}
+                data-key="sign-in"
+              >
                 Sign In
               </Link>
             </Grid>
             <Grid item>
-              <Link variant="body2" onClick={handleFieldView} data-key={2}>
+              <Link
+                variant="body2"
+                onClick={handleFieldView}
+                data-key="sign-up"
+              >
                 <>Don&apos;t have an account? Sign Up</>
               </Link>
             </Grid>
