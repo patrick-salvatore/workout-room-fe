@@ -4,6 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Link from '@material-ui/core/Link';
+// import { Link } from 'react-router-dom';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import HouseIcon from '@material-ui/icons/House';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -23,7 +24,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const SideNav: React.FC = (): JSX.Element => {
+const SideNav = (): JSX.Element => {
   const classes = useStyles();
   // const [isOpen, setIsOpen] = useLocalStorage<boolean>('sideNavKey', false);
   const [isOpen, setIsOpen] = useState(false);

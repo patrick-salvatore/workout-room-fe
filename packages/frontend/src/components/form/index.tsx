@@ -21,12 +21,13 @@ const Form: React.FC<FormProps> = ({
   };
 
   const handleSubmit = (e: React.MouseEvent): void => {
+    e.preventDefault();
+
     if (customHandleSubmit) {
       customHandleSubmit(fields);
       return;
     }
 
-    e.preventDefault();
     alert(`
         -- SUBMITTING FORM --
         ${JSON.stringify(fields, null, 2)}

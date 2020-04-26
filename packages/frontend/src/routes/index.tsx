@@ -44,7 +44,7 @@ const BigLoader = () => (
 );
 
 const Router = () => (
-  <Suspense fallback={BigLoader}>
+  <Suspense fallback={<BigLoader />}>
     <Switch>
       <PrivateRoute exact={true} path={ROUTES.INDEX} component={Feed} />
       <PrivateRoute exact={true} path={ROUTES.CALENDAR} component={Calendar} />

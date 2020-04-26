@@ -9,7 +9,7 @@ import './calendar.scss';
 const eventMap = {
   april: [
     { title: 'April 1', start: new Date(), id: 1 },
-    { title: 'April 2', start: new Date('2020-04-22'), id: 2 },
+    { title: 'April 2', start: new Date('2020-04-02'), id: 2 },
   ],
   may: [
     { title: 'May 1', start: new Date('2020-05-26'), id: 1 },

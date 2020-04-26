@@ -22,10 +22,10 @@ const EditableCalendar = ({ state, dispatch, setEdit }): JSX.Element => {
     console.log(eventClick);
   };
 
-  const handleEventDrop = (evt): void => {
+  const handleEventDrop = (e): void => {
     // dispatch({ type: 'events', payload: [] });
 
-    console.log(evt);
+    console.log(e);
   };
 
   const handleEventReceive = (arg): void => {
