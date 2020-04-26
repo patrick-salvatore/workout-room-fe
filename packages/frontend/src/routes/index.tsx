@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { AppContainer } from 'styledComponents/containers';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AuthDataProvider } from '../providers';
@@ -10,37 +10,51 @@ import ROUTES from './constants';
 import NavBar from 'components/navbar';
 
 /*PAGES*/
-import Login from 'pages/user-form';
-import Feed from 'pages/feed';
-import Calendar from 'pages/calendar';
+const Login = React.lazy(() => import('pages/user-form'));
+const Feed = React.lazy(() => import('pages/feed'));
+const Calendar = React.lazy(() => import('pages/calendar'));
+const Progress = React.lazy(() => import('pages/progress'));
+const Rooms = React.lazy(() => import('pages/rooms'));
+// import Login from 'pages/user-form'
+// import Feed from 'pages/feed';
+// import Calendar from 'pages/calendar';
+// import Progress from 'pages/progress';
 
 const PrivateRoute: React.FC<any> = ({
   component,
   ...options
 }): JSX.Element => {
   const { isAuthenticated } = useAuthDataContext();
-  const finalComponent = isAuthenticated ? component : Login;
+  const FinalComponent = isAuthenticated ? component : Login;
 
-  return <Route {...options} component={finalComponent} />;
+  return (
+    <Route {...options}>
+      <FinalComponent />
+    </Route>
+  );
 };
 
 const Router = () => (
-  <Switch>
-    <PrivateRoute exact={true} path={ROUTES.INDEX} component={Feed} />
-    <PrivateRoute exact={true} path={ROUTES.CALENDAR} component={Calendar} />
-    <Route component={() => <h1>OOPS</h1>} />
-  </Switch>
+  <Suspense fallback={<h1>LOADING</h1>}>
+    <Switch>
+      <PrivateRoute exact={true} path={ROUTES.INDEX} component={Feed} />
+      <PrivateRoute exact={true} path={ROUTES.CALENDAR} component={Calendar} />
+      <PrivateRoute exact={true} path={ROUTES.PROGRESS} component={Progress} />
+      <PrivateRoute exact={true} path={ROUTES.ROOMS} component={Rooms} />
+      <Route component={() => <h1>OOPS</h1>} />
+    </Switch>
+  </Suspense>
 );
 
 export const AppView: React.FC = (): JSX.Element => {
   return (
-    <BrowserRouter>
-      <AuthDataProvider>
-        <AppContainer>
-          <NavBar />
+    <AuthDataProvider>
+      <AppContainer>
+        <NavBar />
+        <BrowserRouter>
           <Router />
-        </AppContainer>
-      </AuthDataProvider>
-    </BrowserRouter>
+        </BrowserRouter>
+      </AppContainer>
+    </AuthDataProvider>
   );
 };

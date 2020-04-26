@@ -8,6 +8,8 @@ const ACCOUNT = '/account';
 const PASSWORD_FORGET = '/reset-password';
 const CONTACT = '/contact';
 const CALENDAR = '/calendar';
+const PROGRESS = '/progress';
+const ROOMS = '/rooms';
 
 export default {
   ADMIN,
@@ -20,4 +22,6 @@ export default {
   PASSWORD_FORGET,
   CONTACT,
   CALENDAR,
+  PROGRESS,
+  ROOMS,
 };

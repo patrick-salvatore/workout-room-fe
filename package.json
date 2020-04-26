@@ -16,8 +16,8 @@
     "test": "lerna run test",
     "start": "lerna run start",
     "start:frontend": "lerna run start",
-    "frontend": "yarn workspace frontend start",
-    "backend": "yarn workspace backend start",
+    "frontend": "yarn workspace @workout.room/frontend start",
+    "backend": "yarn workspace @workout.room/backend start",
     "build:frontend": "lerna run build --scope=@workout.room/frontend",
     "build:backend": "lerna run build --scope=@workout.room/backend"
   }

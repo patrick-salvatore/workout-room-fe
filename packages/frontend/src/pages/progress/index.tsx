@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from 'styledComponents/containers';
+import { FullPageColor, Container } from 'styledComponents/containers';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 const index = function(): JSX.Element {
   return (
     <Container>
-      <h1>FEED</h1>
+      <h1>PROGRESS</h1>
     </Container>
   );
 };

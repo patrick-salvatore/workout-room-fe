@@ -8,6 +8,6 @@ import 'scss/index.scss';
 
 const appRoot = document.getElementById('app-r--root');
 
-// document.addEventListener('DOMContentLoaded', function() {
-render(<AppView />, appRoot);
-// });
+document.addEventListener('DOMContentLoaded', function() {
+  render(<AppView />, appRoot);
+});
