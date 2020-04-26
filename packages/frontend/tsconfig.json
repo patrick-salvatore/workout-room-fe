@@ -27,7 +27,7 @@
     "strict": true,
     "removeComments": true,
     "noImplicitAny": false,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": false,
     "module": "commonjs",
     "jsx": "react",
     "typeRoots": ["../../node_modules/@types"],

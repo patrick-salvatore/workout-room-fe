@@ -19,4 +19,5 @@ export interface FormProps {
   formFields: FormFields;
   render: Function;
   className?: string;
+  customHandleSubmit?: (formFields: FormFields) => void;
 }

@@ -19,7 +19,7 @@ export const ColumnContainer = styled.div`
   align-content: center;
 `;
 
-export const FullPageColor = styled.div`
+export const FullPageContainer = styled.div`
   height: 100vh;
   width: 100vw;
 `;

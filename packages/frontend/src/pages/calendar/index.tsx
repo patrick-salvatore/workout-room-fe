@@ -1,24 +1,25 @@
-import React, { useReducer } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import { EventInput } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
+import React, { useReducer, useEffect, useState } from 'react';
+import { CalendarState, Action } from './interfaces';
+import monthMap from './month-map';
+import StaticCalendar from './static-calendar';
+import EditCalendar from './edit-calendar';
 
 import './calendar.scss';
 
-type Action =
-  | { type: 'events'; payload: EventInput }
-  | { type: 'weekends'; payload: boolean };
-
-interface CalendarState {
-  weekends: boolean;
-  events: EventInput[];
-}
+const eventMap = {
+  april: [
+    { title: 'April 1', start: new Date(), id: 1 },
+    { title: 'April 2', start: new Date('2020-04-22'), id: 2 },
+  ],
+  may: [
+    { title: 'May 1', start: new Date('2020-05-26'), id: 1 },
+    { title: 'May 2', start: new Date('2020-05-03'), id: 2 },
+  ],
+};
 
 const calendarState: CalendarState = {
   weekends: true,
-  events: [{ title: 'Event Now', start: new Date() }],
+  events: [],
 };
 
 function calendarReducer(
@@ -28,7 +29,7 @@ function calendarReducer(
   switch (action.type) {
     case 'events': {
       return {
-        events: [action.payload, ...calendarState.events],
+        events: [...action.payload, ...calendarState.events],
         weekends: calendarState.weekends,
       };
     }
@@ -41,29 +42,23 @@ function calendarReducer(
 }
 
 const index: React.FC = (): JSX.Element => {
-  const calendarComponentRef = React.createRef<FullCalendar>();
   const [state, dispatch] = useReducer(calendarReducer, calendarState);
+  const [edit, setEdit] = useState(false);
 
-  const handleDateClick = (arg: any): void => {
-    const newEvent = {
-      title: `New Event ${state.events.length + 1}`,
-      start: new Date(arg.date),
-      allDay: arg.allDay,
-    };
+  useEffect(() => {
+    const currMonth = monthMap[new Date().getMonth()];
+    const events = eventMap[currMonth.toLowerCase()];
 
-    dispatch({ type: 'events', payload: newEvent });
-  };
+    dispatch({ type: 'events', payload: events });
+  }, []);
 
   return (
     <div className="calendar">
-      <FullCalendar
-        defaultView="dayGridMonth"
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        ref={calendarComponentRef}
-        weekends={state?.weekends}
-        events={state?.events}
-        dateClick={handleDateClick}
-      />
+      {edit ? (
+        <EditCalendar state={state} setEdit={setEdit} dispatch={dispatch} />
+      ) : (
+        <StaticCalendar state={state} setEdit={setEdit} dispatch={dispatch} />
+      )}
     </div>
   );
 };

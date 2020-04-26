@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { FormProps } from './interfaces';
 
-const Form: React.FC<FormProps> = ({ formFields, render }) => {
+const Form: React.FC<FormProps> = ({
+  formFields,
+  render,
+  customHandleSubmit,
+}) => {
   const [fields, setFields] = useState(formFields);
 
   const handleChange = (e: React.ChangeEvent): void => {
@@ -17,6 +21,11 @@ const Form: React.FC<FormProps> = ({ formFields, render }) => {
   };
 
   const handleSubmit = (e: React.MouseEvent): void => {
+    if (customHandleSubmit) {
+      customHandleSubmit(fields);
+      return;
+    }
+
     e.preventDefault();
     alert(`
         -- SUBMITTING FORM --
