@@ -1,0 +1,16 @@
+.noscroll {
+  overflow: hidden;
+}
+
+.modal-content {
+  align-content: stretch;
+  border: none;
+  box-shadow: none;
+  justify-content: flex-start;
+  max-width: 416px;
+  min-height: 250px;
+  overflow: visible;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
