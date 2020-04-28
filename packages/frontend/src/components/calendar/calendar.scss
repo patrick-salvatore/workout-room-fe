@@ -6,4 +6,48 @@
   margin: 0 auto;
   margin-top: 10px;
   max-width: 900px;
+
+  .fc {
+    .fc-toolbar {
+      .fc-left {
+        display: flex;
+      }
+    }
+  }
+
+  .fc-view-container {
+    .fc-today {
+      background: #ebe5e5;
+    }
+  }
+
+  .fc-day-grid {
+    .fc-event-container {
+      .fc-day-grid-event {
+        padding: 0;
+        border-radius: 4px;
+      }
+      .fc-event {
+        border: none;
+
+        .event__wrapper {
+          .event-text {
+            padding-left: 6px;
+          }
+
+          &.event-today {
+            background: #4caf50;
+            padding: 0;
+            border-radius: 4px;
+          }
+
+          &--edit {
+            .event-text--edit {
+              padding-left: 6px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
