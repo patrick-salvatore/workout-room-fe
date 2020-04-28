@@ -4,7 +4,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarState, Action, Event } from './interfaces';
-import { updateIdxOfArray } from './calendar.utils';
+import { updateIdxOfArray, compareDates } from './calendar.utils';
 
 import Fade from 'components/fade';
 import Modal from 'components/modal';
@@ -65,8 +65,9 @@ function calendarReducer(
 const eventMap = [
   {
     title: 'April 1',
-    start: new Date('April 3, 2020').toISOString(),
+    start: new Date().toISOString(),
     id: Math.floor(Math.random() * 100),
+    className: 'test',
   },
   {
     title: 'April 2',
@@ -90,10 +91,19 @@ const eventMap = [
 const index: React.FC = (): JSX.Element => {
   const calendarRef = React.createRef<FullCalendar>();
   const [state, dispatch] = useReducer(calendarReducer, calendarState);
-  const [modalState, setModalState] = useState({ show: false, content: {} });
+  const [modalState, setModalState] = useState({
+    show: false,
+    name: '',
+    event: {},
+  });
 
   const closeModal = (e): void => {
-    setModalState({ show: false, content: modalState.content });
+    e.preventDefault();
+    setModalState({
+      show: false,
+      name: modalState.name,
+      event: modalState.event,
+    });
   };
 
   const backMonthClick = (): void => {
@@ -129,20 +139,17 @@ const index: React.FC = (): JSX.Element => {
     dispatch({ type: 'view', payload: newViewData });
   };
 
-  const handleDateClick = (arg: any): void => {
+  const handleDateClick = (event: any): void => {
     // TODO: Change this mock event to be BE generated
     /**
      * eg. const newEvent = await service('/events/', changedData)
      */
-
-    const newEvent = {
-      title: `New click event`,
-      start: new Date(arg.date),
-      id: Math.floor(Math.random() * 100),
-      idx: state.events.length + 1,
-    };
-
-    dispatch({ type: 'events', payload: [...state.events, newEvent] });
+    setModalState({
+      show: true,
+      name: 'new',
+      event: { startDate: event.dateStr },
+    });
+    // dispatch({ type: 'events', payload: [...state.events, newEvent] });
   };
 
   const handleEventClick = ({ event }): void => {
@@ -151,7 +158,7 @@ const index: React.FC = (): JSX.Element => {
       title: event.title,
     };
 
-    setModalState({ show: true, content: eventDetails });
+    setModalState({ show: true, event: eventDetails, name: 'base' });
   };
 
   const handleEventDrop = ({ event }): void => {
@@ -178,10 +185,13 @@ const index: React.FC = (): JSX.Element => {
   };
 
   const staticDetail = ({ event, el }): JSX.Element => {
+    const isEventTodayClass = compareDates(event.start, new Date())
+      ? 'event-today'
+      : '';
+
     const content = (
-      <div className="event__wrapper">
+      <div className={`event__wrapper ${isEventTodayClass}`}>
         <span className="event-text">{event.title}</span>
-        <div>{event.description}</div>
       </div>
     );
     render(content, el);
@@ -189,10 +199,13 @@ const index: React.FC = (): JSX.Element => {
   };
 
   const editableDetail = ({ event, el }): JSX.Element => {
+    const isEventTodayClass = compareDates(event.start, new Date())
+      ? 'event-today'
+      : '';
+
     const content = (
-      <div className="event__wrapper--edit">
-        <span className="event__text--edit">{event.title}</span>
-        <div>{event.description}</div>
+      <div className={`event__wrapper--edit ${isEventTodayClass}`}>
+        <span className="event-text--edit">{event.title}</span>
       </div>
     );
     render(content, el);
@@ -229,6 +242,8 @@ const index: React.FC = (): JSX.Element => {
     weekends: state?.weekends,
     events: state?.events,
     eventRender: staticDetail,
+    eventClick: handleEventClick,
+    eventBackgroundColor: '#3F51B5',
   };
 
   const editProps = {
@@ -291,7 +306,11 @@ const index: React.FC = (): JSX.Element => {
       {modalState.show && (
         <Modal closeModal={closeModal}>
           <Fade show={true}>
-            <ModalContent content={modalState.content} />
+            <ModalContent
+              name={modalState.name}
+              event={modalState.event}
+              closeModal={closeModal}
+            />
           </Fade>
         </Modal>
       )}

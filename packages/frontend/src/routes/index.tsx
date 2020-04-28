@@ -38,7 +38,7 @@ const PrivateRoute: React.FC<any> = ({
 const BigLoader = (): JSX.Element => (
   <FullPageContainer>
     <Container>
-      <Loader width={200} height={200} color="#424242" label="loader" />
+      <Loader width={200} height={200} label="loader" />
     </Container>
   </FullPageContainer>
 );

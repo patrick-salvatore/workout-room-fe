@@ -1,16 +1,9 @@
 import React from 'react';
-
-interface LoaderProps {
-  height: number;
-  width: number;
-  color: string;
-  label: string;
-}
+import { LoaderProps } from './interfaces';
 
 const Loader: React.FC<LoaderProps> = ({
   width,
   height,
-  color,
   label,
 }): JSX.Element => (
   <svg
@@ -18,7 +11,7 @@ const Loader: React.FC<LoaderProps> = ({
     height={height}
     viewBox="0 0 38 38"
     xmlns="http://www.w3.org/2000/svg"
-    stroke={color}
+    stroke="#424242"
     aria-label={label}
   >
     <g fill="none" fillRule="evenodd">

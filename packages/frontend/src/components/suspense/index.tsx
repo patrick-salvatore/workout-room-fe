@@ -2,7 +2,9 @@ import React from 'react';
 
 import Loader from '../loader';
 
-const Suspense = props => {
+import { SuspenseProps } from './interfaces';
+
+const Suspense: React.FC<SuspenseProps> = props => {
   const { children } = props;
   return (
     <React.Suspense fallback={<Loader {...props.loader} />}>

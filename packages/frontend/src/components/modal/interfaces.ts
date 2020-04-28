@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface ModalProps {
   closeModal: (
     e: React.MouseEvent | React.KeyboardEvent | KeyboardEvent
@@ -6,5 +8,10 @@ export interface ModalProps {
 }
 
 export interface ModalContentProps {
-  content: any;
+  event: any;
+  name?: string;
+  children?: ReactNode;
+  saveEvent?: () => void;
+  saveNewEvent?: () => void;
+  closeModal?: (e: KeyboardEvent | React.MouseEvent) => void;
 }
