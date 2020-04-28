@@ -14,11 +14,18 @@
 
     .fc-toolbar {
       margin-bottom: 0.5em;
+
       .fc-button {
-        background: #121212;
+        border: none;
+        background: #5393ff;
+        color: #121212;
+        width: 100px;
+        height: 35px;
+        border-radius: 4px;
       }
       .fc-today-button {
-        background: #424242;
+        text-transform: capitalize;
+        background: #8fb5f8;
       }
       
       .fc-left {

@@ -27,7 +27,8 @@
   .modal__wrapper {
     position: relative;
     box-sizing: border-box;
-    min-width: 75%;
+    min-width: 90%;
+    min-height: 60%;
     margin: 0;
     padding: 0;
     display: flex;
@@ -62,17 +63,6 @@
           fill: #424242;
         }
       }
-    }
-
-    .modal__content {
-      box-sizing: border-box;
-      width: auto;
-      max-width: 520px;
-      -webkit-box-pack: center;
-      justify-content: center;
-      flex-direction: column;
-      display: flex;
-      margin: 30px;
     }
   }
 }

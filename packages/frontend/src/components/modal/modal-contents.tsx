@@ -6,10 +6,14 @@ import { green } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
+    // position: 'absolute',
+    // right: 0,
   },
   greenButton: {
     backgroundColor: green[500],
     margin: theme.spacing(1),
+    // position: 'absolute',
+    // right: 0,
     '&:hover': {
       backgroundColor: green[700],
     },
@@ -17,12 +21,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default {
-  base_owner({ event, setEditEvent, _saveEvent, editEvent }): JSX.Element {
+  base_event_owner({
+    event,
+    setEditEvent,
+    _saveEvent,
+    editEvent,
+  }): JSX.Element {
     const classes = useStyles();
     return (
       <>
-        <div className="modal-content__header"></div>
+        {/* <div className="modal-content__header"> */}
         <h2 className="modal-content__title">{event.title}</h2>
+        {/* </div> */}
         <div className="modal-content__description">
           <p className="modal-content__description-text">
             {event.description || 'empty description'}
@@ -33,7 +43,7 @@ export default {
             {event.grid || 'empty grid'}
           </p>
         </div>
-        <div className="modal-content__button">
+        <div className="modal-content__buttons">
           {editEvent ? (
             <Button
               variant="contained"

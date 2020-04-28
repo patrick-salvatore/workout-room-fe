@@ -2,15 +2,23 @@
   overflow: hidden;
 }
 
-.modal-content {
+.modal__content {
+  position: relative;
   align-content: stretch;
   border: none;
   box-shadow: none;
   justify-content: flex-start;
-  max-width: 416px;
-  min-height: 250px;
   overflow: visible;
-  width: 100%;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  width: auto;
+  min-height: 250px;
+  max-width: 520px;
+
+  .modal-content__buttons {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
 }

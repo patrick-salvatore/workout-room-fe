@@ -65,7 +65,7 @@ function calendarReducer(
 const eventMap = [
   {
     title: 'April 1',
-    start: new Date().toISOString(),
+    start: new Date('April 27, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
     className: 'test',
   },
@@ -158,7 +158,11 @@ const index: React.FC = (): JSX.Element => {
       title: event.title,
     };
 
-    setModalState({ show: true, event: eventDetails, name: 'base' });
+    setModalState({
+      show: true,
+      event: eventDetails,
+      name: state.edit ? 'base_event_owner' : 'base',
+    });
   };
 
   const handleEventDrop = ({ event }): void => {
