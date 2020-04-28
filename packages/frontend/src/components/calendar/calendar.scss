@@ -8,42 +8,80 @@
   max-width: 900px;
 
   .fc {
+    table {
+      font-size: 14px;
+    }
+
     .fc-toolbar {
+      margin-bottom: 0.5em;
+      .fc-button {
+        background: #121212;
+      }
+      .fc-today-button {
+        background: #424242;
+      }
+      
       .fc-left {
         display: flex;
+        align-items: center;
+      }
+
+      .fc-center {
+      }
+
+      .fc-right {
       }
     }
-  }
 
-  .fc-view-container {
-    .fc-today {
-      background: #ebe5e5;
-    }
-  }
+    .fc-view-container {
+      .fc-body {
+        .fc-day-grid {
+          .fc-row {
+            .fc-bg {
+              .fc-today {
+                background: transparent;
+              }
+            }
 
-  .fc-day-grid {
-    .fc-event-container {
-      .fc-day-grid-event {
-        padding: 0;
-        border-radius: 4px;
-      }
-      .fc-event {
-        border: none;
+            .fc-content-skeleton {
+              // EVENT CONTAINER
+              .fc-event-container {
+                .fc-day-grid-event {
+                  padding: 0;
+                  border-radius: 4px;
+                }
 
-        .event__wrapper {
-          .event-text {
-            padding-left: 6px;
-          }
+                .fc-event {
+                  border: none;
 
-          &.event-today {
-            background: #4caf50;
-            padding: 0;
-            border-radius: 4px;
-          }
+                  .event__wrapper {
+                    .event-text {
+                      padding-left: 6px;
+                    }
 
-          &--edit {
-            .event-text--edit {
-              padding-left: 6px;
+                    &.event-today {
+                      background: #4caf50;
+                      padding: 0;
+                      border-radius: 4px;
+                    }
+
+                    &--edit {
+                      .event-text--edit {
+                        padding-left: 6px;
+                      }
+                    }
+                  }
+                }
+              }
+
+              .fc-today {
+                .fc-day-number {
+                  margin: 3px;
+                  background-color: #ef5350;
+                  border-radius: 50%;
+                  color: #fff;
+                }
+              }
             }
           }
         }

@@ -243,6 +243,7 @@ const index: React.FC = (): JSX.Element => {
     events: state?.events,
     eventRender: staticDetail,
     eventClick: handleEventClick,
+    dateClick: () => null,
     eventBackgroundColor: '#3F51B5',
   };
 
@@ -292,8 +293,6 @@ const index: React.FC = (): JSX.Element => {
 
     dispatch({ type: 'events', payload: events });
   }, []);
-
-  // useEffect(() => {}, []);
 
   return (
     <>

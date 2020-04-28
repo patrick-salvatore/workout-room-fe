@@ -40,14 +40,16 @@
     box-shadow: 2px 10px 35px -4px rgba(0, 0, 0, 0.75);
 
     .modal__close-container {
-      position: absolute;
-      left: 5%;
-      top: 5%;
+      position: relative;
+      width: 100%;
 
       .modal__close-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 5px;
+        top: 5px;
         display: block;
         color: rgb(166, 166, 166);
-        cursor: pointer;
         background: transparent;
         border-width: initial;
         border-style: none;
