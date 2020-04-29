@@ -6,7 +6,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarState, Action, Event } from './interfaces';
 import { updateIdxOfArray, compareDates } from './calendar.utils';
 
-import Fade from 'components/fade';
 import Modal from 'components/modal';
 import ModalContent from 'components/modal/modal-content';
 
@@ -92,9 +91,15 @@ const index: React.FC = (): JSX.Element => {
   const calendarRef = React.createRef<FullCalendar>();
   const [state, dispatch] = useReducer(calendarReducer, calendarState);
   const [modalState, setModalState] = useState({
-    show: false,
-    name: '',
-    event: {},
+    show: true,
+    name: 'base_event_owner',
+    event: {
+      startDate: new Date(),
+      description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+      idx: 3,
+      title: 'May 2',
+    },
   });
 
   const closeModal = (e): void => {
@@ -144,11 +149,11 @@ const index: React.FC = (): JSX.Element => {
     /**
      * eg. const newEvent = await service('/events/', changedData)
      */
-    setModalState({
-      show: true,
-      name: 'new',
-      event: { startDate: event.dateStr },
-    });
+    // setModalState({
+    //   show: true,
+    //   name: 'new_event',
+    //   event: { startDate: event.dateStr },
+    // });
     // dispatch({ type: 'events', payload: [...state.events, newEvent] });
   };
 
@@ -161,7 +166,7 @@ const index: React.FC = (): JSX.Element => {
     setModalState({
       show: true,
       event: eventDetails,
-      name: state.edit ? 'base_event_owner' : 'base',
+      name: state.edit ? 'base_event_owner' : 'base_event',
     });
   };
 
@@ -308,13 +313,11 @@ const index: React.FC = (): JSX.Element => {
       </div>
       {modalState.show && (
         <Modal closeModal={closeModal}>
-          <Fade show={true}>
-            <ModalContent
-              name={modalState.name}
-              event={modalState.event}
-              closeModal={closeModal}
-            />
-          </Fade>
+          <ModalContent
+            name={modalState.name}
+            event={modalState.event}
+            closeModal={closeModal}
+          />
         </Modal>
       )}
     </>

@@ -59,8 +59,8 @@ export const AppView: React.FC = (): JSX.Element => {
   return (
     <AuthDataProvider>
       <AppContainer>
-        <NavBar />
         <BrowserRouter>
+          <NavBar />
           <Router />
         </BrowserRouter>
       </AppContainer>

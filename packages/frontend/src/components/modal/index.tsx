@@ -36,7 +36,7 @@ const Modal: React.FC<ModalProps> = ({ closeModal, children }) => {
               </svg>
             </button>
           </div>
-          <div className="modal__content">{children}</div>
+          <div className="modal__content_container">{children}</div>
         </div>
       </div>
     </div>

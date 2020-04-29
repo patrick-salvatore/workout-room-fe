@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Link from '@material-ui/core/Link';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import HouseIcon from '@material-ui/icons/House';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -21,6 +20,9 @@ const useStyles = makeStyles(() => ({
     '&:hover': {
       textDecoration: 'none',
     },
+  },
+  listItem: {
+    display: 'flex',
   },
 }));
 
@@ -61,8 +63,13 @@ const SideNav = (): JSX.Element => {
         <div className="sidenav__main">
           <List>
             {listAnchors.map(({ text, icon, anchor }) => (
-              <Link href={anchor} key={text} className={classes.link}>
-                <ListItem button>
+              <Link
+                to={anchor}
+                className="sidenav__link"
+                key={text}
+                onClick={toggleSideNav}
+              >
+                <ListItem button className={classes.listItem}>
                   <ListItemIcon>{React.createElement(icon)}</ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>

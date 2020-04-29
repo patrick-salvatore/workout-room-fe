@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
+// import Fade from 'components/fade';
 
 import { ModalContentProps } from './interfaces';
 
 import Suspense from '../suspense';
-import bodies from './modal-contents';
+import BaseEvent from './bodies/base-event';
+import EditEvent from './bodies/owner/base-event';
+import NewEvent from './bodies/owner/new-event';
 
 import './modal-content.scss';
+
+const getModalContents = name => {
+  switch (name) {
+    case 'base_event_owner':
+      return EditEvent;
+    case 'new_event':
+      return NewEvent;
+    default:
+      return BaseEvent;
+  }
+};
 
 const ModalContent: React.FC<ModalContentProps> = ({
   event,
@@ -16,7 +30,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   closeModal,
 }): JSX.Element => {
   const [editEvent, setEditEvent] = useState(false);
-  const Body = name && bodies[name];
+  const Body = name && getModalContents(name);
 
   const _saveEvent = (e): void => {
     if (saveEvent) {
@@ -48,15 +62,20 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
   return (
     <Suspense loader={{ height: 50, width: 50, label: 'loader' }}>
-      {(Body &&
-        React.createElement(Body, {
-          _saveEvent,
-          editEvent,
-          event,
-          setEditEvent,
-          _saveNewEvent,
-        })) ||
-        children}
+      <div
+        className="modal__content_wrapper"
+        style={{ animation: 'fadeIn 500ms' }}
+      >
+        {(Body &&
+          React.createElement(Body, {
+            _saveEvent,
+            editEvent,
+            event,
+            setEditEvent,
+            _saveNewEvent,
+          })) ||
+          children}
+      </div>
     </Suspense>
   );
 };

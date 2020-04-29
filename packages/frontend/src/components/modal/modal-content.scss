@@ -2,7 +2,7 @@
   overflow: hidden;
 }
 
-.modal__content {
+.modal__content_container {
   position: relative;
   align-content: stretch;
   border: none;
@@ -13,12 +13,13 @@
   flex-direction: column;
   box-sizing: border-box;
   width: auto;
-  min-height: 250px;
-  max-width: 520px;
+  height: 100%;
+  max-width: 700px;
 
-  .modal-content__buttons {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+  .modal__content_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
   }
 }
