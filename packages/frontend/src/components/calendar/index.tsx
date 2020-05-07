@@ -173,8 +173,9 @@ const index: React.FC = (): JSX.Element => {
     const eventDetails = {
       ...event.extendedProps,
       title: event.title,
-      startDate: event.start,
-      endDate: event.end || false,
+      start: event.start,
+      end: event.end,
+      id: event.id,
     };
 
     dispatch({
@@ -317,7 +318,6 @@ const index: React.FC = (): JSX.Element => {
     /**
      * TODO: fetch user events
      */
-
     const events = eventMap.map((e, i) => {
       return {
         ...e,
@@ -327,6 +327,8 @@ const index: React.FC = (): JSX.Element => {
 
     dispatch({ type: 'events', payload: events });
   }, []);
+
+  console.log(state.events);
 
   return (
     <>

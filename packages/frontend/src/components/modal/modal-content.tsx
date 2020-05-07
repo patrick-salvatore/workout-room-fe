@@ -40,6 +40,9 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const _saveEvent = (): void => {
     if (saveEvent) {
       console.log('CUSTOM -- SAVING EVENT');
+      eventDetails.start = new Date(eventDetails.start).toISOString();
+      eventDetails.end =
+        eventDetails.end && new Date(eventDetails.end).toISOString();
       saveEvent(eventDetails);
       setEditEvent(false);
 
@@ -64,12 +67,9 @@ const ModalContent: React.FC<ModalContentProps> = ({
     closeModal && closeModal(e);
   };
 
-  console.log(eventDetails);
-
-  const handleModalDateChange = (date: Date, type: string): void => {
+  const handleModalDateChange = (date, type: string): void => {
     switch (type) {
       case 'endDate': {
-        const newEvent = { ...eventDetails, end: date };
         if (isBefore(date, eventDetails.start as any)) {
           setErrorState({
             startDateChange: errors.startDateChange,
@@ -79,6 +79,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
             },
           });
         } else {
+          const newEvent = { ...eventDetails, end: date };
           setEventDetails(newEvent);
           setErrorState({
             startDateChange: { error: false, message: '' },
@@ -88,7 +89,6 @@ const ModalContent: React.FC<ModalContentProps> = ({
         return;
       }
       case 'startDate': {
-        const newEvent = { ...eventDetails, start: date };
         if (isAfter(date, eventDetails.end as any)) {
           setErrorState({
             startDateChange: {
@@ -98,6 +98,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
             endDateChange: errors.endDateChange,
           });
         } else {
+          const newEvent = { ...eventDetails, start: date };
           setEventDetails(newEvent);
           setErrorState({
             startDateChange: { error: false, message: '' },
@@ -110,6 +111,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
         return;
     }
   };
+
+  console.log(eventDetails);
 
   return (
     <Suspense loader={{ height: 50, width: 50, label: 'loader' }}>
