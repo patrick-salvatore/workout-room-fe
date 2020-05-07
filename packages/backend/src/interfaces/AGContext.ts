@@ -1,7 +1,7 @@
-import {Response, Request} from 'express';
+import { Response, Request } from 'express';
 
-export interface IAGContext{
+export interface IAGContext {
   req: Request;
   res: Response;
-  payload?: any
+  payload?: any;
 }

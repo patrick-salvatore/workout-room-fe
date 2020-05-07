@@ -15,7 +15,7 @@ export interface DateTimePickerProps {
   minTime?: Date;
   monthsShown?: number;
   className?: string;
-  onChange: (date: Date, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (date: Date, event: React.ChangeEvent<HTMLInputElement>) => void;
   selected?: Date;
   selectsEnd?: boolean;
   selectsStart?: boolean;

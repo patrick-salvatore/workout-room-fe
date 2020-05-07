@@ -23,14 +23,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function index({ _saveNewEvent, event }): JSX.Element {
+export default function index({ _saveNewEvent, eventDetails }): JSX.Element {
   const classes = useStyles();
   return (
     <>
       <div className="new-event__header"></div>
       <h1 className="new-event__title">NEW EVENT</h1>
       <div className="new-event__start-date">
-        <p className="new-event__start-date">{event.startDate}</p>
+        <p className="new-event__start-date">{eventDetails.start}</p>
+      </div>
+      <div className="new-event__end-date">
+        <p className="new-event__end-date">
+          {eventDetails.end || eventDetails.start}
+        </p>
       </div>
       <div className="new-event__button">
         <Button

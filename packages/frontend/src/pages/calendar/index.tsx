@@ -1,7 +1,7 @@
 import React from 'react';
 import Calendar from 'components/calendar';
 
-const index = () => {
+const index = (): JSX.Element => {
   return <Calendar />;
 };
 

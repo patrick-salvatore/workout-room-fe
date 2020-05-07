@@ -1,10 +1,9 @@
 import React from 'react';
 import DatePicker, { setDefaultLocale } from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { FormControl, Grid, FormControlLabel } from '@material-ui/core';
 import CalendarIcon from '@material-ui/icons/Event';
 import { DateTimePickerProps } from './interfaces';
 
+import 'react-datepicker/dist/react-datepicker.css';
 import './date-time-picker.scss';
 
 setDefaultLocale('enUS');
@@ -57,16 +56,19 @@ const DateTimePicker: React.FC<DateTimePickerProps> = (props): JSX.Element => {
   return (
     <div className="datepicker__wrapper">
       <label htmlFor={`datePicker-wrapper-${label}`}>{label}</label>
-      <div id={`datePicker-wrapper-${label}`} className="datepicker">
+      <div
+        id={`datePicker-wrapper-${label}`}
+        className={`datepicker ${classname}`}
+      >
         <label htmlFor={`datepicker-${label}`} className="datepicker-label">
           <CalendarIcon />
         </label>
         <DatePicker
           id={`datepicker-${label}`}
-          className={`form-control ${classname}`}
+          className="form-control"
           dateFormat={dateFormat}
           dateFormatCalendar={dateFormatCalendar}
-          disabled={disabled}
+          disabled={disabled || false}
           dropdownMode={dropdownMode}
           endDate={endDate}
           excludeDates={excludeDates}
@@ -96,14 +98,10 @@ const DateTimePicker: React.FC<DateTimePickerProps> = (props): JSX.Element => {
           {children}
         </DatePicker>
       </div>
-      <div className="datepicker-feedback">
-        {((feedback && isValid) || error) && (
-          <div
-            className={`text-small ${
-              isValid ? 'text-success' : isInvalid ? 'text-danger' : ''
-            }`}
-          >
-            {feedback}
+      <div className="datepicker__feedback">
+        {isInvalid && (
+          <div className="text-danger">
+            <small>{feedback}</small>
           </div>
         )}
       </div>

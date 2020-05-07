@@ -11,15 +11,23 @@ interface View {
   type: string;
 }
 
+interface ModalState {
+  show: boolean;
+  name: string;
+  event: Event;
+}
+
 export type Action =
   | { type: 'events'; payload: Event[] }
   | { type: 'weekends'; payload: boolean }
   | { type: 'view'; payload: View }
-  | { type: 'edit'; payload: boolean };
+  | { type: 'edit'; payload: boolean }
+  | { type: 'modal'; payload: ModalState };
 
 export interface CalendarState {
   weekends: boolean;
   events: Event[];
   view: View;
   edit: boolean;
+  modalState: ModalState;
 }

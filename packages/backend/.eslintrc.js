@@ -81,6 +81,9 @@ module.exports = {
     "react-hooks/exhaustive-deps": "warn",
 
     // typescript
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    '@typescript-eslint/interface-name-prefix' : [0],
+    '@typescript-eslint/camelcase': [0],
+    '@typescript-eslint/no-explicit-any': [0]
   },
 };

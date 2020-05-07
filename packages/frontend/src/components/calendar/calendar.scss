@@ -84,6 +84,8 @@
               .fc-today {
                 .fc-day-number {
                   margin: 3px;
+                  min-width: 15px;
+                  text-align: center;
                   background-color: #ef5350;
                   border-radius: 50%;
                   color: #fff;

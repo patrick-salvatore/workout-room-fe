@@ -1,3 +1,7 @@
+interface ErrorMessage {
+  [key: string]: string;
+}
+
 export function updateIdxOfArray<T>(
   idx: number,
   arr: Array<T>,
@@ -27,4 +31,10 @@ export function compareDates(dateA: Date, dateB: Date): boolean {
   }
 
   return true;
+}
+
+export function updateEvent<T>(event, allEvents): Array<T> {
+  allEvents[event.idx] = event;
+
+  return allEvents;
 }

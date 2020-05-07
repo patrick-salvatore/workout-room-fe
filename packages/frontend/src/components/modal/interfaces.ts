@@ -7,11 +7,18 @@ export interface ModalProps {
   children: any;
 }
 
+export interface Errors {
+  startDateChange: { error: boolean; message: string };
+  endDateChange: { error: boolean; message: string };
+}
+
 export interface ModalContentProps {
-  event: any;
+  modalEvent: any;
   name?: string;
   children?: ReactNode;
-  saveEvent?: () => void;
+  saveEvent?: (eventDetails) => void;
   saveNewEvent?: () => void;
   closeModal?: (e: KeyboardEvent | React.MouseEvent) => void;
+  handleModalDateChange?: (date: Date, type: string) => void;
+  errors?: Errors;
 }

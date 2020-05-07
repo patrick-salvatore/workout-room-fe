@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-// import Fade from 'components/fade';
+import { isBefore, isAfter } from 'date-fns';
 
-import { ModalContentProps } from './interfaces';
+import { ModalContentProps, Errors } from './interfaces';
 
 import Suspense from '../suspense';
 import BaseEvent from './bodies/base-event';
-import EditEvent from './bodies/owner/base-event';
+import EditEvent from './bodies/owner/base-event-owner';
 import NewEvent from './bodies/owner/new-event';
 
 import './modal-content.scss';
 
-const getModalContents = name => {
+const getModalContents = (name: string): any => {
   switch (name) {
     case 'base_event_owner':
       return EditEvent;
@@ -22,28 +22,32 @@ const getModalContents = name => {
 };
 
 const ModalContent: React.FC<ModalContentProps> = ({
-  event,
+  modalEvent,
   name,
   children,
   saveEvent,
   saveNewEvent,
   closeModal,
 }): JSX.Element => {
-  const [editEvent, setEditEvent] = useState(false);
   const Body = name && getModalContents(name);
+  const [editEvent, setEditEvent] = useState(false);
+  const [eventDetails, setEventDetails] = useState(modalEvent);
+  const [errors, setErrorState] = useState<Errors>({
+    startDateChange: { error: false, message: '' },
+    endDateChange: { error: false, message: '' },
+  });
 
-  const _saveEvent = (e): void => {
+  const _saveEvent = (): void => {
     if (saveEvent) {
-      saveEvent();
-      setEditEvent(false);
       console.log('CUSTOM -- SAVING EVENT');
+      saveEvent(eventDetails);
+      setEditEvent(false);
 
       return;
     }
 
-    e.preventDefault();
-    setEditEvent(false);
     console.log('SAVING EVENT');
+    setEditEvent(false);
   };
 
   const _saveNewEvent = (e): void => {
@@ -60,6 +64,53 @@ const ModalContent: React.FC<ModalContentProps> = ({
     closeModal && closeModal(e);
   };
 
+  console.log(eventDetails);
+
+  const handleModalDateChange = (date: Date, type: string): void => {
+    switch (type) {
+      case 'endDate': {
+        const newEvent = { ...eventDetails, end: date };
+        if (isBefore(date, eventDetails.start as any)) {
+          setErrorState({
+            startDateChange: errors.startDateChange,
+            endDateChange: {
+              error: !errors.endDateChange.error,
+              message: 'end date must be after start date',
+            },
+          });
+        } else {
+          setEventDetails(newEvent);
+          setErrorState({
+            startDateChange: { error: false, message: '' },
+            endDateChange: { error: false, message: '' },
+          });
+        }
+        return;
+      }
+      case 'startDate': {
+        const newEvent = { ...eventDetails, start: date };
+        if (isAfter(date, eventDetails.end as any)) {
+          setErrorState({
+            startDateChange: {
+              error: !errors.startDateChange.error,
+              message: 'start date must be before end date',
+            },
+            endDateChange: errors.endDateChange,
+          });
+        } else {
+          setEventDetails(newEvent);
+          setErrorState({
+            startDateChange: { error: false, message: '' },
+            endDateChange: { error: false, message: '' },
+          });
+        }
+        return;
+      }
+      default:
+        return;
+    }
+  };
+
   return (
     <Suspense loader={{ height: 50, width: 50, label: 'loader' }}>
       <div
@@ -70,9 +121,11 @@ const ModalContent: React.FC<ModalContentProps> = ({
           React.createElement(Body, {
             _saveEvent,
             editEvent,
-            event,
+            eventDetails,
             setEditEvent,
             _saveNewEvent,
+            handleModalDateChange,
+            errors,
           })) ||
           children}
       </div>

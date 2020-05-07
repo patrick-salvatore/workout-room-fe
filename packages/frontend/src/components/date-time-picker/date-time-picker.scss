@@ -4,13 +4,12 @@
     display: flex;
     border: 1px solid #aeaeae;
     border-radius: 4px;
-    
+
     .datepicker-label {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 2px;
-      // background-color: #e0dfdf;
     }
 
     .react-datepicker-wrapper {
@@ -20,6 +19,15 @@
           font-size: 14px;
         }
       }
+    }
+  }
+
+  .datepicker__feedback {
+    color: #dc3545;
+    min-height: 18px;
+
+    &::after {
+      content: ' ';
     }
   }
 }

@@ -1,10 +1,11 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { render } from 'react-dom';
+import { isToday } from 'date-fns';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarState, Action, Event } from './interfaces';
-import { updateIdxOfArray, compareDates } from './calendar.utils';
+import { updateIdxOfArray, updateEvent } from './calendar.utils';
 
 import Modal from 'components/modal';
 import ModalContent from 'components/modal/modal-content';
@@ -16,7 +17,11 @@ const calendarState: CalendarState = {
   events: [],
   view: { toggleButtonText: 'Week', isWeek: false, type: 'dayGridMonth' },
   edit: false,
-  // currentView: 'Wed Apr 01 2020 00:00:00 GMT-0400 (Eastern Daylight Time)',
+  modalState: {
+    show: false,
+    name: '',
+    event: { id: 0, idx: 0, description: '' },
+  },
 };
 
 function calendarReducer(
@@ -30,6 +35,7 @@ function calendarReducer(
         events: action.payload,
         view: calendarState.view,
         edit: calendarState.edit,
+        modalState: calendarState.modalState,
       };
     }
     case 'weekends': {
@@ -38,6 +44,7 @@ function calendarReducer(
         events: calendarState.events,
         view: calendarState.view,
         edit: calendarState.edit,
+        modalState: calendarState.modalState,
       };
     }
     case 'view': {
@@ -46,6 +53,7 @@ function calendarReducer(
         events: calendarState.events,
         view: action.payload,
         edit: calendarState.edit,
+        modalState: calendarState.modalState,
       };
     }
     case 'edit': {
@@ -54,6 +62,16 @@ function calendarReducer(
         events: calendarState.events,
         view: calendarState.view,
         edit: action.payload,
+        modalState: calendarState.modalState,
+      };
+    }
+    case 'modal': {
+      return {
+        weekends: calendarState.weekends,
+        events: calendarState.events,
+        view: calendarState.view,
+        edit: calendarState.edit,
+        modalState: action.payload,
       };
     }
     default:
@@ -90,24 +108,16 @@ const eventMap = [
 const index: React.FC = (): JSX.Element => {
   const calendarRef = React.createRef<FullCalendar>();
   const [state, dispatch] = useReducer(calendarReducer, calendarState);
-  const [modalState, setModalState] = useState({
-    show: true,
-    name: 'base_event_owner',
-    event: {
-      startDate: new Date(),
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-      idx: 3,
-      title: 'May 2',
-    },
-  });
 
   const closeModal = (e): void => {
     e.preventDefault();
-    setModalState({
-      show: false,
-      name: modalState.name,
-      event: modalState.event,
+    dispatch({
+      type: 'modal',
+      payload: {
+        show: false,
+        name: state.modalState.name,
+        event: state.modalState.event,
+      },
     });
   };
 
@@ -149,7 +159,9 @@ const index: React.FC = (): JSX.Element => {
     /**
      * eg. const newEvent = await service('/events/', changedData)
      */
-    // setModalState({
+    // dispatch({
+    //   type: 'modal',
+    //   payload: {
     //   show: true,
     //   name: 'new_event',
     //   event: { startDate: event.dateStr },
@@ -161,12 +173,29 @@ const index: React.FC = (): JSX.Element => {
     const eventDetails = {
       ...event.extendedProps,
       title: event.title,
+      startDate: event.start,
+      endDate: event.end || false,
     };
 
-    setModalState({
-      show: true,
-      event: eventDetails,
-      name: state.edit ? 'base_event_owner' : 'base_event',
+    dispatch({
+      type: 'modal',
+      payload: {
+        show: true,
+        event: eventDetails,
+        name: state.edit ? 'base_event_owner' : 'base_event',
+      },
+    });
+  };
+
+  const handleUpdateEvent = (eventDetails): void => {
+    dispatch({
+      type: 'events',
+      payload: updateEvent<Event>(eventDetails, state.events),
+    });
+
+    dispatch({
+      type: 'modal',
+      payload: { ...state.modalState, show: !state.modalState.show },
     });
   };
 
@@ -177,8 +206,8 @@ const index: React.FC = (): JSX.Element => {
     const changedData = {
       title,
       id: parseInt(id),
-      idx,
       start: newStart,
+      ...event.extendedProps,
     };
     const newEvents = updateIdxOfArray<Event>(idx, state.events, changedData);
 
@@ -194,9 +223,7 @@ const index: React.FC = (): JSX.Element => {
   };
 
   const staticDetail = ({ event, el }): JSX.Element => {
-    const isEventTodayClass = compareDates(event.start, new Date())
-      ? 'event-today'
-      : '';
+    const isEventTodayClass = isToday(event.start) ? 'event-today' : '';
 
     const content = (
       <div className={`event__wrapper ${isEventTodayClass}`}>
@@ -208,9 +235,7 @@ const index: React.FC = (): JSX.Element => {
   };
 
   const editableDetail = ({ event, el }): JSX.Element => {
-    const isEventTodayClass = compareDates(event.start, new Date())
-      ? 'event-today'
-      : '';
+    const isEventTodayClass = isToday(event.start) ? 'event-today' : '';
 
     const content = (
       <div className={`event__wrapper--edit ${isEventTodayClass}`}>
@@ -311,12 +336,13 @@ const index: React.FC = (): JSX.Element => {
           state.edit ? editProps : staticProps
         )}
       </div>
-      {modalState.show && (
+      {state.modalState.show && (
         <Modal closeModal={closeModal}>
           <ModalContent
-            name={modalState.name}
-            event={modalState.event}
+            name={state.modalState.name}
+            modalEvent={state.modalState.event}
             closeModal={closeModal}
+            saveEvent={handleUpdateEvent}
           />
         </Modal>
       )}

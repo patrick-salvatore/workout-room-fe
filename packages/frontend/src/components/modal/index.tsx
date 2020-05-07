@@ -11,12 +11,9 @@ const Modal: React.FC<ModalProps> = ({ closeModal, children }) => {
 
   useEffect(() => {
     document.addEventListener('keydown', escFunction, false);
-    document.getElementsByTagName('html')[0].classList.add('noscroll');
 
     return (): void => {
       document.removeEventListener('keydown', escFunction);
-      document.body.classList.remove('noscroll');
-      document.getElementsByTagName('html')[0].classList.remove('noscroll');
     };
   }, []);
 
