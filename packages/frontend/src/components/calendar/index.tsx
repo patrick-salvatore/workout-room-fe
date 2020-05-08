@@ -188,7 +188,16 @@ const index: React.FC = (): JSX.Element => {
     });
   };
 
-  const handleUpdateEvent = (eventDetails): void => {
+  const handleUpdateEvent = (eventDetails: Event): void => {
+    const api = calendarRef.current?.getApi();
+    const event = api?.getEventById(eventDetails.id as any);
+    event && event.setStart(eventDetails.start as any);
+    event && eventDetails.end && event.setEnd(eventDetails.end);
+
+    /**
+     * TODO: send saved data to BE
+     */
+
     dispatch({
       type: 'events',
       payload: updateEvent<Event>(eventDetails, state.events),
@@ -316,7 +325,7 @@ const index: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     /**
-     * TODO: fetch user events
+     * TODO: fetch user events from BE
      */
     const events = eventMap.map((e, i) => {
       return {
@@ -327,8 +336,6 @@ const index: React.FC = (): JSX.Element => {
 
     dispatch({ type: 'events', payload: events });
   }, []);
-
-  console.log(state.events);
 
   return (
     <>

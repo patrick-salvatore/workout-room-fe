@@ -43,6 +43,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
       eventDetails.start = new Date(eventDetails.start).toISOString();
       eventDetails.end =
         eventDetails.end && new Date(eventDetails.end).toISOString();
+
       saveEvent(eventDetails);
       setEditEvent(false);
 
@@ -111,8 +112,6 @@ const ModalContent: React.FC<ModalContentProps> = ({
         return;
     }
   };
-
-  console.log(eventDetails);
 
   return (
     <Suspense loader={{ height: 50, width: 50, label: 'loader' }}>
