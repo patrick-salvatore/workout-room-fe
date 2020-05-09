@@ -40,9 +40,11 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const _saveEvent = (): void => {
     if (saveEvent) {
       console.log('CUSTOM -- SAVING EVENT');
-      eventDetails.start = new Date(eventDetails.start).toISOString();
+
+      eventDetails.start = new Date(eventDetails.start.setHours(12));
+
       eventDetails.end =
-        eventDetails.end && new Date(eventDetails.end).toISOString();
+        eventDetails.end && new Date(eventDetails.end.setHours(12));
 
       saveEvent(eventDetails);
       setEditEvent(false);

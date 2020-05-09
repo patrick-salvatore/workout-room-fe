@@ -31,6 +31,7 @@ export default function index({
   eventDetails,
   setEditEvent,
   _saveEvent,
+  // _deleteEvent,
   editEvent,
   handleModalDateChange,
   errors,
@@ -114,7 +115,7 @@ export default function index({
               variant="contained"
               color="secondary"
               className={classes.button}
-              // onClick={(): void => saveEvent(true)}
+              // onClick={_deleteEvent}
             >
               DELETE
             </Button>

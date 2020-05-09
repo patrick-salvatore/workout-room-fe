@@ -155,18 +155,19 @@ const index: React.FC = (): JSX.Element => {
   };
 
   const handleDateClick = (event: any): void => {
-    // TODO: Change this mock event to be BE generated
+    // TODO: Change this mock event to be BE generated?
     /**
      * eg. const newEvent = await service('/events/', changedData)
      */
-    // dispatch({
-    //   type: 'modal',
-    //   payload: {
-    //   show: true,
-    //   name: 'new_event',
-    //   event: { startDate: event.dateStr },
-    // });
-    // dispatch({ type: 'events', payload: [...state.events, newEvent] });
+
+    dispatch({
+      type: 'modal',
+      payload: {
+        ...state.modalState,
+        show: !state.modalState.show,
+        name: 'new_event',
+      },
+    });
   };
 
   const handleEventClick = ({ event }): void => {
@@ -200,7 +201,11 @@ const index: React.FC = (): JSX.Element => {
 
     dispatch({
       type: 'events',
-      payload: updateEvent<Event>(eventDetails, state.events),
+      payload: updateIdxOfArray<Event>(
+        eventDetails.idx,
+        state.events,
+        eventDetails
+      ),
     });
 
     dispatch({
@@ -210,7 +215,7 @@ const index: React.FC = (): JSX.Element => {
   };
 
   const handleEventDrop = ({ event }): void => {
-    const newStart = event.start;
+    const newStart = new Date(event.start);
     const { id, title } = event;
     const { idx } = event.extendedProps;
     const changedData = {
@@ -220,6 +225,7 @@ const index: React.FC = (): JSX.Element => {
       ...event.extendedProps,
     };
     const newEvents = updateIdxOfArray<Event>(idx, state.events, changedData);
+    console.log(changedData);
 
     dispatch({
       type: 'events',
