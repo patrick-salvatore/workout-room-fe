@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 export default function index({
   eventDetails,
   setEditEvent,
-  _saveEvent,
+  _updateEvent,
   // _deleteEvent,
   editEvent,
   handleModalDateChange,
@@ -41,9 +41,9 @@ export default function index({
     <>
       <div className="base-event-owner__container">
         <h2 className="base-event-owner__title">{eventDetails.title}</h2>
-        <div className="base-event-owner__description">
-          <p className="base-event-owner__description-text">
-            {eventDetails.description || 'empty description'}
+        <div className="base-event-owner__notes">
+          <p className="base-event-owner__notes-text">
+            {eventDetails.notes || 'empty notes'}
           </p>
         </div>
         <div className="base-event-owner__grid">
@@ -97,7 +97,7 @@ export default function index({
           <Button
             variant="contained"
             className={classes.greenButton}
-            onClick={_saveEvent}
+            onClick={_updateEvent}
           >
             SAVE
           </Button>

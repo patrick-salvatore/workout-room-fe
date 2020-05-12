@@ -5,7 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarState, Action, Event } from './interfaces';
-import { updateIdxOfArray, updateEvent } from './calendar.utils';
+import { updateIdxOfArray } from './calendar.utils';
 
 import Modal from 'components/modal';
 import ModalContent from 'components/modal/modal-content';
@@ -20,7 +20,7 @@ const calendarState: CalendarState = {
   modalState: {
     show: false,
     name: '',
-    event: { id: 0, idx: 0, description: '' },
+    event: { id: 0, idx: 0, notes: '' },
   },
 };
 
@@ -90,7 +90,7 @@ const eventMap = [
     title: 'April 2',
     start: new Date('April 19, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
-    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
+    notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
   },
   {
     title: 'May 1',
@@ -101,7 +101,7 @@ const eventMap = [
     title: 'May 2',
     start: new Date('May 2, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
-    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
+    notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
   },
 ];
 
@@ -207,6 +207,19 @@ const index: React.FC = (): JSX.Element => {
         eventDetails
       ),
     });
+  };
+
+  const handleNewEvent = (newEvent: Event): void => {
+    const api = calendarRef.current?.getApi();
+
+    /**
+     * TODO: send saved data to BE
+     */
+
+    // dispatch({
+    //   type: 'events',
+    //   payload: [...state.events, newEvent]
+    // });
 
     dispatch({
       type: 'modal',
@@ -225,7 +238,6 @@ const index: React.FC = (): JSX.Element => {
       ...event.extendedProps,
     };
     const newEvents = updateIdxOfArray<Event>(idx, state.events, changedData);
-    console.log(changedData);
 
     dispatch({
       type: 'events',
@@ -357,7 +369,8 @@ const index: React.FC = (): JSX.Element => {
             name={state.modalState.name}
             modalEvent={state.modalState.event}
             closeModal={closeModal}
-            saveEvent={handleUpdateEvent}
+            updateEvent={handleUpdateEvent}
+            saveNewEvent={handleNewEvent}
           />
         </Modal>
       )}

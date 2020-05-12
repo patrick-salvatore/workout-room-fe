@@ -25,20 +25,22 @@ const ModalContent: React.FC<ModalContentProps> = ({
   modalEvent,
   name,
   children,
-  saveEvent,
+  updateEvent,
   saveNewEvent,
   closeModal,
 }): JSX.Element => {
   const Body = name && getModalContents(name);
   const [editEvent, setEditEvent] = useState(false);
-  const [eventDetails, setEventDetails] = useState(modalEvent);
+  const [eventDetails, setEventDetails] = useState(() => {
+    return name === 'new_event' ? {} : modalEvent;
+  });
   const [errors, setErrorState] = useState<Errors>({
     startDateChange: { error: false, message: '' },
     endDateChange: { error: false, message: '' },
   });
 
-  const _saveEvent = (): void => {
-    if (saveEvent) {
+  const _updateEvent = (e): void => {
+    if (updateEvent) {
       console.log('CUSTOM -- SAVING EVENT');
 
       eventDetails.start = new Date(eventDetails.start.setHours(12));
@@ -46,21 +48,24 @@ const ModalContent: React.FC<ModalContentProps> = ({
       eventDetails.end =
         eventDetails.end && new Date(eventDetails.end.setHours(12));
 
-      saveEvent(eventDetails);
+      updateEvent(eventDetails);
       setEditEvent(false);
-
+      closeModal && closeModal(e);
       return;
     }
 
     console.log('SAVING EVENT');
     setEditEvent(false);
+    closeModal && closeModal(e);
   };
 
   const _saveNewEvent = (e): void => {
     if (saveNewEvent) {
       console.log('CUSTOM -- CREATED EVENT');
-      saveNewEvent();
-      closeModal && closeModal(e);
+      console.log(eventDetails);
+
+      // saveNewEvent(eventDetails);
+      // closeModal && closeModal(e);
 
       return;
     }
@@ -123,7 +128,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
       >
         {(Body &&
           React.createElement(Body, {
-            _saveEvent,
+            _updateEvent,
             editEvent,
             eventDetails,
             setEditEvent,

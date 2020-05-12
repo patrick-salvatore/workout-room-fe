@@ -1,7 +1,9 @@
 import React from 'react';
 
-const Grid = (): JSX.Element => {
+interface Props {}
+
+const index = (props: Props) => {
   return <div></div>;
 };
 
-export default Grid;
+export default index;

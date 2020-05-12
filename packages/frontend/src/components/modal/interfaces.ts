@@ -16,8 +16,8 @@ export interface ModalContentProps {
   modalEvent: any;
   name?: string;
   children?: ReactNode;
-  saveEvent?: (eventDetails) => void;
-  saveNewEvent?: () => void;
+  updateEvent?: (eventDetails) => void;
+  saveNewEvent?: (newEvent) => void;
   closeModal?: (e: KeyboardEvent | React.MouseEvent) => void;
   handleModalDateChange?: (date: Date, type: string) => void;
   errors?: Errors;
