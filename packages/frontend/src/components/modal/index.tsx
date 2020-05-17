@@ -4,12 +4,17 @@ import './modal.scss';
 
 const Modal: React.FC<ModalProps> = ({ closeModal, children }) => {
   useEffect(() => {
-    document.addEventListener('keydown', e => closeModal(e), false);
+    const escFunction = (e: KeyboardEvent): void => {
+      if (e.keyCode === 27) {
+        closeModal(e);
+      }
+    };
+    document.addEventListener('keydown', escFunction, false);
 
     return (): void => {
-      document.removeEventListener('keydown', e => closeModal(e));
+      document.removeEventListener('keydown', escFunction);
     };
-  }, [closeModal]);
+  }, []);
 
   return (
     <div id="modal-root" className="modal">

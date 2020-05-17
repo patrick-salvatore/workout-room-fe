@@ -3,6 +3,10 @@ import { EventInput } from '@fullcalendar/core';
 export interface Event extends EventInput {
   id: number;
   idx: number;
+  title?: string;
+  start?: Date | undefined;
+  end?: Date | undefined;
+  summary?: any;
 }
 
 interface View {

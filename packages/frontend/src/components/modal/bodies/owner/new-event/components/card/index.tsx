@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 interface SimpleCardProps {
   details?: any;
   children?: React.ReactChild;
-  onClick?: () => void;
+  onClick?: (args?) => void;
 }
 
 const useStyles = makeStyles({
@@ -56,6 +56,7 @@ const SimpleCard: React.FC<SimpleCardProps> = ({
 
   return (
     <div
+      data-details={JSON.stringify(details)}
       className={`card__wrapper ${clicked ? 'pressed' : ''}`}
       onClick={(): void => setClicked(true)}
       onAnimationEnd={(): void => setClicked(false)}

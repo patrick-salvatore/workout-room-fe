@@ -8,7 +8,7 @@ import './new-event.scss';
 
 const newEventStep = {
   options: { component: Options, props: {} },
-  form: {
+  'new-event-form': {
     component: NewEventForm,
     props: {},
   },
@@ -21,8 +21,27 @@ const newEventStep = {
 function NewEvent({ _saveNewEvent }): JSX.Element {
   const [view, setView] = useState(newEventStep.options);
 
-  const changeView = (type): void => {
-    type && setView(newEventStep[type]);
+  const changeView = ({
+    type,
+    prevEventDetails,
+  }: {
+    type: string;
+    prevEventDetails: any;
+  }): void => {
+    switch (type) {
+      case 'prev-event': {
+        prevEventDetails &&
+          setView({
+            component: newEventStep[type].component as any,
+            props: { ...newEventStep[type].props, prevEventDetails },
+          });
+        break;
+      }
+      case 'new-event-form': {
+        setView(newEventStep[type]);
+        break;
+      }
+    }
   };
 
   return (

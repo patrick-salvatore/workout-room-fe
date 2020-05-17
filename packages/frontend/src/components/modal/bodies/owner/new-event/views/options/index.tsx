@@ -6,8 +6,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
+import { findAttribute } from 'utils/index';
+
 interface OptionsProps {
-  changeView: (type: string) => void;
+  changeView: (args: { type: string; prevEventDetails?: any }) => void;
 }
 
 const workouts = [
@@ -52,12 +54,15 @@ const useStyles = makeStyles({
 const Options: React.FC<OptionsProps> = ({ changeView }): JSX.Element => {
   const classes = useStyles();
 
-  const setPrevEventView = (): void => {
-    changeView('prev-event');
+  const setPrevEventView = (e): void => {
+    const data = findAttribute(e.target, 'data-details');
+    const prevEventDetails = data && JSON.parse(data);
+
+    changeView({ type: 'prev-event', prevEventDetails });
   };
 
   const setNewEventFormView = (): void => {
-    changeView('form');
+    changeView({ type: 'new-event-form' });
   };
 
   return (

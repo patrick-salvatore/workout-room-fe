@@ -1,17 +1,24 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import DateTimePicker from 'components/date-time-picker';
+import { Event } from 'components/calendar/interfaces';
 
 import './base-event.scss';
 
-export default function index({ eventDetails }): JSX.Element {
+interface BaseEventProps {
+  eventDetails: Event;
+}
+
+export default function index(props: BaseEventProps): JSX.Element {
+  const { eventDetails } = props;
+
   return (
     <div className="base-event__container">
       <div className="base-event__header"></div>
       <h2 className="base-event__title">{eventDetails.title}</h2>
-      <div className="base-event__notes">
-        <p className="base-event__notes-text">
-          {eventDetails.notes || 'empty notes'}
+      <div className="base-event__sumary">
+        <p className="base-event__sumary-text">
+          {eventDetails.sumary || 'empty sumary'}
         </p>
       </div>
       <div className="base-event__grid">
