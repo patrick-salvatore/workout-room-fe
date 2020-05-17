@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function index({
+function BaseEventOwner({
   eventDetails,
   setEditEvent,
   _updateEvent,
@@ -125,3 +125,5 @@ export default function index({
     </>
   );
 }
+
+export default BaseEventOwner;

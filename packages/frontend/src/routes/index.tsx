@@ -19,7 +19,7 @@ const Login = React.lazy(() => import('pages/user-form'));
 const Feed = React.lazy(() => import('pages/feed'));
 const Calendar = React.lazy(() => import('pages/calendar'));
 const Progress = React.lazy(() => import('pages/progress'));
-const Rooms = React.lazy(() => import('pages/rooms'));
+const Teams = React.lazy(() => import('pages/teams'));
 
 const PrivateRoute: React.FC<any> = ({
   component,
@@ -49,7 +49,7 @@ const Router = () => (
       <PrivateRoute exact={true} path={ROUTES.INDEX} component={Feed} />
       <PrivateRoute exact={true} path={ROUTES.CALENDAR} component={Calendar} />
       <PrivateRoute exact={true} path={ROUTES.PROGRESS} component={Progress} />
-      <PrivateRoute exact={true} path={ROUTES.ROOMS} component={Rooms} />
+      <PrivateRoute exact={true} path={ROUTES.ROOMS} component={Teams} />
       <Route component={() => <h1>OOPS</h1>} />
     </Switch>
   </Suspense>

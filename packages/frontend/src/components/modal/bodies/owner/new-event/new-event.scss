@@ -1,0 +1,14 @@
+.new-event__container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  @import './views/options/options.scss';
+}
+
+@keyframes pressed {
+  100% {
+    transform: matrix(0.97, 0, 0, 0.97, 0, 0);
+  }
+}
+

@@ -3,19 +3,13 @@ import { ModalProps } from './interfaces';
 import './modal.scss';
 
 const Modal: React.FC<ModalProps> = ({ closeModal, children }) => {
-  const escFunction = (e: KeyboardEvent): void => {
-    if (e.keyCode === 27) {
-      closeModal(e);
-    }
-  };
-
   useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
+    document.addEventListener('keydown', e => closeModal(e), false);
 
     return (): void => {
-      document.removeEventListener('keydown', escFunction);
+      document.removeEventListener('keydown', e => closeModal(e));
     };
-  }, []);
+  }, [closeModal]);
 
   return (
     <div id="modal-root" className="modal">

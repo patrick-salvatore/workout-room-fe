@@ -31,10 +31,9 @@ const SideNav = (): JSX.Element => {
   // const [isOpen, setIsOpen] = useLocalStorage<boolean>('sideNavKey', false);
   const [isOpen, setIsOpen] = useState(false);
   const listAnchors = [
-    { text: 'Home', icon: HouseIcon, anchor: '/' },
     { text: 'Calendar', icon: CalendarTodayIcon, anchor: '/calendar' },
     { text: 'Progress', icon: TrendingUpIcon, anchor: '/progress' },
-    { text: 'Rooms', icon: GroupIcon, anchor: '/rooms' },
+    { text: 'Teams', icon: GroupIcon, anchor: '/teams' },
   ];
 
   const toggleSideNav = (): void => setIsOpen(!isOpen);
