@@ -3,11 +3,10 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'eslint:recommended',
-    'plugin:react/recommended',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
-  plugins: ['compat', 'prettier', '@typescript-eslint', "react-hooks",],
+  plugins: ['prettier', '@typescript-eslint',],
   env: {
     browser: true,
     jasmine: true,
@@ -17,7 +16,6 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 10, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
-    jsx: true,
   },
   rules: {
     'prettier/prettier': [
@@ -38,7 +36,6 @@ module.exports = {
     // Recommend not to leave any console.log in your code
     // Use console.error, console.warn and console.info instead
     // https://eslint.org/docs/rules/no-console
-    'no-debugger': 2,
     'no-plusplus': 'off',
     'no-nested-ternary': 'off',
     'no-unused-expressions': [
@@ -75,10 +72,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'compat/compat': 2,
     'prettier/prettier': [2, { 'singleQuote': true, 'trailingComma': 'es5' }],
-
-    // react 
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
 
     // typescript
     "@typescript-eslint/explicit-function-return-type": "off",
