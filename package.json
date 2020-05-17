@@ -19,6 +19,8 @@
     "frontend": "yarn workspace @workout.room/frontend start",
     "backend": "yarn workspace @workout.room/backend start",
     "build:frontend": "lerna run build --scope=@workout.room/frontend",
-    "build:backend": "lerna run build --scope=@workout.room/backend"
+    "build:backend": "lerna run build --scope=@workout.room/backend",
+    "lint:frontend": "eslint packages/frontend/src",
+    "lint:backend": "eslint packages/backend/src"
   }
 }
