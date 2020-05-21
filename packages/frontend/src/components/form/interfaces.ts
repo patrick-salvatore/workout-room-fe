@@ -13,6 +13,7 @@ export interface FormFields {
   rememberMe?: boolean;
   firstname?: string;
   lastname?: string;
+  notes?: string;
 }
 
 export interface FormProps {

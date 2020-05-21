@@ -9,7 +9,7 @@ const PASSWORD_FORGET = '/reset-password';
 const CONTACT = '/contact';
 const CALENDAR = '/calendar';
 const PROGRESS = '/progress';
-const ROOMS = '/rooms';
+const TEAMS = '/teams';
 
 export default {
   ADMIN,
@@ -23,5 +23,5 @@ export default {
   CONTACT,
   CALENDAR,
   PROGRESS,
-  ROOMS,
+  TEAMS,
 };

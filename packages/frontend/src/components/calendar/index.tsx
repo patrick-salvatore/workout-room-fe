@@ -18,9 +18,9 @@ const calendarState: CalendarState = {
   view: { toggleButtonText: 'Week', isWeek: false, type: 'dayGridMonth' },
   edit: false,
   modalState: {
-    show: false,
-    name: '',
-    event: { id: 0, idx: 0, summary: '' },
+    show: true,
+    name: 'new_event',
+    event: { id: 0, idx: 0, notes: '' },
   },
 };
 
@@ -90,7 +90,7 @@ const eventMap = [
     title: 'April 2',
     start: new Date('April 19, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
-    summary: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
+    notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
   },
   {
     title: 'May 1',
@@ -101,7 +101,7 @@ const eventMap = [
     title: 'May 2',
     start: new Date('May 2, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
-    summary: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
+    notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
   },
 ];
 

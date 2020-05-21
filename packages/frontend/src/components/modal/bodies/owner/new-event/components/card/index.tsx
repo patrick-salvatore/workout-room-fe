@@ -48,7 +48,7 @@ const SimpleCard: React.FC<SimpleCardProps> = ({
           {details.title}
         </Typography>
         <Typography variant="body2" component="p">
-          {details.summary}
+          {details.notes}
         </Typography>
       </CardContent>
     </Card>

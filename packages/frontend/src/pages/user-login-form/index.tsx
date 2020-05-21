@@ -36,7 +36,7 @@ const formViews = {
   },
 };
 
-const index = function(): JSX.Element {
+const UserLoginForm = function(): JSX.Element {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [view, setView] = useState(formViews['sign-in']);
@@ -75,4 +75,4 @@ const index = function(): JSX.Element {
   );
 };
 
-export default index;
+export default UserLoginForm;

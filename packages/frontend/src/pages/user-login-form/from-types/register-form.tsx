@@ -42,21 +42,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const registerFields: FormFields = {
+  firstname: '',
+  lastname: '',
+  email: '',
+  username: '',
+  password: '',
+  passwordRepeat: '',
+  rememberMe: false,
+};
+
 const RegisterFields: React.FC<any> = ({
   handleClickShowPassword,
   handleFieldView,
   showPassword,
 }) => {
   const classes = useStyles();
-  const registerFields: FormFields = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    username: '',
-    password: '',
-    passwordRepeat: '',
-    rememberMe: false,
-  };
 
   return (
     <Form

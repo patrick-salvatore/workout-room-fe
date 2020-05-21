@@ -16,19 +16,19 @@ const workouts = [
   {
     id: 0,
     title: 'title0',
-    summary:
+    notes:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, aut?',
   },
   {
     id: 1,
     title: 'title1',
-    summary:
+    notes:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, aut?',
   },
   {
     id: 22,
     title: 'title2',
-    summary:
+    notes:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, aut?',
   },
 ];
@@ -67,7 +67,7 @@ const Options: React.FC<OptionsProps> = ({ changeView }): JSX.Element => {
 
   return (
     <div className="options__container">
-      <div className="previous-events__container">
+      <div className="previous-events__card-container">
         <h1 className="previous-events__title">PREVIOUS EVENTS</h1>
         <div className="card__container">
           {workouts.map(el => (
@@ -75,7 +75,7 @@ const Options: React.FC<OptionsProps> = ({ changeView }): JSX.Element => {
           ))}
         </div>
       </div>
-      <div className="new-event__container">
+      <div className="new-event__card-container">
         <h1 className="new-event__title">NEW EVENT</h1>
         <_Card>
           <Card onClick={setNewEventFormView} className={classes.root}>

@@ -15,7 +15,7 @@ import NavBar from 'components/navbar';
 import Loader from 'components/loader';
 
 /*PAGES*/
-const Login = React.lazy(() => import('pages/user-form'));
+const Login = React.lazy(() => import('pages/user-login-form'));
 const Feed = React.lazy(() => import('pages/feed'));
 const Calendar = React.lazy(() => import('pages/calendar'));
 const Progress = React.lazy(() => import('pages/progress'));
@@ -49,7 +49,7 @@ const Router = () => (
       <PrivateRoute exact={true} path={ROUTES.INDEX} component={Feed} />
       <PrivateRoute exact={true} path={ROUTES.CALENDAR} component={Calendar} />
       <PrivateRoute exact={true} path={ROUTES.PROGRESS} component={Progress} />
-      <PrivateRoute exact={true} path={ROUTES.ROOMS} component={Teams} />
+      <PrivateRoute exact={true} path={ROUTES.TEAMS} component={Teams} />
       <Route component={() => <h1>OOPS</h1>} />
     </Switch>
   </Suspense>

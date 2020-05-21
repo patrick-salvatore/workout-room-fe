@@ -11,16 +11,16 @@ const PrevEvent: React.FC<PrevEventProps> = (props): JSX.Element => {
   const { prevEventDetails } = props;
 
   return (
-    <div className="prevEvent__container">
-      <div className="prevEvent__header"></div>
-      <h2 className="prevEvent__title">{prevEventDetails.title}</h2>
-      <div className="prevEvent__sumary">
-        <p className="prevEvent__sumary-text">
-          {prevEventDetails.sumary || 'empty sumary'}
+    <div className="prev-event__container">
+      <div className="prev-event__header"></div>
+      <h2 className="prev-event__title">{prevEventDetails.title}</h2>
+      <div className="prev-event__notes">
+        <p className="prev-event__notes-text">
+          {prevEventDetails.notes || 'empty notes'}
         </p>
       </div>
-      <div className="prevEvent__grid">
-        <p className="prevEvent__grid-text">
+      <div className="prev-event__grid">
+        <p className="prev-event__grid-text">
           {prevEventDetails.grid || 'empty grid'}
         </p>
       </div>

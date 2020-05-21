@@ -16,9 +16,9 @@ export default function index(props: BaseEventProps): JSX.Element {
     <div className="base-event__container">
       <div className="base-event__header"></div>
       <h2 className="base-event__title">{eventDetails.title}</h2>
-      <div className="base-event__sumary">
-        <p className="base-event__sumary-text">
-          {eventDetails.sumary || 'empty sumary'}
+      <div className="base-event__notes">
+        <p className="base-event__notes-text">
+          {eventDetails.notes || 'empty notes'}
         </p>
       </div>
       <div className="base-event__grid">

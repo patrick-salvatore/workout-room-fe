@@ -6,7 +6,7 @@ export interface Event extends EventInput {
   title?: string;
   start?: Date | undefined;
   end?: Date | undefined;
-  summary?: any;
+  notes?: any;
 }
 
 interface View {

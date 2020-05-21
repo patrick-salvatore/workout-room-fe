@@ -1,10 +1,15 @@
 .options__container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: center;
+  height: 100%;
 
-  .previous-events__container {
+  .previous-events__card-container {
     display: grid;
     justify-items: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
 
     .card__container {
       display: flex;
@@ -19,9 +24,12 @@
     }
   }
 
-  .new-event__container {
+  .new-event__card-container {
     display: grid;
     justify-items: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
   }
 
   .pressed {
