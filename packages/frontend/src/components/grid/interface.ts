@@ -10,5 +10,5 @@ export interface DefaultRows {
   weight: string;
   sets: string;
   reps: string;
-  difficultly: string;
+  difficultly?: string;
 }
