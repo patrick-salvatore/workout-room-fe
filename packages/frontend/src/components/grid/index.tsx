@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   withStyles,
   Theme,
@@ -16,8 +16,6 @@ import Button from '@material-ui/core/Button';
 import Cell from './cell';
 
 import { DefaultRows } from './interface';
-
-import mockData from './mock.data';
 
 import './grid.scss';
 
@@ -49,7 +47,9 @@ const useStyles = makeStyles({
   },
 });
 
-const _rows: DefaultRows[] = [
+const defaultColHeader = ['Lifts', 'Weight', 'Sets', 'Reps'];
+
+const testRowsData: DefaultRows[] = [
   {
     lift: 'clean',
     weight: 'test3',
@@ -76,18 +76,29 @@ const _rows: DefaultRows[] = [
   },
 ];
 
-const defaultColHeader = ['Lifts', 'Weight', 'Sets', 'Reps'];
-
-export default function Grid(): JSX.Element {
+const Grid = (): JSX.Element => {
   const classes = useStyles();
-  const [columnHeaders, setColumnHeaders] = React.useState(defaultColHeader);
-  const [rows, setRows] = React.useState(_rows);
+  const [columnHeaders, setColumnHeaders] = useState(defaultColHeader);
+  const [rows, setRows] = useState<any>([]);
+
+  useEffect(() => {
+    setRows(testRowsData);
+    setColumnHeaders(defaultColHeader);
+
+    return () => {};
+  }, []);
 
   const handleCellChange = ({ cellRow, cellCol, value }): void => {
-    rows[cellRow][cellCol] = value;
-    console.log(rows);
-    setRows(rows);
+    const oldRows = rows;
+    const oldRow = rows[cellRow];
+
+    oldRow[cellCol] = value;
+    oldRows[cellRow] = oldRow;
+
+    setRows(oldRows);
   };
+
+  console.log(rows)
 
   return (
     <div style={{ width: '100%' }} className="grid__container">
@@ -115,12 +126,12 @@ export default function Grid(): JSX.Element {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, rowIdx) => (
+            {rows.map((_row, rowIdx) => (
               <StyledTableRow key={`row-${rowIdx}`}>
-                {Object.keys(row).map((key, colIdx) => (
+                {Object.keys(_row).map((key, colIdx) => (
                   <Cell
                     key={colIdx}
-                    value={row[key]}
+                    value={_row[key]}
                     canEdit={true}
                     className="cell cell--grid-body"
                     handleCellChange={handleCellChange}
@@ -135,4 +146,6 @@ export default function Grid(): JSX.Element {
       </TableContainer>
     </div>
   );
-}
+};
+
+export default Grid;

@@ -1,11 +1,4 @@
 import React from 'react';
-// import {
-//   makeStyles,
-//   createStyles,
-//   withStyles,
-//   Theme,
-// } from '@material-ui/core/styles';
-// import TableCell from '@material-ui/core/TableCell';
 
 interface CellProps {
   key: any;
@@ -25,32 +18,6 @@ interface CellProps {
   }) => void;
 }
 
-// const StyledTableCell = withStyles((theme: Theme) =>
-//   createStyles({
-//     root: {
-//       padding: 0,
-//       height: '100%',
-//       width: '80px',
-//     },
-//     head: {
-//       backgroundColor: '#5393ff',
-//       color: theme.palette.common.white,
-//       width: 'auto',
-//     },
-//     body: {
-//       fontSize: 14,
-//       cursor: 'pointer',
-//       '&:hover': {
-//         backgroundColor: 'rgba(196, 194, 194, 0.30)',
-//       },
-//     },
-//   })
-// )(TableCell);
-
-// const Node = ({ value }) => {
-//   return <>{value}</>;
-// };
-
 const Cell = ({
   row,
   col,
@@ -59,29 +26,34 @@ const Cell = ({
   className,
   handleCellChange,
 }: CellProps): JSX.Element => {
-  const cellRef = React.useRef<any>();
+  const cellRef = React.useRef<HTMLInputElement>(null);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [cellInputValue, setCellInputValue] = React.useState(value);
+
+  React.useEffect(() => {
+    if (openEdit && cellRef) {
+      cellRef.current?.focus();
+    }
+  }, [openEdit]);
 
   function handleFirstClick(): void {
     setOpenEdit(!openEdit);
   }
 
-  function handleChange(): void {
-    const { value } = cellRef.current;
-
-    setCellInputValue(value);
+  function handleChange(e): void {
+    setCellInputValue(e.target.value);
   }
 
   function handleBlur(): void {
-    const cellRow = Number(cellRef.current.dataset.cellRow);
-    const { cellCol } = cellRef.current.dataset;
-
-    if (handleCellChange) {
-      handleCellChange({ cellRow, cellCol, value: cellInputValue });
-    }
+    const cellRow = Number(cellRef?.current?.dataset.cellRow);
+    const { cellCol } = cellRef?.current?.dataset as any;
+    const { value } = cellRef?.current as any;
 
     setOpenEdit(!openEdit);
+
+    if (handleCellChange) {
+      handleCellChange({ cellRow, cellCol, value });
+    }
   }
 
   return (
@@ -90,8 +62,8 @@ const Cell = ({
         <input
           style={{
             width: '100%',
-            height: '50px',
-            border: 'black 1px solid',
+            height: '44px',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
             backgroundColor: 'inherit',
             textAlign: 'center',
             fontSize: '14px',

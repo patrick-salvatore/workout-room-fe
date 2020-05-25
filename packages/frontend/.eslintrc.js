@@ -30,6 +30,7 @@ module.exports = {
     ],
     'arrow-body-style': 'off',
     'class-methods-use-this': 'off',
+    'no-self-assign': off,
     'consistent-return': 'off',
     'import/prefer-default-export': [0, { packageDir: '.' }],
     // Forbid the use of extraneous packages
