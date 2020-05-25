@@ -61,22 +61,22 @@ const Cell = ({
       {canEdit && openEdit ? (
         <input
           style={{
-            width: '100%',
+            width: '99%',
             height: '44px',
             border: '1px solid rgba(0, 0, 0, 0.1)',
             backgroundColor: 'inherit',
             textAlign: 'center',
             fontSize: '14px',
           }}
-          value={cellInputValue}
-          onBlur={handleBlur}
-          onChange={handleChange}
           ref={cellRef}
           data-cell-row={row}
           data-cell-col={col}
+          onBlur={handleBlur}
+          value={cellInputValue}
+          onChange={handleChange}
         />
       ) : (
-        value
+        cellInputValue
       )}
     </td>
   );

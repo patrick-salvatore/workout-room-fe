@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   withStyles,
   Theme,
@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 
 import Cell from './cell';
 
-import { DefaultRows } from './interface';
+import MockData from './mock.data';
 
 import './grid.scss';
 
@@ -47,58 +47,25 @@ const useStyles = makeStyles({
   },
 });
 
-const defaultColHeader = ['Lifts', 'Weight', 'Sets', 'Reps'];
-
-const testRowsData: DefaultRows[] = [
-  {
-    lift: 'clean',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
-  },
-  {
-    lift: 'test',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
-  },
-  {
-    lift: 'test2',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
-  },
-  {
-    lift: 'test22',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
-  },
-];
-
 const Grid = (): JSX.Element => {
   const classes = useStyles();
-  const [columnHeaders, setColumnHeaders] = useState(defaultColHeader);
-  const [rows, setRows] = useState<any>([]);
+  const [columnHeaders, setColumnHeaders] = React.useState<any>([]);
+  const [rows, setRows] = React.useState<any>([]);
 
-  useEffect(() => {
-    setRows(testRowsData);
-    setColumnHeaders(defaultColHeader);
+  React.useEffect(() => {
+    setRows(MockData.testRowsData);
+    setColumnHeaders(MockData.defaultColHeader);
 
     return () => {};
   }, []);
 
   const handleCellChange = ({ cellRow, cellCol, value }): void => {
-    const oldRows = rows;
-    const oldRow = rows[cellRow];
+    setRows(prevRows => {
+      prevRows[cellRow][cellCol] = value;
 
-    oldRow[cellCol] = value;
-    oldRows[cellRow] = oldRow;
-
-    setRows(oldRows);
+      return prevRows;
+    });
   };
-
-  console.log(rows)
 
   return (
     <div style={{ width: '100%' }} className="grid__container">
@@ -148,4 +115,4 @@ const Grid = (): JSX.Element => {
   );
 };
 
-export default Grid;
+export default React.memo(Grid);
