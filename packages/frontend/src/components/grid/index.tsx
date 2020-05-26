@@ -53,6 +53,9 @@ const Grid = (): JSX.Element => {
   const [rows, setRows] = React.useState<any>([]);
 
   React.useEffect(() => {
+    /*
+     * TODO: add API call instead of mock data
+     */
     setRows(MockData.testRowsData);
     setColumnHeaders(MockData.defaultColHeader);
 
@@ -60,11 +63,15 @@ const Grid = (): JSX.Element => {
   }, []);
 
   const handleCellChange = ({ cellRow, cellCol, value }): void => {
-    setRows(prevRows => {
-      prevRows[cellRow][cellCol] = value;
+    const newRows = rows;
 
-      return prevRows;
-    });
+    if (!String(value).length) {
+      newRows[cellRow][cellCol] = 'Empty';
+    } else {
+      newRows[cellRow][cellCol] = value;
+    }
+
+    setRows(newRows);
   };
 
   return (
@@ -93,16 +100,16 @@ const Grid = (): JSX.Element => {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {rows.map((_row, rowIdx) => (
-              <StyledTableRow key={`row-${rowIdx}`}>
-                {Object.keys(_row).map((key, colIdx) => (
+            {rows.map((r, rIdx) => (
+              <StyledTableRow key={`row-${rIdx}`}>
+                {Object.keys(r).map((key, colIdx) => (
                   <Cell
                     key={colIdx}
-                    value={_row[key]}
+                    value={r[key]}
                     canEdit={true}
                     className="cell cell--grid-body"
                     handleCellChange={handleCellChange}
-                    row={rowIdx}
+                    row={rIdx}
                     col={key}
                   />
                 ))}
@@ -115,4 +122,4 @@ const Grid = (): JSX.Element => {
   );
 };
 
-export default React.memo(Grid);
+export default Grid;

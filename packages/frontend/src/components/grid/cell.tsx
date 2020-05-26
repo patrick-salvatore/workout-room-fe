@@ -41,43 +41,40 @@ const Cell = ({
   }
 
   function handleChange(e): void {
-    setCellInputValue(e.target.value);
-  }
-
-  function handleBlur(): void {
     const cellRow = Number(cellRef?.current?.dataset.cellRow);
     const { cellCol } = cellRef?.current?.dataset as any;
     const { value } = cellRef?.current as any;
 
-    setOpenEdit(!openEdit);
-
     if (handleCellChange) {
       handleCellChange({ cellRow, cellCol, value });
     }
+
+    setCellInputValue(e.target.value);
+  }
+
+  function handleBlur(): void {
+    setOpenEdit(!openEdit);
   }
 
   return (
     <td className={className} onDoubleClick={handleFirstClick}>
-      {canEdit && openEdit ? (
-        <input
-          style={{
-            width: '99%',
-            height: '44px',
-            border: '1px solid rgba(0, 0, 0, 0.1)',
-            backgroundColor: 'inherit',
-            textAlign: 'center',
-            fontSize: '14px',
-          }}
-          ref={cellRef}
-          data-cell-row={row}
-          data-cell-col={col}
-          onBlur={handleBlur}
-          value={cellInputValue}
-          onChange={handleChange}
-        />
-      ) : (
-        cellInputValue
-      )}
+      <input
+        style={{
+          width: '99%',
+          height: '44px',
+          backgroundColor: 'inherit',
+          textAlign: 'center',
+          fontSize: '14px',
+          border: canEdit && openEdit ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
+        }}
+        ref={cellRef}
+        data-cell-row={row}
+        data-cell-col={col}
+        onBlur={handleBlur}
+        value={cellInputValue}
+        onChange={handleChange}
+        disabled={canEdit && openEdit ? false : true}
+      />
     </td>
   );
 };
