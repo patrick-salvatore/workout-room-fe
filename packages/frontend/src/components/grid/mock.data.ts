@@ -1,6 +1,6 @@
 import { DefaultRows } from './interface';
 
-const defaultColHeader = ['Lifts', 'Weight', 'Sets', 'Reps'];
+const defaultColHeader =  ['Lifts', 'Weight', 'Sets', 'Reps'];
 
 const testRowsData: DefaultRows[] = [
   {

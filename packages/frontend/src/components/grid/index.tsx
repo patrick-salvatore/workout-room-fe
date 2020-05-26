@@ -11,7 +11,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import TableCell from '@material-ui/core/TableCell';
+import DeleteIcon from '@material-ui/icons/Close';
 
 import Cell from './cell';
 
@@ -45,22 +48,38 @@ const useStyles = makeStyles({
   row: {
     minHeight: 50,
   },
+  delete: {
+    width: 30,
+    border: 'none',
+  },
 });
 
 const Grid = (): JSX.Element => {
   const classes = useStyles();
   const [columnHeaders, setColumnHeaders] = React.useState<any>([]);
-  const [dataRows, setDataRows] = React.useState<any>([]);
+  const [dataRows, setRows] = React.useState<any>([]);
 
   React.useEffect(() => {
     /*
      * TODO: add API call instead of mock data
      */
-    setDataRows(MockData.testRowsData);
+    setRows(MockData.testRowsData);
     setColumnHeaders(MockData.defaultColHeader);
 
     return () => {};
   }, []);
+
+  const handleColHeaderChange = ({ cellCol, value }) => {
+    const newCols = columnHeaders;
+
+    if (String(value).length) {
+      newCols[cellCol] = value;
+    } else {
+      return;
+    }
+
+    setColumnHeaders([...newCols]);
+  };
 
   const handleCellChange = ({ cellRow, cellCol, value }): void => {
     const newRows = dataRows;
@@ -71,21 +90,34 @@ const Grid = (): JSX.Element => {
       newRows[cellRow][cellCol] = value;
     }
 
-    setDataRows([...newRows]);
+    setRows([...newRows]);
   };
 
   const addNewRow = () => {
     const newRowData = columnHeaders.reduce((acc, prev) => {
-      acc[prev.toLowerCase()] = '';
+      acc[prev.toLowerCase()] = 'Empty';
       return acc;
     }, {});
 
     dataRows.push(newRowData);
-    setDataRows([...dataRows]);
+    setRows([...dataRows]);
   };
 
   const addNewCol = () => {
-    console.log('new column');
+    const newRowData = dataRows.reduce((acc, prev) => {
+      prev['empty'] = 'Empty';
+      acc.push(prev);
+      return acc;
+    }, []);
+
+    setColumnHeaders([...columnHeaders, 'Empty']);
+    setRows([...newRowData]);
+  };
+
+  const deleteRow = idx => {
+    const newRows = dataRows;
+    newRows.splice(idx, 1);
+    setRows([...newRows]);
   };
 
   return (
@@ -99,16 +131,26 @@ const Grid = (): JSX.Element => {
         </Button>
       </div>
       <TableContainer component={Paper} className={classes.container}>
-        <Table stickyHeader className={classes.table}>
+        <Table
+          stickyHeader
+          className={classes.table}
+          aria-label="Your workouts"
+        >
           <TableHead>
             <StyledTableRow>
+              <Cell
+                value=""
+                canEdit={false}
+                className="cell cell--grid-header empty"
+              />
               {columnHeaders.map((c, i) => (
                 <Cell
                   key={i}
                   value={c}
-                  canEdit={false}
+                  canEdit={true}
                   className="cell cell--grid-header"
-                  col={c}
+                  col={i}
+                  handleCellChange={handleColHeaderChange}
                 />
               ))}
             </StyledTableRow>
@@ -116,6 +158,11 @@ const Grid = (): JSX.Element => {
           <TableBody>
             {dataRows.map((r, rIdx) => (
               <StyledTableRow key={`row-${rIdx}`}>
+                <TableCell size="small" className="cell cell--grid-body empty">
+                  <IconButton size="small" onClick={() => deleteRow(rIdx)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
                 {Object.keys(r).map((key, colIdx) => (
                   <Cell
                     key={colIdx}

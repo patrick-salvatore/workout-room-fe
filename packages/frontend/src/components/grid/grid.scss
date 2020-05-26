@@ -8,14 +8,24 @@
     &--grid-header {
       font-size: 16px;
       background-color: #5393ff;
+      width: 80px;
 
-      * { 
-        color: black;
+      * {
+        color: #fff;
+      }
+
+      &.empty {
+        width: 30px;
       }
     }
 
     &--grid-body {
       width: 80px;
+
+      &.empty {
+        width: 30px;
+        border: none;
+      }
     }
   }
 }
