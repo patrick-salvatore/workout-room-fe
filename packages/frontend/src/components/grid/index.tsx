@@ -50,20 +50,20 @@ const useStyles = makeStyles({
 const Grid = (): JSX.Element => {
   const classes = useStyles();
   const [columnHeaders, setColumnHeaders] = React.useState<any>([]);
-  const [rows, setRows] = React.useState<any>([]);
+  const [dataRows, setDataRows] = React.useState<any>([]);
 
   React.useEffect(() => {
     /*
      * TODO: add API call instead of mock data
      */
-    setRows(MockData.testRowsData);
+    setDataRows(MockData.testRowsData);
     setColumnHeaders(MockData.defaultColHeader);
 
     return () => {};
   }, []);
 
   const handleCellChange = ({ cellRow, cellCol, value }): void => {
-    const newRows = rows;
+    const newRows = dataRows;
 
     if (!String(value).length) {
       newRows[cellRow][cellCol] = 'Empty';
@@ -71,21 +71,35 @@ const Grid = (): JSX.Element => {
       newRows[cellRow][cellCol] = value;
     }
 
-    setRows(newRows);
+    setDataRows([...newRows]);
+  };
+
+  const addNewRow = () => {
+    const newRowData = columnHeaders.reduce((acc, prev) => {
+      acc[prev.toLowerCase()] = '';
+      return acc;
+    }, {});
+
+    dataRows.push(newRowData);
+    setDataRows([...dataRows]);
+  };
+
+  const addNewCol = () => {
+    console.log('new column');
   };
 
   return (
     <div style={{ width: '100%' }} className="grid__container">
       <div className="">
-        <Button>Add Row</Button>
-        <Button>Add Column</Button>
+        <Button variant="contained" color="primary" onClick={addNewRow}>
+          Add Row
+        </Button>
+        <Button variant="contained" color="primary" onClick={addNewCol}>
+          Add Column
+        </Button>
       </div>
       <TableContainer component={Paper} className={classes.container}>
-        <Table
-          stickyHeader
-          className={classes.table}
-          aria-label="customized table"
-        >
+        <Table stickyHeader className={classes.table}>
           <TableHead>
             <StyledTableRow>
               {columnHeaders.map((c, i) => (
@@ -100,7 +114,7 @@ const Grid = (): JSX.Element => {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {rows.map((r, rIdx) => (
+            {dataRows.map((r, rIdx) => (
               <StyledTableRow key={`row-${rIdx}`}>
                 {Object.keys(r).map((key, colIdx) => (
                   <Cell
@@ -122,4 +136,4 @@ const Grid = (): JSX.Element => {
   );
 };
 
-export default Grid;
+export default React.memo(Grid);

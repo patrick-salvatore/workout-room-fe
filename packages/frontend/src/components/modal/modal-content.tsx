@@ -5,7 +5,7 @@ import { ModalContentProps, Errors } from './interfaces';
 
 import Suspense from '../suspense';
 import BaseEvent from './bodies/base-event';
-import EditEvent from './bodies/owner/base-event-owner';
+import EditEvent from './bodies/owner/base-event/index';
 import NewEvent from './bodies/owner/new-event/index';
 
 import './modal-content.scss';
