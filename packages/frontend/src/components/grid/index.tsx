@@ -92,24 +92,32 @@ const Grid = (): JSX.Element => {
   };
 
   const addNewRow = () => {
-    const newRowData = columnHeaders.reduce((acc, prev) => {
-      acc[prev.toLowerCase()] = 'Empty';
-      return acc;
-    }, {});
+    const newRow = {};
+    const numOfCols = columnHeaders.length;
 
-    dataRows.push(newRowData);
+    for (let c = 0; c < numOfCols; c++) {
+      newRow[c] = 'Empty';
+    }
+
+    dataRows.push(newRow);
     setRows([...dataRows]);
   };
 
   const addNewCol = () => {
-    const newRowData = dataRows.reduce((acc, prev) => {
-      prev['empty'] = 'Empty';
-      acc.push(prev);
-      return acc;
-    }, []);
+    const isEmpty = columnHeaders.filter(
+      (c: string) => c.toLowerCase() === 'empty'
+    );
 
-    setColumnHeaders([...columnHeaders, 'Empty']);
-    setRows([...newRowData]);
+    if (!isEmpty.length) {
+      const newRowData = dataRows.reduce((acc, prev) => {
+        prev[columnHeaders.length + 1] = 'Empty';
+        acc.push(prev);
+        return acc;
+      }, []);
+
+      setColumnHeaders([...columnHeaders, 'Empty']);
+      setRows([...newRowData]);
+    }
   };
 
   const deleteRow = (idx: number) => {
