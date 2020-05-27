@@ -92,15 +92,21 @@ const Grid = (): JSX.Element => {
   };
 
   const addNewRow = () => {
-    const newRow = {};
-    const numOfCols = columnHeaders.length;
+    const isEmpty = columnHeaders.filter(
+      (c: string) => c.toLowerCase() === 'empty'
+    );
 
-    for (let c = 0; c < numOfCols; c++) {
-      newRow[c] = 'Empty';
+    if (!isEmpty.length) {
+      const newRow = {};
+      const numOfCols = columnHeaders.length;
+
+      for (let c = 0; c < numOfCols; c++) {
+        newRow[c] = 'Empty';
+      }
+
+      dataRows.push(newRow);
+      setRows([...dataRows]);
     }
-
-    dataRows.push(newRow);
-    setRows([...dataRows]);
   };
 
   const addNewCol = () => {
