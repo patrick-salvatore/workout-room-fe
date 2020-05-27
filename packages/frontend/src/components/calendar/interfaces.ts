@@ -2,11 +2,12 @@ import { EventInput } from '@fullcalendar/core';
 
 export interface Event extends EventInput {
   id: number;
-  idx: number;
+  idx?: number;
   title?: string;
-  start?: Date | undefined;
+  start?: Date | string | undefined;
   end?: Date | undefined;
   notes?: any;
+  grid: any;
 }
 
 interface View {
@@ -18,7 +19,7 @@ interface View {
 interface ModalState {
   show: boolean;
   name: string;
-  event: Event;
+  workout: Event;
 }
 
 export type Action =

@@ -22,7 +22,7 @@ const getModalContents = (name: string): any => {
 };
 
 const ModalContent: React.FC<ModalContentProps> = ({
-  modalEvent,
+  modalWorkOut,
   name,
   children,
   updateEvent,
@@ -31,8 +31,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
 }): JSX.Element => {
   const Body = name && getModalContents(name);
   const [editEvent, setEditEvent] = useState(false);
-  const [eventDetails, setEventDetails] = useState(() => {
-    return name === 'new_event' ? {} : modalEvent;
+  const [workoutDetails, setWorkoutDetails] = useState(() => {
+    return name === 'new_event' ? {} : modalWorkOut;
   });
   const [errors, setErrorState] = useState<Errors>({
     startDateChange: { error: false, message: '' },
@@ -43,12 +43,12 @@ const ModalContent: React.FC<ModalContentProps> = ({
     if (updateEvent) {
       console.log('CUSTOM -- SAVING EVENT');
 
-      eventDetails.start = new Date(eventDetails.start.setHours(12));
+      workoutDetails.start = new Date(workoutDetails.start.setHours(12));
 
-      eventDetails.end =
-        eventDetails.end && new Date(eventDetails.end.setHours(12));
+      workoutDetails.end =
+        workoutDetails.end && new Date(workoutDetails.end.setHours(12));
 
-      updateEvent(eventDetails);
+      updateEvent(workoutDetails);
       setEditEvent(false);
       closeModal && closeModal(e);
       return;
@@ -62,9 +62,9 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const _saveNewEvent = (e): void => {
     if (saveNewEvent) {
       console.log('CUSTOM -- CREATED EVENT');
-      console.log(eventDetails);
+      console.log(workoutDetails);
 
-      // saveNewEvent(eventDetails);
+      // saveNewEvent(workoutDetails);
       // closeModal && closeModal(e);
 
       return;
@@ -78,7 +78,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const handleModalDateChange = (date, type: string): void => {
     switch (type) {
       case 'endDate': {
-        if (isBefore(date, eventDetails.start as any)) {
+        if (isBefore(date, workoutDetails.start as any)) {
           setErrorState({
             startDateChange: errors.startDateChange,
             endDateChange: {
@@ -87,8 +87,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
             },
           });
         } else {
-          const newEvent = { ...eventDetails, end: date };
-          setEventDetails(newEvent);
+          const newEvent = { ...workoutDetails, end: date };
+          setWorkoutDetails(newEvent);
           setErrorState({
             startDateChange: { error: false, message: '' },
             endDateChange: { error: false, message: '' },
@@ -97,7 +97,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
         return;
       }
       case 'startDate': {
-        if (isAfter(date, eventDetails.end as any)) {
+        if (isAfter(date, workoutDetails.end as any)) {
           setErrorState({
             startDateChange: {
               error: !errors.startDateChange.error,
@@ -106,8 +106,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
             endDateChange: errors.endDateChange,
           });
         } else {
-          const newEvent = { ...eventDetails, start: date };
-          setEventDetails(newEvent);
+          const newEvent = { ...workoutDetails, start: date };
+          setWorkoutDetails(newEvent);
           setErrorState({
             startDateChange: { error: false, message: '' },
             endDateChange: { error: false, message: '' },
@@ -130,7 +130,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
           React.createElement(Body, {
             _updateEvent,
             editEvent,
-            eventDetails,
+            workoutDetails,
             setEditEvent,
             _saveNewEvent,
             handleModalDateChange,

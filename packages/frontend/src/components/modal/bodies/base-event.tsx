@@ -6,24 +6,24 @@ import { Event } from 'components/calendar/interfaces';
 import './base-event.scss';
 
 interface BaseEventProps {
-  eventDetails: Event;
+  workoutDetails: Event;
 }
 
 export default function index(props: BaseEventProps): JSX.Element {
-  const { eventDetails } = props;
+  const { workoutDetails } = props;
 
   return (
     <div className="base-event__container">
       <div className="base-event__header"></div>
-      <h2 className="base-event__title">{eventDetails.title}</h2>
+      <h2 className="base-event__title">{workoutDetails.title}</h2>
       <div className="base-event__notes">
         <p className="base-event__notes-text">
-          {eventDetails.notes || 'empty notes'}
+          {workoutDetails.notes || 'empty notes'}
         </p>
       </div>
       <div className="base-event__grid">
         <p className="base-event__grid-text">
-          {eventDetails.grid || 'empty grid'}
+          {workoutDetails.grid || 'empty grid'}
         </p>
       </div>
       <Grid container justify="space-between" alignItems="center">
@@ -32,17 +32,17 @@ export default function index(props: BaseEventProps): JSX.Element {
             dateFormat="MM/dd/yyyy"
             dateFormatCalendar="LLLL yyyy"
             dropdownMode="scroll"
-            selected={eventDetails.start}
+            selected={workoutDetails.start as any}
             label="Start Date"
           />
         </Grid>
-        {eventDetails.end && (
+        {workoutDetails.end && (
           <Grid item>
             <DateTimePicker
               dateFormat="MM/dd/yyyy"
               dateFormatCalendar="LLLL yyyy"
               dropdownMode="scroll"
-              selected={eventDetails.end || eventDetails.start}
+              selected={workoutDetails.end || workoutDetails.start}
               label="End Date"
             />
           </Grid>

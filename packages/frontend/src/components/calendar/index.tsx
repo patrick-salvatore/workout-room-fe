@@ -18,9 +18,9 @@ const calendarState: CalendarState = {
   view: { toggleButtonText: 'Week', isWeek: false, type: 'dayGridMonth' },
   edit: false,
   modalState: {
-    show: true,
-    name: 'new_event',
-    event: { id: 0, idx: 0, notes: '' },
+    show: false,
+    name: '',
+    workout: { id: 0, idx: 0, notes: '', grid: {}},
   },
 };
 
@@ -79,29 +79,33 @@ function calendarReducer(
   }
 }
 
-const eventMap = [
+const eventMap: Event[] = [
   {
     title: 'April 1',
     start: new Date('April 27, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
     className: 'test',
+    grid: {}
   },
   {
     title: 'April 2',
     start: new Date('April 19, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
     notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
+    grid: {}
   },
   {
     title: 'May 1',
     start: new Date('May 19, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
+    grid: {}
   },
   {
     title: 'May 2',
     start: new Date('May 2, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
     notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
+    grid: {}
   },
 ];
 
@@ -116,7 +120,7 @@ const Calendar: React.FC = (): JSX.Element => {
       payload: {
         show: false,
         name: state.modalState.name,
-        event: state.modalState.event,
+        workout: state.modalState.workout,
       },
     });
   };
@@ -171,7 +175,7 @@ const Calendar: React.FC = (): JSX.Element => {
   };
 
   const handleEventClick = ({ event }): void => {
-    const eventDetails = {
+    const workoutDetails = {
       ...event.extendedProps,
       title: event.title,
       start: event.start,
@@ -183,28 +187,32 @@ const Calendar: React.FC = (): JSX.Element => {
       type: 'modal',
       payload: {
         show: true,
-        event: eventDetails,
+        workout: workoutDetails,
         name: state.edit ? 'base_event_owner' : 'base_event',
       },
     });
   };
 
-  const handleUpdateEvent = (eventDetails: Event): void => {
+  const handleUpdateEvent = (workoutDetails: Event): void => {
     const api = calendarRef.current?.getApi();
-    const event = api?.getEventById(eventDetails.id as any);
-    event && event.setStart(eventDetails.start as any);
-    event && eventDetails.end && event.setEnd(eventDetails.end);
+    const event = api?.getEventById(workoutDetails.id as any);
+    event && event.setStart(workoutDetails.start as any);
+    event && workoutDetails.end && event.setEnd(workoutDetails.end);
+
+    // todo add error handling here
+    if (!workoutDetails.idx) {
+      return
+    }
 
     /**
      * TODO: send saved data to BE
      */
-
     dispatch({
       type: 'events',
       payload: updateIdxOfArray<Event>(
-        eventDetails.idx,
+        workoutDetails.idx,
         state.events,
-        eventDetails
+        workoutDetails
       ),
     });
   };
@@ -367,7 +375,7 @@ const Calendar: React.FC = (): JSX.Element => {
         <Modal closeModal={closeModal}>
           <ModalContent
             name={state.modalState.name}
-            modalEvent={state.modalState.event}
+            modalWorkOut={state.modalState.workout}
             closeModal={closeModal}
             updateEvent={handleUpdateEvent}
             saveNewEvent={handleNewEvent}

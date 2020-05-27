@@ -13,7 +13,7 @@ export interface Errors {
 }
 
 export interface ModalContentProps {
-  modalEvent: any;
+  modalWorkOut: any;
   name?: string;
   children?: ReactNode;
   updateEvent?: (eventDetails) => void;

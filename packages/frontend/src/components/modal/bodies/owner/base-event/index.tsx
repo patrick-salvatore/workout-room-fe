@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function BaseEventOwner({
-  eventDetails,
+  workoutDetails,
   setEditEvent,
   _updateEvent,
   // _deleteEvent,
@@ -40,15 +40,15 @@ function BaseEventOwner({
   return (
     <>
       <div className="base-event-owner__container">
-        <h2 className="base-event-owner__title">{eventDetails.title}</h2>
+        <h2 className="base-event-owner__title">{workoutDetails.title}</h2>
         <div className="base-event-owner__notes">
           <p className="base-event-owner__notes-text">
-            {eventDetails.notes || 'empty notes'}
+            {workoutDetails.notes || 'empty notes'}
           </p>
         </div>
         <div className="base-event-owner__grid">
           <p className="base-event-owner__grid-text">
-            {eventDetails.grid || 'empty grid'}
+            {workoutDetails.grid || 'empty grid'}
           </p>
         </div>
         <Grid container justify="space-between" alignItems="center">
@@ -57,7 +57,7 @@ function BaseEventOwner({
               dateFormat="MM/dd/yyyy"
               dateFormatCalendar="LLLL yyyy"
               dropdownMode="scroll"
-              selected={eventDetails.start}
+              selected={workoutDetails.start}
               timeIntervals={30}
               withPortal={false}
               disabled={!editEvent}
@@ -76,7 +76,7 @@ function BaseEventOwner({
               dateFormat="MM/dd/yyyy"
               dateFormatCalendar="LLLL yyyy"
               dropdownMode="scroll"
-              selected={eventDetails.end || eventDetails.start}
+              selected={workoutDetails.end || workoutDetails.start}
               timeIntervals={30}
               withPortal={false}
               disabled={!editEvent}

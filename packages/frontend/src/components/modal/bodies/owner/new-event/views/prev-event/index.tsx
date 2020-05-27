@@ -30,7 +30,7 @@ const PrevEvent: React.FC<PrevEventProps> = (props): JSX.Element => {
             dateFormat="MM/dd/yyyy"
             dateFormatCalendar="LLLL yyyy"
             dropdownMode="scroll"
-            selected={prevEventDetails.start}
+            selected={prevEventDetails.start as any}
             label="Start Date"
             disabled={false}
           />
