@@ -1,35 +1,35 @@
 import { DefaultRows } from './interface';
 
-const defaultColHeader =  ['Lifts', 'Weight', 'Sets', 'Reps'];
+const defaultColHeader = ['Lifts', 'Weight', 'Sets', 'Reps'];
 
-const testRowsData: DefaultRows[] = [
+const testRowsData = [
   {
-    lift: 'clean',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
+    0: 'clean',
+    1: 'test3',
+    2: 'test88',
+    3: 'test4',
   },
   {
-    lift: 'test',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
+    0: 'test',
+    1: 'test3',
+    2: 'test88',
+    3: 'test4',
   },
   {
-    lift: 'test2',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
+    0: 'test2',
+    1: 'test3',
+    2: 'test88',
+    3: 'test4',
   },
   {
-    lift: 'test22',
-    weight: 'test3',
-    sets: 'test88',
-    reps: 'test4',
+    0: 'test22',
+    1: 'test3',
+    2: 'test88',
+    3: 'test4',
   },
 ];
 
-export default { 
+export default {
   defaultColHeader,
-  testRowsData
-}
+  testRowsData,
+};

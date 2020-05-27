@@ -1,12 +1,16 @@
 import React from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Close';
 
 interface CellProps {
   key?: any;
   row?: number;
   col?: number | string;
   className?: string;
+  isColumn: boolean;
   canEdit: boolean;
   value: string | number;
+  deleteColumn?: (idx: number | string) => void;
   handleCellChange?: ({
     cellRow,
     cellCol,
@@ -23,28 +27,52 @@ const Cell = ({
   col,
   canEdit,
   value,
+  isColumn,
   className,
+  deleteColumn,
   handleCellChange,
 }: CellProps): JSX.Element => {
   const cellRef = React.useRef<HTMLInputElement>(null);
   const [openEdit, setOpenEdit] = React.useState(false);
-  const [cellInputValue, setCellInputValue] = React.useState<string | number>();
+  const [isMouseOver, setIsMouseOver] = React.useState(false);
+  const [shouldAutoFocus, setShouldAutoFocus] = React.useState(false);
+  const [cellInputValue, setCellInputValue] = React.useState<string | number>(
+    value
+  );
 
   React.useEffect(() => {
-    setCellInputValue(value);
+    if (String(value).toLowerCase() === 'empty' && isColumn) {
+      setShouldAutoFocus(true);
+    }
+
+    return () => {
+      setShouldAutoFocus(false);
+    };
   }, [value]);
+
+  React.useEffect(() => {
+    if (cellRef) {
+      cellRef.current?.focus();
+    }
+  }, [shouldAutoFocus]);
 
   React.useEffect(() => {
     if (openEdit && cellRef) {
       cellRef.current?.focus();
     }
+    setCellInputValue(value);
   }, [openEdit]);
+
+  function changeMouseOver(val: boolean) {
+    setIsMouseOver(val);
+  }
 
   function handleFirstClick(): void {
     setOpenEdit(!openEdit);
+    changeMouseOver(false);
   }
 
-  function handleChange(e): void {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     setCellInputValue(e.target.value);
   }
 
@@ -56,11 +84,53 @@ const Cell = ({
     if (handleCellChange) {
       handleCellChange({ cellRow, cellCol, value });
     }
+
     setOpenEdit(!openEdit);
   }
 
+  if (shouldAutoFocus) {
+    return (
+      <td
+        onMouseEnter={
+          !openEdit && isColumn ? () => changeMouseOver(true) : undefined
+        }
+        onMouseLeave={
+          !openEdit && isColumn ? () => changeMouseOver(false) : undefined
+        }
+        onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}
+        className={className}
+      >
+        <input
+          style={{
+            width: '99%',
+            height: '44px',
+            backgroundColor: 'inherit',
+            textAlign: 'center',
+            fontSize: '14px',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+          }}
+          ref={cellRef}
+          data-cell-row={row}
+          data-cell-col={col}
+          onBlur={handleBlur}
+          value={cellInputValue}
+          onChange={handleChange}
+        />
+      </td>
+    );
+  }
+
   return (
-    <td className={className} onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}>
+    <td
+      onMouseEnter={
+        !openEdit && isColumn ? () => changeMouseOver(true) : undefined
+      }
+      onMouseLeave={
+        !openEdit && isColumn ? () => changeMouseOver(false) : undefined
+      }
+      onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}
+      className={className}
+    >
       {canEdit && openEdit ? (
         <input
           style={{
@@ -79,10 +149,20 @@ const Cell = ({
           onChange={handleChange}
         />
       ) : (
-        value
+        <div className="value">
+          {isMouseOver && (
+            <IconButton
+              size="small"
+              onClick={() => deleteColumn && deleteColumn(col as any)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
+          {value}
+        </div>
       )}
     </td>
   );
 };
 
-export default React.memo(Cell);
+export default Cell;

@@ -11,9 +11,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import TableCell from '@material-ui/core/TableCell';
+import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Close';
 
 import Cell from './cell';
@@ -70,15 +70,13 @@ const Grid = (): JSX.Element => {
   }, []);
 
   const handleColHeaderChange = ({ cellCol, value }) => {
-    const newCols = columnHeaders;
+    const isDifferent = value !== columnHeaders[cellCol];
 
-    if (String(value).length) {
-      newCols[cellCol] = value;
-    } else {
-      return;
+    if (String(value).length && isDifferent) {
+      const newCols = columnHeaders;
+      newCols[cellCol] = value.trim();
+      setColumnHeaders([...newCols]);
     }
-
-    setColumnHeaders([...newCols]);
   };
 
   const handleCellChange = ({ cellRow, cellCol, value }): void => {
@@ -114,10 +112,30 @@ const Grid = (): JSX.Element => {
     setRows([...newRowData]);
   };
 
-  const deleteRow = idx => {
+  const deleteRow = (idx: number) => {
     const newRows = dataRows;
     newRows.splice(idx, 1);
     setRows([...newRows]);
+  };
+
+  const deleteColumn = (idx: number | string) => {
+    const newRowData = [];
+
+    for (let r = 0; r < dataRows.length; r++) {
+      const keys = Object.keys(dataRows[r]);
+      const data = dataRows[r];
+      const deleteKey = keys[idx];
+
+      delete data[deleteKey];
+
+      newRowData.push(dataRows[r] as never);
+    }
+
+    const newCols = columnHeaders;
+    newCols.splice(idx, 1);
+
+    setColumnHeaders([...newCols]);
+    setRows([...newRowData]);
   };
 
   return (
@@ -139,18 +157,21 @@ const Grid = (): JSX.Element => {
           <TableHead>
             <StyledTableRow>
               <Cell
+                isColumn={false}
                 value=""
                 canEdit={false}
                 className="cell cell--grid-header empty"
               />
               {columnHeaders.map((c, i) => (
                 <Cell
+                  isColumn={true}
                   key={i}
                   value={c}
                   canEdit={true}
                   className="cell cell--grid-header"
                   col={i}
                   handleCellChange={handleColHeaderChange}
+                  deleteColumn={deleteColumn}
                 />
               ))}
             </StyledTableRow>
@@ -165,6 +186,7 @@ const Grid = (): JSX.Element => {
                 </TableCell>
                 {Object.keys(r).map((key, colIdx) => (
                   <Cell
+                    isColumn={false}
                     key={colIdx}
                     value={r[key]}
                     canEdit={true}

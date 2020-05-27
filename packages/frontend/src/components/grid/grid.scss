@@ -17,6 +17,15 @@
       &.empty {
         width: 30px;
       }
+
+      .value {
+        height: auto;
+        
+        &::before {
+          content: '';
+          width: 12px;
+        }
+      }
     }
 
     &--grid-body {
