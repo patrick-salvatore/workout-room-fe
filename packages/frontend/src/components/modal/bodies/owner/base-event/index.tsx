@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { green, red } from '@material-ui/core/colors';
 import DateTimePicker from 'components/date-time-picker';
+import WorkoutGrid from 'components/grid';
 
 import './base-event-owner.scss';
 
@@ -47,9 +48,11 @@ function BaseEventOwner({
           </p>
         </div>
         <div className="base-event-owner__grid">
-          <p className="base-event-owner__grid-text">
-            {workoutDetails.grid || 'empty grid'}
-          </p>
+          <WorkoutGrid
+            canEdit={true}
+            rows={workoutDetails.grid.rows}
+            columns={workoutDetails.grid.cols}
+          />
         </div>
         <Grid container justify="space-between" alignItems="center">
           <Grid item>

@@ -123,10 +123,14 @@ const Cell = ({
   return (
     <td
       onMouseEnter={
-        !openEdit && isColumn ? () => changeMouseOver(true) : undefined
+        canEdit && !openEdit && isColumn
+          ? () => changeMouseOver(true)
+          : undefined
       }
       onMouseLeave={
-        !openEdit && isColumn ? () => changeMouseOver(false) : undefined
+        canEdit && !openEdit && isColumn
+          ? () => changeMouseOver(false)
+          : undefined
       }
       onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}
       className={className}

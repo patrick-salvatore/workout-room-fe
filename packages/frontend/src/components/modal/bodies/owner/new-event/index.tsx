@@ -18,7 +18,7 @@ const newEventStep = {
   },
 };
 
-function NewEvent({ _saveNewEvent }): JSX.Element {
+function NewEvent({ _saveNewEvent, workoutDetails, ...rest }): JSX.Element {
   const [view, setView] = useState(newEventStep.options);
 
   const changeView = ({
@@ -38,7 +38,7 @@ function NewEvent({ _saveNewEvent }): JSX.Element {
         break;
       }
       case 'new-event-form': {
-        setView(newEventStep[type]);
+        setView(newEventStep[type] as any);
         break;
       }
     }
@@ -49,6 +49,7 @@ function NewEvent({ _saveNewEvent }): JSX.Element {
       {React.createElement(view.component, {
         ...view.props,
         changeView,
+        workoutDetails,
         _saveNewEvent,
       } as any)}
     </div>

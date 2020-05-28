@@ -10,6 +10,8 @@ import { updateIdxOfArray } from './calendar.utils';
 import Modal from 'components/modal';
 import ModalContent from 'components/modal/modal-content';
 
+import {eventMap} from './mock.data'
+
 import './calendar.scss';
 
 const calendarState: CalendarState = {
@@ -20,7 +22,7 @@ const calendarState: CalendarState = {
   modalState: {
     show: false,
     name: '',
-    workout: { id: 0, idx: 0, notes: '', grid: {}},
+    workout: { id: 0, idx: 0, notes: '', grid: { rows: [], cols: [] } },
   },
 };
 
@@ -78,36 +80,6 @@ function calendarReducer(
       return calendarState;
   }
 }
-
-const eventMap: Event[] = [
-  {
-    title: 'April 1',
-    start: new Date('April 27, 2020').toISOString(),
-    id: Math.floor(Math.random() * 100),
-    className: 'test',
-    grid: {}
-  },
-  {
-    title: 'April 2',
-    start: new Date('April 19, 2020').toISOString(),
-    id: Math.floor(Math.random() * 100),
-    notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
-    grid: {}
-  },
-  {
-    title: 'May 1',
-    start: new Date('May 19, 2020').toISOString(),
-    id: Math.floor(Math.random() * 100),
-    grid: {}
-  },
-  {
-    title: 'May 2',
-    start: new Date('May 2, 2020').toISOString(),
-    id: Math.floor(Math.random() * 100),
-    notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
-    grid: {}
-  },
-];
 
 const Calendar: React.FC = (): JSX.Element => {
   const calendarRef = React.createRef<FullCalendar>();
@@ -201,7 +173,7 @@ const Calendar: React.FC = (): JSX.Element => {
 
     // todo add error handling here
     if (!workoutDetails.idx) {
-      return
+      return;
     }
 
     /**

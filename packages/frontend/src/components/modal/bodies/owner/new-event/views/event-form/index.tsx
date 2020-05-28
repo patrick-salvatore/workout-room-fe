@@ -7,9 +7,12 @@ import { FormFields } from 'components/form/interfaces';
 import { green } from '@material-ui/core/colors';
 
 import Form from 'components/form';
-import Grid from 'components/grid';
+import WorkoutGrid from 'components/grid';
 
-interface NewEventFormProps {}
+interface NewEventFormProps {
+  gridRows: any[];
+  gridColumns: any[];
+}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -52,7 +55,9 @@ const newEventFields: FormFields = {
   notes: '',
 };
 
-const NewEventForm: React.FC<NewEventFormProps> = () => {
+const NewEventForm = ({
+  workoutDetails
+}) => {
   const classes = useStyles();
 
   return (
@@ -63,7 +68,7 @@ const NewEventForm: React.FC<NewEventFormProps> = () => {
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             className={classes.input}
-            id="outlined"
+            id="outlined" 
             type="text"
             value={fields.username}
             placeholder="Workout Name"
@@ -80,7 +85,7 @@ const NewEventForm: React.FC<NewEventFormProps> = () => {
             autoComplete="off"
             onChange={handleChange}
           />
-          <Grid />
+          <WorkoutGrid canEdit={true} rows={workoutDetails?.grid?.rows} columns={workoutDetails?.grid?.cols} />
           <Button
             type="submit"
             fullWidth

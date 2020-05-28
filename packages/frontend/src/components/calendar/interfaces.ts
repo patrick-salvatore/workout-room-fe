@@ -7,7 +7,10 @@ export interface Event extends EventInput {
   start?: Date | string | undefined;
   end?: Date | undefined;
   notes?: any;
-  grid: any;
+  grid: {
+    rows: any[],
+    cols: any[],
+  };
 }
 
 interface View {

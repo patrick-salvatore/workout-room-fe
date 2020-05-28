@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import DateTimePicker from 'components/date-time-picker';
 import { Event } from 'components/calendar/interfaces';
+import WorkoutGrid from 'components/grid';
 
 import './base-event.scss';
 
@@ -9,9 +10,9 @@ interface BaseEventProps {
   workoutDetails: Event;
 }
 
-export default function index(props: BaseEventProps): JSX.Element {
-  const { workoutDetails } = props;
-
+const baseEvent: React.FC<BaseEventProps> = ({
+  workoutDetails,
+}): JSX.Element => {
   return (
     <div className="base-event__container">
       <div className="base-event__header"></div>
@@ -22,9 +23,11 @@ export default function index(props: BaseEventProps): JSX.Element {
         </p>
       </div>
       <div className="base-event__grid">
-        <p className="base-event__grid-text">
-          {workoutDetails.grid || 'empty grid'}
-        </p>
+        <WorkoutGrid
+          canEdit={false}
+          rows={workoutDetails.grid.rows}
+          columns={workoutDetails.grid.cols}
+        />
       </div>
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
@@ -50,4 +53,6 @@ export default function index(props: BaseEventProps): JSX.Element {
       </Grid>
     </div>
   );
-}
+};
+
+export default baseEvent;

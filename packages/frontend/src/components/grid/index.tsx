@@ -18,9 +18,13 @@ import DeleteIcon from '@material-ui/icons/Close';
 
 import Cell from './cell';
 
-import MockData from './mock.data';
-
 import './grid.scss';
+
+interface IGridProps {
+  canEdit: boolean;
+  rows: any[];
+  columns: any[];
+}
 
 const StyledTableRow = withStyles((theme: Theme) =>
   createStyles({
@@ -54,17 +58,50 @@ const useStyles = makeStyles({
   },
 });
 
-const Grid = (): JSX.Element => {
+const DeleteRowIcon = ({ canEdit, deleteRow, rowIdx }) => (
+  <>
+    {canEdit && (
+      <TableCell size="small" className="cell cell--grid-body empty">
+        <IconButton size="small" onClick={() => deleteRow(rowIdx)}>
+          <DeleteIcon />
+        </IconButton>
+      </TableCell>
+    )}
+  </>
+);
+
+const GridButtons = ({ canEdit, addNewRow, addNewCol }) => (
+  <>
+    {canEdit && (
+      <div className="">
+        <Button variant="contained" color="primary" onClick={addNewRow}>
+          Add Row
+        </Button>
+        <Button variant="contained" color="primary" onClick={addNewCol}>
+          Add Column
+        </Button>
+      </div>
+    )}
+  </>
+);
+
+const Grid: React.FC<IGridProps> = ({
+  rows,
+  columns,
+  canEdit,
+}): JSX.Element => {
   const classes = useStyles();
   const [columnHeaders, setColumnHeaders] = React.useState<any>([]);
   const [dataRows, setRows] = React.useState<any>([]);
 
   React.useEffect(() => {
-    /*
-     * TODO: add API call instead of mock data
-     */
-    setRows(MockData.testRowsData);
-    setColumnHeaders(MockData.defaultColHeader);
+    if (rows && columns) {
+      setRows(rows);
+      setColumnHeaders(columns);
+    } else {
+      setRows([]);
+      setColumnHeaders([]);
+    }
 
     return () => {};
   }, []);
@@ -154,14 +191,11 @@ const Grid = (): JSX.Element => {
 
   return (
     <div style={{ width: '100%' }} className="grid__container">
-      <div className="">
-        <Button variant="contained" color="primary" onClick={addNewRow}>
-          Add Row
-        </Button>
-        <Button variant="contained" color="primary" onClick={addNewCol}>
-          Add Column
-        </Button>
-      </div>
+      <GridButtons
+        canEdit={canEdit}
+        addNewRow={addNewRow}
+        addNewCol={addNewCol}
+      />
       <TableContainer component={Paper} className={classes.container}>
         <Table
           stickyHeader
@@ -170,18 +204,20 @@ const Grid = (): JSX.Element => {
         >
           <TableHead>
             <StyledTableRow>
-              <Cell
-                isColumn={false}
-                value=""
-                canEdit={false}
-                className="cell cell--grid-header empty"
-              />
+              {canEdit && (
+                <Cell
+                  isColumn={false}
+                  value=""
+                  canEdit={false}
+                  className="cell cell--grid-header empty"
+                />
+              )}
               {columnHeaders.map((c, i) => (
                 <Cell
                   isColumn={true}
                   key={i}
                   value={c}
-                  canEdit={true}
+                  canEdit={canEdit}
                   className="cell cell--grid-header"
                   col={i}
                   handleCellChange={handleColHeaderChange}
@@ -193,17 +229,17 @@ const Grid = (): JSX.Element => {
           <TableBody>
             {dataRows.map((r, rIdx) => (
               <StyledTableRow key={`row-${rIdx}`}>
-                <TableCell size="small" className="cell cell--grid-body empty">
-                  <IconButton size="small" onClick={() => deleteRow(rIdx)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+                <DeleteRowIcon
+                  canEdit={canEdit}
+                  deleteRow={deleteRow}
+                  rowIdx={rIdx}
+                />
                 {Object.keys(r).map((key, colIdx) => (
                   <Cell
                     isColumn={false}
                     key={colIdx}
                     value={r[key]}
-                    canEdit={true}
+                    canEdit={canEdit}
                     className="cell cell--grid-body"
                     handleCellChange={handleCellChange}
                     row={rIdx}
