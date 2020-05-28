@@ -95,7 +95,6 @@ const Grid: React.FC<IGridProps> = ({
   const [dataRows, setRows] = React.useState<any>([]);
   const [error, setError] = React.useState<any>(false);
   const [editingColumn, setEditingColumn] = React.useState<any>(false);
-
   const emptyColumnHeader = columnHeaders.filter(
     (c: string) => c.toLowerCase() === 'empty'
   );
@@ -188,13 +187,19 @@ const Grid: React.FC<IGridProps> = ({
     const newRowData = [];
 
     for (let r = 0; r < dataRows.length; r++) {
-      const keys = Object.keys(dataRows[r]);
-      const data = dataRows[r];
-      const deleteKey = keys[idx];
+      const oldRowObj = dataRows[r];
+      const oldRowKeys = Object.keys(oldRowObj);
+      const deleteKey = oldRowKeys[idx];
+      delete oldRowObj[deleteKey];
 
-      delete data[deleteKey];
+      const newRowKeys = Object.keys(oldRowObj);
 
-      newRowData.push(dataRows[r] as never);
+      const newRowObj = newRowKeys.reduce((acc, prev, i, arr) => {
+        acc[i] = oldRowObj[prev];
+        return acc;
+      }, {});
+
+      newRowData.push(newRowObj as never);
     }
 
     const newCols = columnHeaders;
