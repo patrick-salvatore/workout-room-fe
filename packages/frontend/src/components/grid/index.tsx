@@ -58,11 +58,11 @@ const useStyles = makeStyles({
   },
 });
 
-const DeleteRowIcon = ({ canEdit, deleteRow, rowIdx }) => (
+const DeleteRowIcon = ({ canEdit, deleteRow, rowIdx, hasError }) => (
   <>
     {canEdit && (
       <TableCell size="small" className="cell cell--grid-body empty">
-        <IconButton size="small" onClick={() => deleteRow(rowIdx)}>
+        <IconButton size="small" onClick={() => !hasError && deleteRow(rowIdx)}>
           <DeleteIcon />
         </IconButton>
       </TableCell>
@@ -93,6 +93,12 @@ const Grid: React.FC<IGridProps> = ({
   const classes = useStyles();
   const [columnHeaders, setColumnHeaders] = React.useState<any>([]);
   const [dataRows, setRows] = React.useState<any>([]);
+  const [error, setError] = React.useState<any>(false);
+  const [editingColumn, setEditingColumn] = React.useState<any>(false);
+
+  const emptyColumnHeader = columnHeaders.filter(
+    (c: string) => c.toLowerCase() === 'empty'
+  );
 
   React.useEffect(() => {
     if (rows && columns) {
@@ -105,6 +111,18 @@ const Grid: React.FC<IGridProps> = ({
 
     return () => {};
   }, []);
+
+  React.useEffect(() => {
+    if (error) {
+      setError(false);
+    }
+
+    if (editingColumn && !emptyColumnHeader.length) {
+      setEditingColumn(false);
+    }
+
+    return () => {};
+  }, [columnHeaders]);
 
   const handleColHeaderChange = ({ cellCol, value }) => {
     const isDifferent = value !== columnHeaders[cellCol];
@@ -120,7 +138,7 @@ const Grid: React.FC<IGridProps> = ({
     const newRows = dataRows;
 
     if (!String(value).length) {
-      newRows[cellRow][cellCol] = 'Empty';
+      newRows[cellRow][cellCol] = '';
     } else {
       newRows[cellRow][cellCol] = value;
     }
@@ -129,37 +147,34 @@ const Grid: React.FC<IGridProps> = ({
   };
 
   const addNewRow = () => {
-    const isEmpty = columnHeaders.filter(
-      (c: string) => c.toLowerCase() === 'empty'
-    );
-
-    if (!isEmpty.length) {
+    if (!emptyColumnHeader.length) {
       const newRow = {};
       const numOfCols = columnHeaders.length;
 
       for (let c = 0; c < numOfCols; c++) {
-        newRow[c] = 'Empty';
+        newRow[c] = '';
       }
 
       dataRows.push(newRow);
       setRows([...dataRows]);
+    } else {
+      setError(true);
     }
   };
 
   const addNewCol = () => {
-    const isEmpty = columnHeaders.filter(
-      (c: string) => c.toLowerCase() === 'empty'
-    );
-
-    if (!isEmpty.length) {
+    if (!emptyColumnHeader.length) {
       const newRowData = dataRows.reduce((acc, prev) => {
-        prev[columnHeaders.length + 1] = 'Empty';
+        prev[columnHeaders.length + 1] = '';
         acc.push(prev);
         return acc;
       }, []);
 
       setColumnHeaders([...columnHeaders, 'Empty']);
       setRows([...newRowData]);
+      setEditingColumn(true);
+    } else {
+      setError(true);
     }
   };
 
@@ -214,6 +229,8 @@ const Grid: React.FC<IGridProps> = ({
               )}
               {columnHeaders.map((c, i) => (
                 <Cell
+                  isEditing={editingColumn}
+                  hasError={error}
                   isColumn={true}
                   key={i}
                   value={c}
@@ -233,9 +250,12 @@ const Grid: React.FC<IGridProps> = ({
                   canEdit={canEdit}
                   deleteRow={deleteRow}
                   rowIdx={rIdx}
+                  hasError={error}
                 />
                 {Object.keys(r).map((key, colIdx) => (
                   <Cell
+                    isEditing={editingColumn}
+                    hasError={error}
                     isColumn={false}
                     key={colIdx}
                     value={r[key]}

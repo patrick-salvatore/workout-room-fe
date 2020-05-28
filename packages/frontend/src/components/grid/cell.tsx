@@ -10,6 +10,8 @@ interface CellProps {
   isColumn: boolean;
   canEdit: boolean;
   value: string | number;
+  hasError?: boolean;
+  isEditing?: boolean;
   deleteColumn?: (idx: number | string) => void;
   handleCellChange?: ({
     cellRow,
@@ -31,6 +33,8 @@ const Cell = ({
   className,
   deleteColumn,
   handleCellChange,
+  hasError,
+  isEditing,
 }: CellProps): JSX.Element => {
   const cellRef = React.useRef<HTMLInputElement>(null);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -86,18 +90,19 @@ const Cell = ({
     }
 
     setOpenEdit(!openEdit);
+    setShouldAutoFocus(false)
   }
 
   if (shouldAutoFocus) {
     return (
       <td
-        onMouseEnter={
-          !openEdit && isColumn ? () => changeMouseOver(true) : undefined
-        }
-        onMouseLeave={
-          !openEdit && isColumn ? () => changeMouseOver(false) : undefined
-        }
-        onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}
+        // onMouseEnter={
+        //   !openEdit && isColumn ? () => changeMouseOver(true) : undefined
+        // }
+        // onMouseLeave={
+        //   !openEdit && isColumn ? () => changeMouseOver(false) : undefined
+        // }
+        // onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}
         className={className}
       >
         <input
@@ -107,7 +112,10 @@ const Cell = ({
             backgroundColor: 'inherit',
             textAlign: 'center',
             fontSize: '14px',
-            border: '1px solid rgba(0, 0, 0, 0.1)',
+            border:
+              hasError && isColumn
+                ? '2px solid #dc3545'
+                : '1px solid rgba(0, 0, 0, 0.1)',
           }}
           ref={cellRef}
           data-cell-row={row}
@@ -132,7 +140,11 @@ const Cell = ({
           ? () => changeMouseOver(false)
           : undefined
       }
-      onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}
+      onDoubleClick={
+        !openEdit && !hasError && !isEditing
+          ? (handleFirstClick as any)
+          : undefined
+      }
       className={className}
     >
       {canEdit && openEdit ? (
@@ -153,8 +165,13 @@ const Cell = ({
           onChange={handleChange}
         />
       ) : (
-        <div className="value">
-          {isMouseOver && (
+        <div
+          className="value"
+          style={{
+            cursor: canEdit && !hasError && !isEditing ? 'pointer' : 'initial',
+          }}
+        >
+          {isMouseOver && !hasError && !isEditing && (
             <IconButton
               size="small"
               onClick={() => deleteColumn && deleteColumn(col as any)}
