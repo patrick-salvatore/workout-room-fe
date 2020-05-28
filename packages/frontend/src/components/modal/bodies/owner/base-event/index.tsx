@@ -49,7 +49,7 @@ function BaseEventOwner({
         </div>
         <div className="base-event-owner__grid">
           <WorkoutGrid
-            canEdit={true}
+            canEdit={editEvent}
             rows={workoutDetails.grid.rows}
             columns={workoutDetails.grid.cols}
           />
