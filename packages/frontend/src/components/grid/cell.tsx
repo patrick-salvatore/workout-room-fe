@@ -90,21 +90,12 @@ const Cell = ({
     }
 
     setOpenEdit(!openEdit);
-    setShouldAutoFocus(false)
+    // setShouldAutoFocus(false)
   }
 
   if (shouldAutoFocus) {
     return (
-      <td
-        // onMouseEnter={
-        //   !openEdit && isColumn ? () => changeMouseOver(true) : undefined
-        // }
-        // onMouseLeave={
-        //   !openEdit && isColumn ? () => changeMouseOver(false) : undefined
-        // }
-        // onDoubleClick={!openEdit ? (handleFirstClick as any) : undefined}
-        className={className}
-      >
+      <td className={className}>
         <input
           style={{
             width: '99%',
