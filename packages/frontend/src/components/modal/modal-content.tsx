@@ -22,47 +22,47 @@ const getModalContents = (name: string): any => {
 };
 
 const ModalContent: React.FC<ModalContentProps> = ({
-  modalWorkOut,
   name,
   children,
+  closeModal,
   updateEvent,
   saveNewEvent,
-  closeModal,
+  modalWorkOut,
+  editEvent,
+  setEditEvent,
 }): JSX.Element => {
   const Body = name && getModalContents(name);
-  const [editEvent, setEditEvent] = useState(false);
   const [workoutDetails, setWorkoutDetails] = useState(() => {
     return name === 'new_event' ? {} : modalWorkOut;
   });
   const [errors, setErrorState] = useState<Errors>({
     startDateChange: { error: false, message: '' },
     endDateChange: { error: false, message: '' },
+    gridColumnError: { error: false, message: '' },
   });
 
   const _updateEvent = (e): void => {
     if (updateEvent) {
-      console.log('CUSTOM -- SAVING EVENT');
+      console.log('CUSTOM -- UPDATING EVENT');
 
       workoutDetails.start = new Date(workoutDetails.start.setHours(12));
-
       workoutDetails.end =
         workoutDetails.end && new Date(workoutDetails.end.setHours(12));
 
       updateEvent(workoutDetails);
       setEditEvent(false);
-      closeModal && closeModal(e);
       return;
     }
 
-    console.log('SAVING EVENT');
+    console.log('UPDATING EVENT');
     setEditEvent(false);
     closeModal && closeModal(e);
   };
 
-  const _saveNewEvent = (e): void => {
+  const _saveNewEvent = (workoutEvent): void => {
     if (saveNewEvent) {
       console.log('CUSTOM -- CREATED EVENT');
-      console.log(workoutDetails);
+      console.log(workoutEvent);
 
       // saveNewEvent(workoutDetails);
       // closeModal && closeModal(e);
@@ -70,9 +70,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
       return;
     }
 
-    e.preventDefault();
     console.log('CREATED EVENT');
-    closeModal && closeModal(e);
+    setEditEvent(false);
   };
 
   const handleModalDateChange = (date, type: string): void => {
@@ -80,6 +79,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
       case 'endDate': {
         if (isBefore(date, workoutDetails.start as any)) {
           setErrorState({
+            ...errors,
             startDateChange: errors.startDateChange,
             endDateChange: {
               error: !errors.endDateChange.error,
@@ -90,6 +90,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
           const newEvent = { ...workoutDetails, end: date };
           setWorkoutDetails(newEvent);
           setErrorState({
+            ...errors,
             startDateChange: { error: false, message: '' },
             endDateChange: { error: false, message: '' },
           });
@@ -99,6 +100,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
       case 'startDate': {
         if (isAfter(date, workoutDetails.end as any)) {
           setErrorState({
+            ...errors,
             startDateChange: {
               error: !errors.startDateChange.error,
               message: 'start date must be before end date',
@@ -109,6 +111,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
           const newEvent = { ...workoutDetails, start: date };
           setWorkoutDetails(newEvent);
           setErrorState({
+            ...errors,
             startDateChange: { error: false, message: '' },
             endDateChange: { error: false, message: '' },
           });
@@ -120,6 +123,10 @@ const ModalContent: React.FC<ModalContentProps> = ({
     }
   };
 
+  const handleGridChange = grid => {
+    setWorkoutDetails({ ...workoutDetails, grid });
+  };
+
   return (
     <Suspense loader={{ height: 50, width: 50, label: 'loader' }}>
       <div
@@ -129,12 +136,13 @@ const ModalContent: React.FC<ModalContentProps> = ({
         {(Body &&
           React.createElement(Body, {
             _updateEvent,
-            editEvent,
-            workoutDetails,
-            setEditEvent,
             _saveNewEvent,
-            handleModalDateChange,
-            errors,
+            errors, // Date change errors
+            editEvent, // can edit workout state
+            setEditEvent, // function to change edit state
+            workoutDetails, // workout object
+            handleGridChange, // function to handle grid data change
+            handleModalDateChange, // function to handle date change
           })) ||
           children}
       </div>
@@ -142,4 +150,4 @@ const ModalContent: React.FC<ModalContentProps> = ({
   );
 };
 
-export default ModalContent;
+export default React.memo(ModalContent);

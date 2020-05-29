@@ -10,7 +10,7 @@ import { updateIdxOfArray } from './calendar.utils';
 import Modal from 'components/modal';
 import ModalContent from 'components/modal/modal-content';
 
-import {eventMap} from './mock.data'
+import { eventMap } from './mock.data';
 
 import './calendar.scss';
 
@@ -196,10 +196,10 @@ const Calendar: React.FC = (): JSX.Element => {
      * TODO: send saved data to BE
      */
 
-    // dispatch({
-    //   type: 'events',
-    //   payload: [...state.events, newEvent]
-    // });
+    dispatch({
+      type: 'events',
+      payload: [...state.events, newEvent]
+    });
 
     dispatch({
       type: 'modal',
@@ -321,6 +321,8 @@ const Calendar: React.FC = (): JSX.Element => {
     eventBackgroundColor: '#424242',
   };
 
+  console.log(state.events)
+
   useEffect(() => {
     /**
      * TODO: fetch user events from BE
@@ -344,15 +346,20 @@ const Calendar: React.FC = (): JSX.Element => {
         )}
       </div>
       {state.modalState.show && (
-        <Modal closeModal={closeModal}>
-          <ModalContent
-            name={state.modalState.name}
-            modalWorkOut={state.modalState.workout}
-            closeModal={closeModal}
-            updateEvent={handleUpdateEvent}
-            saveNewEvent={handleNewEvent}
-          />
-        </Modal>
+        <Modal
+          closeModal={closeModal}
+          render={({ editEvent, setEditEvent }) => (
+            <ModalContent
+              editEvent={editEvent}
+              setEditEvent={setEditEvent}
+              name={state.modalState.name}
+              modalWorkOut={state.modalState.workout}
+              closeModal={closeModal}
+              updateEvent={handleUpdateEvent}
+              saveNewEvent={handleNewEvent}
+            />
+          )}
+        ></Modal>
       )}
     </>
   );

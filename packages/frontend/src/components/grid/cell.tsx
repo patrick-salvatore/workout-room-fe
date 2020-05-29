@@ -12,7 +12,7 @@ interface CellProps {
   value: string | number;
   hasError?: boolean;
   isEditing?: boolean;
-  deleteColumn?: (idx: number | string) => void;
+  deleteColumn?: (idx: number) => void;
   handleCellChange?: ({
     cellRow,
     cellCol,
@@ -108,6 +108,7 @@ const Cell = ({
                 ? '2px solid #dc3545'
                 : '1px solid rgba(0, 0, 0, 0.1)',
           }}
+          className={hasError && isColumn ? 'shake' : ''}
           ref={cellRef}
           data-cell-row={row}
           data-cell-col={col}
@@ -177,4 +178,4 @@ const Cell = ({
   );
 };
 
-export default Cell;
+export default React.memo(Cell);

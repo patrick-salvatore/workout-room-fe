@@ -18,7 +18,7 @@ const newEventStep = {
   },
 };
 
-function NewEvent({ _saveNewEvent, workoutDetails, ...rest }): JSX.Element {
+function NewEvent({ _saveNewEvent, workoutDetails, handleGridChange, ...rest }): JSX.Element {
   const [view, setView] = useState(newEventStep.options);
 
   const changeView = ({
@@ -47,10 +47,11 @@ function NewEvent({ _saveNewEvent, workoutDetails, ...rest }): JSX.Element {
   return (
     <div className="new-event__container">
       {React.createElement(view.component, {
-        ...view.props,
+        _saveNewEvent,
         changeView,
         workoutDetails,
-        _saveNewEvent,
+        handleGridChange,
+        ...view.props,
       } as any)}
     </div>
   );

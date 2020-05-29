@@ -6,10 +6,11 @@ import WorkoutGrid from 'components/grid';
 
 interface PrevEventProps {
   workoutDetails: Event;
+  handleGridChange: (grid: any) => void
 }
 
 const PrevEvent: React.FC<PrevEventProps> = (props): JSX.Element => {
-  const { workoutDetails } = props;
+  const { workoutDetails, handleGridChange } = props;
 
   return (
     <div className="prev-event__container">
@@ -21,7 +22,12 @@ const PrevEvent: React.FC<PrevEventProps> = (props): JSX.Element => {
         </p>
       </div>
       <div className="prev-event__grid">
-        <WorkoutGrid canEdit={true} rows={workoutDetails?.grid?.rows} columns={workoutDetails?.grid?.cols}/>
+        <WorkoutGrid
+          canEdit={true}
+          rows={workoutDetails?.grid?.rows}
+          columns={workoutDetails?.grid?.cols}
+          handleGridChange={handleGridChange}
+        />
       </div>
       <Grid container justify="space-between" alignItems="center">
         <Grid item>

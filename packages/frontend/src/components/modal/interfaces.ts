@@ -4,12 +4,14 @@ export interface ModalProps {
   closeModal: (
     e: React.MouseEvent | React.KeyboardEvent | KeyboardEvent
   ) => void;
-  children: any;
+  children?: any;
+  render: (args: any) => JSX.Element
 }
 
 export interface Errors {
   startDateChange: { error: boolean; message: string };
   endDateChange: { error: boolean; message: string };
+  gridColumnError: { error: boolean; message: string };
 }
 
 export interface ModalContentProps {
@@ -21,4 +23,6 @@ export interface ModalContentProps {
   closeModal?: (e: KeyboardEvent | React.MouseEvent) => void;
   handleModalDateChange?: (date: Date, type: string) => void;
   errors?: Errors;
+  editEvent: boolean;
+  setEditEvent: (boolean: boolean) => void
 }

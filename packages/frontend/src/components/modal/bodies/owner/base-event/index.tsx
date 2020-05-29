@@ -29,13 +29,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function BaseEventOwner({
-  workoutDetails,
-  setEditEvent,
-  _updateEvent,
   // _deleteEvent,
-  editEvent,
-  handleModalDateChange,
+  _updateEvent,
   errors,
+  editEvent,
+  setEditEvent,
+  workoutDetails,
+  handleGridChange,
+  handleModalDateChange,
 }): JSX.Element {
   const classes = useStyles();
   return (
@@ -52,6 +53,7 @@ function BaseEventOwner({
             canEdit={editEvent}
             rows={workoutDetails.grid.rows}
             columns={workoutDetails.grid.cols}
+            handleGridChange={handleGridChange}
           />
         </div>
         <Grid container justify="space-between" alignItems="center">

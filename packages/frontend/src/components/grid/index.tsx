@@ -24,6 +24,7 @@ interface IGridProps {
   canEdit: boolean;
   rows: any[];
   columns: any[];
+  handleGridChange?: (grid: any) => void;
 }
 
 const StyledTableRow = withStyles((theme: Theme) =>
@@ -89,26 +90,138 @@ const Grid: React.FC<IGridProps> = ({
   rows,
   columns,
   canEdit,
+  handleGridChange,
 }): JSX.Element => {
   const classes = useStyles();
-  const [columnHeaders, setColumnHeaders] = React.useState<any>([]);
-  const [dataRows, setRows] = React.useState<any>([]);
+  const [columnHeaders, setColumnHeaders] = React.useState<any[] | null>(null);
+  const [rowData, setRowData] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<any>(false);
   const [editingColumn, setEditingColumn] = React.useState<any>(false);
-  const emptyColumnHeader = columnHeaders.filter(
-    (c: string) => c.toLowerCase() === 'empty'
-  );
+  const emptyColumnHeader =
+    columnHeaders &&
+    columnHeaders.filter((c: string) => c.toLowerCase() === 'empty');
+
+  const handleColHeaderChange = ({ cellCol, value }) => {
+    if (columnHeaders) {
+      const isDifferent = value !== columnHeaders[cellCol];
+
+      if (String(value).length && isDifferent) {
+        const newCols = columnHeaders;
+        newCols[cellCol] = value.trim();
+        setColumnHeaders([...newCols]);
+        handleGridChange &&
+          handleGridChange({ rows: rowData, cols: [...newCols] });
+      }
+    }
+  };
+
+  const handleCellChange = ({ cellRow, cellCol, value }): void => {
+    const newRows = rowData;
+
+    if (newRows) {
+      if (!String(value).length) {
+        newRows[cellRow][cellCol] = '';
+      } else {
+        newRows[cellRow][cellCol] = value;
+      }
+      setRowData([...newRows]);
+      handleGridChange &&
+        handleGridChange({ rows: [...newRows], cols: columnHeaders });
+    }
+  };
+
+  const addNewRow = () => {
+    if (columnHeaders) {
+      if (!emptyColumnHeader?.length) {
+        const newRow = {};
+        const numOfCols = columnHeaders.length;
+
+        for (let c = 0; c < numOfCols; c++) {
+          newRow[c] = '';
+        }
+
+        if (rowData) {
+          rowData.push(newRow);
+          setRowData([...rowData]);
+          handleGridChange &&
+            handleGridChange({ rows: [...rowData], cols: columnHeaders });
+        }
+      } else {
+        setError(true);
+      }
+    }
+  };
+
+  const addNewCol = () => {
+    if (columnHeaders) {
+      if (!emptyColumnHeader?.length) {
+        const newRowData = rowData?.reduce((acc, prev) => {
+          prev[columnHeaders?.length] = '';
+          acc.push(prev);
+          return acc;
+        }, []);
+
+        setColumnHeaders([...columnHeaders, 'Empty']);
+        setRowData([...newRowData]);
+        handleGridChange &&
+          handleGridChange({
+            rows: [...newRowData],
+            cols: [...columnHeaders, 'Empty'],
+          });
+        setEditingColumn(true);
+      } else {
+        setError(true);
+      }
+    }
+  };
+
+  const deleteRow = (idx: number) => {
+    if (rowData) {
+      const newRows = rowData;
+      newRows.splice(idx, 1);
+      setRowData([...newRows]);
+      handleGridChange &&
+        handleGridChange({ rows: [...newRows], cols: columnHeaders });
+    }
+  };
+
+  const deleteColumn = (idx: number) => {
+    if (rowData && columnHeaders) {
+      const newRowData = [];
+      for (let r = 0; r < rowData.length; r++) {
+        const oldRowObj = rowData[r];
+        const oldRowKeys = Object.keys(oldRowObj);
+        const deleteKey = oldRowKeys[idx];
+        delete oldRowObj[deleteKey];
+
+        const newRowKeys = Object.keys(oldRowObj);
+
+        const newRowObj = newRowKeys.reduce((acc, prev, i, arr) => {
+          acc[i] = oldRowObj[prev];
+          return acc;
+        }, {});
+
+        newRowData.push(newRowObj as never);
+      }
+
+      const newCols = columnHeaders;
+      newCols.splice(idx, 1);
+
+      setColumnHeaders([...newCols]);
+      setRowData([...newRowData]);
+      handleGridChange &&
+        handleGridChange({ rows: [...newRowData], cols: [...newCols] });
+    }
+  };
 
   React.useEffect(() => {
     if (rows && columns) {
-      setRows(rows);
+      setRowData(rows);
       setColumnHeaders(columns);
     } else {
-      setRows([]);
+      setRowData([]);
       setColumnHeaders([]);
     }
-
-    return () => {};
   }, []);
 
   React.useEffect(() => {
@@ -116,98 +229,10 @@ const Grid: React.FC<IGridProps> = ({
       setError(false);
     }
 
-    if (editingColumn && !emptyColumnHeader.length) {
+    if (editingColumn && emptyColumnHeader && !emptyColumnHeader.length) {
       setEditingColumn(false);
     }
-
-    return () => {};
   }, [columnHeaders]);
-
-  const handleColHeaderChange = ({ cellCol, value }) => {
-    const isDifferent = value !== columnHeaders[cellCol];
-
-    if (String(value).length && isDifferent) {
-      const newCols = columnHeaders;
-      newCols[cellCol] = value.trim();
-      setColumnHeaders([...newCols]);
-    }
-  };
-
-  const handleCellChange = ({ cellRow, cellCol, value }): void => {
-    const newRows = dataRows;
-
-    if (!String(value).length) {
-      newRows[cellRow][cellCol] = '';
-    } else {
-      newRows[cellRow][cellCol] = value;
-    }
-
-    setRows([...newRows]);
-  };
-
-  const addNewRow = () => {
-    if (!emptyColumnHeader.length) {
-      const newRow = {};
-      const numOfCols = columnHeaders.length;
-
-      for (let c = 0; c < numOfCols; c++) {
-        newRow[c] = '';
-      }
-
-      dataRows.push(newRow);
-      setRows([...dataRows]);
-    } else {
-      setError(true);
-    }
-  };
-
-  const addNewCol = () => {
-    if (!emptyColumnHeader.length) {
-      const newRowData = dataRows.reduce((acc, prev) => {
-        prev[columnHeaders.length + 1] = '';
-        acc.push(prev);
-        return acc;
-      }, []);
-
-      setColumnHeaders([...columnHeaders, 'Empty']);
-      setRows([...newRowData]);
-      setEditingColumn(true);
-    } else {
-      setError(true);
-    }
-  };
-
-  const deleteRow = (idx: number) => {
-    const newRows = dataRows;
-    newRows.splice(idx, 1);
-    setRows([...newRows]);
-  };
-
-  const deleteColumn = (idx: number | string) => {
-    const newRowData = [];
-
-    for (let r = 0; r < dataRows.length; r++) {
-      const oldRowObj = dataRows[r];
-      const oldRowKeys = Object.keys(oldRowObj);
-      const deleteKey = oldRowKeys[idx];
-      delete oldRowObj[deleteKey];
-
-      const newRowKeys = Object.keys(oldRowObj);
-
-      const newRowObj = newRowKeys.reduce((acc, prev, i, arr) => {
-        acc[i] = oldRowObj[prev];
-        return acc;
-      }, {});
-
-      newRowData.push(newRowObj as never);
-    }
-
-    const newCols = columnHeaders;
-    newCols.splice(idx, 1);
-
-    setColumnHeaders([...newCols]);
-    setRows([...newRowData]);
-  };
 
   return (
     <div style={{ width: '100%' }} className="grid__container">
@@ -232,47 +257,49 @@ const Grid: React.FC<IGridProps> = ({
                   className="cell cell--grid-header empty"
                 />
               )}
-              {columnHeaders.map((c, i) => (
-                <Cell
-                  isEditing={editingColumn}
-                  hasError={error}
-                  isColumn={true}
-                  key={i}
-                  value={c}
-                  canEdit={canEdit}
-                  className="cell cell--grid-header"
-                  col={i}
-                  handleCellChange={handleColHeaderChange}
-                  deleteColumn={deleteColumn}
-                />
-              ))}
-            </StyledTableRow>
-          </TableHead>
-          <TableBody>
-            {dataRows.map((r, rIdx) => (
-              <StyledTableRow key={`row-${rIdx}`}>
-                <DeleteRowIcon
-                  canEdit={canEdit}
-                  deleteRow={deleteRow}
-                  rowIdx={rIdx}
-                  hasError={error}
-                />
-                {Object.keys(r).map((key, colIdx) => (
+              {columnHeaders &&
+                columnHeaders?.map((c, i) => (
                   <Cell
                     isEditing={editingColumn}
                     hasError={error}
-                    isColumn={false}
-                    key={colIdx}
-                    value={r[key]}
+                    isColumn={true}
+                    key={i}
+                    value={c}
                     canEdit={canEdit}
-                    className="cell cell--grid-body"
-                    handleCellChange={handleCellChange}
-                    row={rIdx}
-                    col={key}
+                    className="cell cell--grid-header"
+                    col={i}
+                    handleCellChange={handleColHeaderChange}
+                    deleteColumn={deleteColumn}
                   />
                 ))}
-              </StyledTableRow>
-            ))}
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            {rowData &&
+              rowData?.map((r, rIdx) => (
+                <StyledTableRow key={`row-${rIdx}`}>
+                  <DeleteRowIcon
+                    canEdit={canEdit}
+                    deleteRow={deleteRow}
+                    rowIdx={rIdx}
+                    hasError={error}
+                  />
+                  {Object.keys(r).map((key, colIdx) => (
+                    <Cell
+                      isEditing={editingColumn}
+                      hasError={error}
+                      isColumn={false}
+                      key={colIdx}
+                      value={r[key]}
+                      canEdit={canEdit}
+                      className="cell cell--grid-body"
+                      handleCellChange={handleCellChange}
+                      row={rIdx}
+                      col={key}
+                    />
+                  ))}
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -280,4 +307,4 @@ const Grid: React.FC<IGridProps> = ({
   );
 };
 
-export default React.memo(Grid);
+export default Grid;

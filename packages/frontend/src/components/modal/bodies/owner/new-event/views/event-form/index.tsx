@@ -55,20 +55,18 @@ const newEventFields: FormFields = {
   notes: '',
 };
 
-const NewEventForm = ({
-  workoutDetails
-}) => {
+const NewEventForm = ({ workoutDetails, _saveNewEvent, handleGridChange }) => {
   const classes = useStyles();
 
   return (
     <Form
-      customHandleSubmit={fields => console.log(fields)}
+      customHandleSubmit={fields => _saveNewEvent(fields)}
       formFields={newEventFields}
       render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             className={classes.input}
-            id="outlined" 
+            id="outlined"
             type="text"
             value={fields.username}
             placeholder="Workout Name"
@@ -85,13 +83,19 @@ const NewEventForm = ({
             autoComplete="off"
             onChange={handleChange}
           />
-          <WorkoutGrid canEdit={true} rows={workoutDetails?.grid?.rows} columns={workoutDetails?.grid?.cols} />
+          <WorkoutGrid
+            canEdit={true}
+            rows={workoutDetails?.grid?.rows}
+            columns={workoutDetails?.grid?.cols}
+            handleGridChange={handleGridChange}
+          />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.save}
+            onClick={_saveNewEvent}
           >
             Save
           </Button>
