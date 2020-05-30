@@ -25,6 +25,8 @@ interface IGridProps {
   rows: any[];
   columns: any[];
   handleGridChange?: (grid: any) => void;
+  emptyColumnHeader?: boolean;
+  gridColumnError?: { error: boolean; message: string };
 }
 
 const StyledTableRow = withStyles((theme: Theme) =>
@@ -90,16 +92,15 @@ const Grid: React.FC<IGridProps> = ({
   rows,
   columns,
   canEdit,
+  gridColumnError,
   handleGridChange,
+  emptyColumnHeader,
 }): JSX.Element => {
   const classes = useStyles();
   const [columnHeaders, setColumnHeaders] = React.useState<any[] | null>(null);
   const [rowData, setRowData] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<any>(false);
-  const [editingColumn, setEditingColumn] = React.useState<any>(false);
-  const emptyColumnHeader =
-    columnHeaders &&
-    columnHeaders.filter((c: string) => c.toLowerCase() === 'empty');
+  const [editingColumn, setEditingColumn] = React.useState<boolean>(false);
 
   const handleColHeaderChange = ({ cellCol, value }) => {
     if (columnHeaders) {
@@ -132,7 +133,7 @@ const Grid: React.FC<IGridProps> = ({
 
   const addNewRow = () => {
     if (columnHeaders) {
-      if (!emptyColumnHeader?.length) {
+      if (!emptyColumnHeader) {
         const newRow = {};
         const numOfCols = columnHeaders.length;
 
@@ -154,7 +155,7 @@ const Grid: React.FC<IGridProps> = ({
 
   const addNewCol = () => {
     if (columnHeaders) {
-      if (!emptyColumnHeader?.length) {
+      if (!emptyColumnHeader) {
         const newRowData = rowData?.reduce((acc, prev) => {
           prev[columnHeaders?.length] = '';
           acc.push(prev);
@@ -163,12 +164,12 @@ const Grid: React.FC<IGridProps> = ({
 
         setColumnHeaders([...columnHeaders, 'Empty']);
         setRowData([...newRowData]);
+        setEditingColumn(true);
         handleGridChange &&
           handleGridChange({
             rows: [...newRowData],
             cols: [...columnHeaders, 'Empty'],
           });
-        setEditingColumn(true);
       } else {
         setError(true);
       }
@@ -229,7 +230,7 @@ const Grid: React.FC<IGridProps> = ({
       setError(false);
     }
 
-    if (editingColumn && emptyColumnHeader && !emptyColumnHeader.length) {
+    if (editingColumn && !emptyColumnHeader) {
       setEditingColumn(false);
     }
   }, [columnHeaders]);
@@ -260,8 +261,8 @@ const Grid: React.FC<IGridProps> = ({
               {columnHeaders &&
                 columnHeaders?.map((c, i) => (
                   <Cell
-                    isEditing={editingColumn}
-                    hasError={error}
+                    isEditingColumn={editingColumn}
+                    hasError={error || gridColumnError?.error}
                     isColumn={true}
                     key={i}
                     value={c}
@@ -286,7 +287,7 @@ const Grid: React.FC<IGridProps> = ({
                   />
                   {Object.keys(r).map((key, colIdx) => (
                     <Cell
-                      isEditing={editingColumn}
+                      isEditingColumn={editingColumn}
                       hasError={error}
                       isColumn={false}
                       key={colIdx}

@@ -18,7 +18,7 @@ const newEventStep = {
   },
 };
 
-function NewEvent({ _saveNewEvent, workoutDetails, handleGridChange, ...rest }): JSX.Element {
+function NewEvent({ _saveNewEvent, workoutDetails, handleGridChange, errors, ...rest }): JSX.Element {
   const [view, setView] = useState(newEventStep.options);
 
   const changeView = ({
@@ -51,6 +51,7 @@ function NewEvent({ _saveNewEvent, workoutDetails, handleGridChange, ...rest }):
         changeView,
         workoutDetails,
         handleGridChange,
+        errors,
         ...view.props,
       } as any)}
     </div>

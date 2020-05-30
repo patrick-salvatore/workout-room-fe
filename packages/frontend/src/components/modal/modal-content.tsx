@@ -24,7 +24,6 @@ const getModalContents = (name: string): any => {
 const ModalContent: React.FC<ModalContentProps> = ({
   name,
   children,
-  closeModal,
   updateEvent,
   saveNewEvent,
   modalWorkOut,
@@ -40,31 +39,38 @@ const ModalContent: React.FC<ModalContentProps> = ({
     endDateChange: { error: false, message: '' },
     gridColumnError: { error: false, message: '' },
   });
+  const emptyColumnHeader =
+    workoutDetails?.grid?.cols &&
+    workoutDetails?.grid?.cols.filter(
+      (c: string) => c.toLowerCase() === 'empty'
+    ).length;
+
+  const hasErrors = Object.keys(errors).filter(e => errors[e].error).length;
 
   const _updateEvent = (e): void => {
-    if (updateEvent) {
+    if (updateEvent && !Boolean(emptyColumnHeader) && !Boolean(hasErrors)) {
       console.log('CUSTOM -- UPDATING EVENT');
 
       workoutDetails.start = new Date(workoutDetails.start.setHours(12));
       workoutDetails.end =
         workoutDetails.end && new Date(workoutDetails.end.setHours(12));
 
-      updateEvent(workoutDetails);
+      setErrorState({
+        ...errors,
+        gridColumnError: { error: false, message: '' },
+      });
       setEditEvent(false);
+      updateEvent(workoutDetails);
       return;
     }
-
-    console.log('UPDATING EVENT');
-    setEditEvent(false);
-    closeModal && closeModal(e);
+    setErrorState({ ...errors, gridColumnError: { error: true, message: '' } });
   };
 
   const _saveNewEvent = (workoutEvent): void => {
     if (saveNewEvent) {
       console.log('CUSTOM -- CREATED EVENT');
       console.log(workoutEvent);
-
-      // saveNewEvent(workoutDetails);
+      saveNewEvent(workoutDetails);
       // closeModal && closeModal(e);
 
       return;
@@ -80,9 +86,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
         if (isBefore(date, workoutDetails.start as any)) {
           setErrorState({
             ...errors,
-            startDateChange: errors.startDateChange,
             endDateChange: {
-              error: !errors.endDateChange.error,
+              error: true,
               message: 'end date must be after start date',
             },
           });
@@ -102,10 +107,9 @@ const ModalContent: React.FC<ModalContentProps> = ({
           setErrorState({
             ...errors,
             startDateChange: {
-              error: !errors.startDateChange.error,
+              error: true,
               message: 'start date must be before end date',
             },
-            endDateChange: errors.endDateChange,
           });
         } else {
           const newEvent = { ...workoutDetails, start: date };
@@ -119,6 +123,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
         return;
       }
       default:
+        //  do nothing
         return;
     }
   };
@@ -137,12 +142,13 @@ const ModalContent: React.FC<ModalContentProps> = ({
           React.createElement(Body, {
             _updateEvent,
             _saveNewEvent,
-            errors, // Date change errors
+            errors, // errors
             editEvent, // can edit workout state
             setEditEvent, // function to change edit state
             workoutDetails, // workout object
             handleGridChange, // function to handle grid data change
             handleModalDateChange, // function to handle date change
+            emptyColumnHeader: Boolean(emptyColumnHeader), // does the grid have empty column header?
           })) ||
           children}
       </div>

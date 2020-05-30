@@ -11,7 +11,7 @@ interface CellProps {
   canEdit: boolean;
   value: string | number;
   hasError?: boolean;
-  isEditing?: boolean;
+  isEditingColumn?: boolean;
   deleteColumn?: (idx: number) => void;
   handleCellChange?: ({
     cellRow,
@@ -34,7 +34,7 @@ const Cell = ({
   deleteColumn,
   handleCellChange,
   hasError,
-  isEditing,
+  isEditingColumn,
 }: CellProps): JSX.Element => {
   const cellRef = React.useRef<HTMLInputElement>(null);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -90,7 +90,6 @@ const Cell = ({
     }
 
     setOpenEdit(!openEdit);
-    // setShouldAutoFocus(false)
   }
 
   if (shouldAutoFocus) {
@@ -133,13 +132,13 @@ const Cell = ({
           : undefined
       }
       onDoubleClick={
-        !openEdit && !hasError && !isEditing
+        canEdit && !openEdit && !hasError && !isEditingColumn
           ? (handleFirstClick as any)
           : undefined
       }
       className={className}
     >
-      {canEdit && openEdit ? (
+      {openEdit ? (
         <input
           style={{
             width: '99%',
@@ -160,10 +159,10 @@ const Cell = ({
         <div
           className="value"
           style={{
-            cursor: canEdit && !hasError && !isEditing ? 'pointer' : 'initial',
+            cursor: canEdit && !hasError && !isEditingColumn ? 'pointer' : 'initial',
           }}
         >
-          {isMouseOver && !hasError && !isEditing && (
+          {isMouseOver && !hasError && !isEditingColumn && (
             <IconButton
               size="small"
               onClick={() => deleteColumn && deleteColumn(col as any)}

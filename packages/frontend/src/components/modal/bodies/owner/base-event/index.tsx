@@ -35,6 +35,7 @@ function BaseEventOwner({
   editEvent,
   setEditEvent,
   workoutDetails,
+  emptyColumnHeader,
   handleGridChange,
   handleModalDateChange,
 }): JSX.Element {
@@ -54,6 +55,8 @@ function BaseEventOwner({
             rows={workoutDetails.grid.rows}
             columns={workoutDetails.grid.cols}
             handleGridChange={handleGridChange}
+            emptyColumnHeader={emptyColumnHeader}
+            gridColumnError={errors.gridColumnError}
           />
         </div>
         <Grid container justify="space-between" alignItems="center">

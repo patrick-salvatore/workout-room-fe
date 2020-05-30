@@ -168,8 +168,9 @@ const Calendar: React.FC = (): JSX.Element => {
   const handleUpdateEvent = (workoutDetails: Event): void => {
     const api = calendarRef.current?.getApi();
     const event = api?.getEventById(workoutDetails.id as any);
-    event && event.setStart(workoutDetails.start as any);
-    event && workoutDetails.end && event.setEnd(workoutDetails.end);
+    event?.setStart(workoutDetails.start as any);
+    workoutDetails.end && event?.setEnd(workoutDetails.end);
+    event?.setExtendedProp('grid', workoutDetails.grid);
 
     // todo add error handling here
     if (!workoutDetails.idx) {
@@ -198,7 +199,7 @@ const Calendar: React.FC = (): JSX.Element => {
 
     dispatch({
       type: 'events',
-      payload: [...state.events, newEvent]
+      payload: [...state.events, newEvent],
     });
 
     dispatch({
@@ -321,8 +322,6 @@ const Calendar: React.FC = (): JSX.Element => {
     eventBackgroundColor: '#424242',
   };
 
-  console.log(state.events)
-
   useEffect(() => {
     /**
      * TODO: fetch user events from BE
@@ -335,7 +334,7 @@ const Calendar: React.FC = (): JSX.Element => {
     });
 
     dispatch({ type: 'events', payload: events as any });
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
@@ -359,7 +358,7 @@ const Calendar: React.FC = (): JSX.Element => {
               saveNewEvent={handleNewEvent}
             />
           )}
-        ></Modal>
+        />
       )}
     </>
   );
