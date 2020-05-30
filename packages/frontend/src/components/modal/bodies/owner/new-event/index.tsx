@@ -18,9 +18,19 @@ const newEventStep = {
   },
 };
 
-function NewEvent({ _saveNewEvent, workoutDetails, handleGridChange, errors, ...rest }): JSX.Element {
+function NewEvent({
+  _saveNewEvent,
+  errors,
+  workoutDetails,
+  handleGridChange,
+  emptyColumnHeader,
+  ...rest
+}): JSX.Element {
   const [view, setView] = useState(newEventStep.options);
 
+  /* *
+   * TODO: ADD ERROR HANDLING FOR FALSE PREVDETAILS
+   * */
   const changeView = ({
     type,
     prevEventDetails,
@@ -33,7 +43,10 @@ function NewEvent({ _saveNewEvent, workoutDetails, handleGridChange, errors, ...
         prevEventDetails &&
           setView({
             component: newEventStep[type].component as any,
-            props: { ...newEventStep[type].props, prevEventDetails },
+            props: {
+              ...newEventStep[type].props,
+              workoutDetails: prevEventDetails,
+            },
           });
         break;
       }
@@ -47,12 +60,15 @@ function NewEvent({ _saveNewEvent, workoutDetails, handleGridChange, errors, ...
   return (
     <div className="new-event__container">
       {React.createElement(view.component, {
+        ...view.props,
         _saveNewEvent,
+        errors,
         changeView,
         workoutDetails,
         handleGridChange,
-        errors,
-        ...view.props,
+        emptyColumnHeader,
+        // TODO: ADD query for last three workouts
+        // lastThreeWorkoutDetails
       } as any)}
     </div>
   );

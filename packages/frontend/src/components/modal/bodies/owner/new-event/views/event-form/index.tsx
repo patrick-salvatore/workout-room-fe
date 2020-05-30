@@ -55,7 +55,13 @@ const newEventFields: FormFields = {
   notes: '',
 };
 
-const NewEventForm = ({ workoutDetails, _saveNewEvent, handleGridChange, errors}) => {
+const NewEventForm = ({
+  _saveNewEvent,
+  errors,
+  workoutDetails,
+  handleGridChange,
+  emptyColumnHeader,
+}) => {
   const classes = useStyles();
 
   return (
@@ -89,6 +95,7 @@ const NewEventForm = ({ workoutDetails, _saveNewEvent, handleGridChange, errors}
             columns={workoutDetails?.grid?.cols}
             handleGridChange={handleGridChange}
             gridColumnError={errors.gridColumnError}
+            emptyColumnHeader={emptyColumnHeader}
           />
           <Button
             type="submit"

@@ -12,6 +12,7 @@ interface OptionsProps {
   changeView: (args: { type: string; prevEventDetails?: any }) => void;
 }
 
+// TODO: get rid of this and replace with prop
 const workouts = [
   {
     id: 0,

@@ -9,9 +9,7 @@ interface PrevEventProps {
   handleGridChange: (grid: any) => void
 }
 
-const PrevEvent: React.FC<PrevEventProps> = (props): JSX.Element => {
-  const { workoutDetails, handleGridChange } = props;
-
+const PrevEvent: React.FC<PrevEventProps> = ({ workoutDetails, handleGridChange }): JSX.Element => {
   return (
     <div className="prev-event__container">
       <div className="prev-event__header"></div>
