@@ -7,11 +7,14 @@
   .previous-events__card-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
     height: 100%;
     width: 100%;
     position: relative;
+
+    .previous-events__title {
+      height: 60px;
+    }
 
     .card__container {
       display: flex;
@@ -30,11 +33,14 @@
   .new-event__card-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
     height: 100%;
     width: 100%;
     position: relative;
+
+    .new-event__title {
+      height: 60px;
+    }
   }
 
   .pressed {

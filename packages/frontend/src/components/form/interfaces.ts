@@ -8,12 +8,16 @@ export interface FormFields {
   owner?: string;
   type?: string;
   body?: string;
-  date?: Date;
+  date?: string | number | Date | number[] | undefined;
   newPassword?: string;
   rememberMe?: boolean;
   firstname?: string;
   lastname?: string;
   notes?: string;
+  grid?: { rows: any[]; cols: string[] };
+  end?: string | number | Date | number[] | undefined;
+  start?: string | number | Date | number[] | undefined;
+  title?: string;
 }
 
 export interface FormProps {

@@ -16,7 +16,7 @@ export interface DateTimePickerProps {
   monthsShown?: number;
   className?: string;
   onChange?: (date: Date, event: React.ChangeEvent<HTMLInputElement>) => void;
-  selected?: Date;
+  selected?: Date | string | null;
   selectsEnd?: boolean;
   selectsStart?: boolean;
   showMonthDropdown?: boolean;

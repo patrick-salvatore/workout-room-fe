@@ -24,16 +24,16 @@ const getModalContents = (name: string): any => {
 const ModalContent: React.FC<ModalContentProps> = ({
   name,
   children,
+  editEvent,
+  closeModal,
+  deleteEvent, 
   updateEvent,
   saveNewEvent,
   modalWorkOut,
-  editEvent,
   setEditEvent,
 }): JSX.Element => {
   const Body = name && getModalContents(name);
-  const [workoutDetails, setWorkoutDetails] = useState(() => {
-    return name === 'new_event' ? {} : modalWorkOut;
-  });
+  const [workoutDetails, setWorkoutDetails] = useState(modalWorkOut);
   const [errors, setErrorState] = useState<Errors>({
     startDateChange: { error: false, message: '' },
     endDateChange: { error: false, message: '' },
@@ -44,41 +44,39 @@ const ModalContent: React.FC<ModalContentProps> = ({
     workoutDetails?.grid?.cols.filter(
       (c: string) => c.toLowerCase() === 'empty'
     ).length;
-
   const hasErrors = Object.keys(errors).filter(e => errors[e].error).length;
 
-  const _updateEvent = (e): void => {
+  const _updateEvent = (newWorkoutDetails): void => {
     if (updateEvent && !Boolean(emptyColumnHeader) && !Boolean(hasErrors)) {
       console.log('CUSTOM -- UPDATING EVENT');
 
-      workoutDetails.start = new Date(workoutDetails.start.setHours(12));
-      workoutDetails.end =
-        workoutDetails.end && new Date(workoutDetails.end.setHours(12));
+      newWorkoutDetails.start = new Date(newWorkoutDetails.start.setHours(12));
+      newWorkoutDetails.end =
+        newWorkoutDetails.end && new Date(newWorkoutDetails.end.setHours(12));
 
+      setEditEvent(false);
+      updateEvent(newWorkoutDetails);
       setErrorState({
         ...errors,
         gridColumnError: { error: false, message: '' },
       });
-      setEditEvent(false);
-      updateEvent(workoutDetails);
       return;
     }
     setErrorState({ ...errors, gridColumnError: { error: true, message: '' } });
   };
 
-  const _saveNewEvent = (workoutEvent): void => {
-    if (saveNewEvent) {
-      console.log('CUSTOM -- CREATED EVENT');
-      console.log(workoutEvent);
-      saveNewEvent(workoutDetails);
-      // closeModal && closeModal(e);
-
+  const _saveNewEvent = (workoutEvent, extraData): void => {
+    if (saveNewEvent && !Boolean(emptyColumnHeader) && !Boolean(hasErrors)) {
+      Object.keys(extraData).forEach(k => (workoutEvent[k] = extraData[k]));
+      saveNewEvent(workoutEvent);
+      closeModal && closeModal();
       return;
     }
-
-    console.log('CREATED EVENT');
-    setEditEvent(false);
   };
+
+  const _deleteEvent = () => { 
+    deleteEvent({id: parseFloat(workoutDetails.id), idx: workoutDetails.idx})
+  }
 
   const handleModalDateChange = (date, type: string): void => {
     switch (type) {
@@ -127,10 +125,10 @@ const ModalContent: React.FC<ModalContentProps> = ({
         return;
     }
   };
-
-  const handleGridChange = grid => {
+   
+  const handleGridChange = React.useCallback(grid => {
     setWorkoutDetails({ ...workoutDetails, grid });
-  };
+  }, []);
 
   return (
     <Suspense loader={{ height: 50, width: 50, label: 'loader' }}>
@@ -142,6 +140,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
           React.createElement(Body, {
             _updateEvent,
             _saveNewEvent,
+            _deleteEvent,
             errors, // errors
             editEvent, // can edit workout state
             setEditEvent, // function to change edit state

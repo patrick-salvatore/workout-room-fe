@@ -81,7 +81,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = (props): JSX.Element => {
           minTime={minTime}
           monthsShown={monthsShown}
           onChange={onChange}
-          selected={selected}
+          selected={selected || Date.now()}
           selectsEnd={selectsEnd}
           selectsStart={selectsStart}
           showMonthDropdown={showMonthDropdown}

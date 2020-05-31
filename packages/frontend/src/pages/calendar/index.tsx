@@ -22,7 +22,14 @@ const calendarState: CalendarState = {
   modalState: {
     show: false,
     name: '',
-    workout: { id: 0, idx: 0, notes: '', grid: { rows: [], cols: [] } },
+    workout: {
+      id: null,
+      idx: null,
+      notes: null,
+      grid: { rows: [], cols: [] },
+      start: null,
+      end: null,
+    },
   },
 };
 
@@ -85,8 +92,7 @@ const Calendar: React.FC = (): JSX.Element => {
   const calendarRef = React.createRef<FullCalendar>();
   const [state, dispatch] = useReducer(calendarReducer, calendarState);
 
-  const closeModal = (e): void => {
-    e.preventDefault();
+  const closeModal = (): void => {
     dispatch({
       type: 'modal',
       payload: {
@@ -131,7 +137,8 @@ const Calendar: React.FC = (): JSX.Element => {
   };
 
   const handleDateClick = (event: any): void => {
-    // TODO: Change this mock event to be BE generated?
+    // TODO: Change this mock event to be BE generated.
+    // ID cannot be FE generated
     /**
      * eg. const newEvent = await service('/events/', changedData)
      */
@@ -139,7 +146,13 @@ const Calendar: React.FC = (): JSX.Element => {
     dispatch({
       type: 'modal',
       payload: {
-        ...state.modalState,
+        workout: {
+          start: event?.date,
+          end: event?.date,
+          grid: { cols: ['Lifts', 'Weight', 'Sets', 'Reps'], rows: [] },
+          id: state.modalState.workout.id,
+          idx: state.modalState.workout.idx,
+        },
         show: !state.modalState.show,
         name: 'new_event',
       },
@@ -171,12 +184,14 @@ const Calendar: React.FC = (): JSX.Element => {
     event?.setStart(workoutDetails.start as any);
     workoutDetails.end && event?.setEnd(workoutDetails.end);
     event?.setExtendedProp('grid', workoutDetails.grid);
+    workoutDetails?.notes &&
+      event?.setExtendedProp('notes', workoutDetails?.notes);
+    workoutDetails?.title && event?.setProp('title', workoutDetails?.title);
 
     // todo add error handling here
     if (!workoutDetails.idx) {
       return;
     }
-
     /**
      * TODO: send saved data to BE
      */
@@ -190,21 +205,43 @@ const Calendar: React.FC = (): JSX.Element => {
     });
   };
 
-  const handleNewEvent = (newEvent: Event): void => {
-    const api = calendarRef.current?.getApi();
-
+  const handleNewEvent = (newEventDetails: Event): void => {
     /**
      * TODO: send saved data to BE
      */
+    newEventDetails.id = Math.floor(Math.random());
 
     dispatch({
       type: 'events',
-      payload: [...state.events, newEvent],
+      payload: [...state.events, newEventDetails],
     });
 
     dispatch({
       type: 'modal',
-      payload: { ...state.modalState, show: !state.modalState.show },
+      payload: { ...state.modalState, show: false },
+    });
+  };
+
+  const handleDeleteEventClick = ({ id, idx }): void => {
+    /**
+     * TODO: add BE call to remove event from DB
+     */
+
+    const api = calendarRef.current?.getApi();
+    const event = api?.getEventById(id as any);
+    event?.remove();
+
+    const newEvents = state.events;
+    newEvents.splice(idx, 1);
+
+    dispatch({
+      type: 'events',
+      payload: [...newEvents],
+    });
+
+    dispatch({
+      type: 'modal',
+      payload: { ...state.modalState, show: false },
     });
   };
 
@@ -350,12 +387,13 @@ const Calendar: React.FC = (): JSX.Element => {
           render={({ editEvent, setEditEvent }) => (
             <ModalContent
               editEvent={editEvent}
+              closeModal={closeModal}
               setEditEvent={setEditEvent}
               name={state.modalState.name}
-              modalWorkOut={state.modalState.workout}
-              closeModal={closeModal}
-              updateEvent={handleUpdateEvent}
               saveNewEvent={handleNewEvent}
+              updateEvent={handleUpdateEvent}
+              deleteEvent={handleDeleteEventClick}
+              modalWorkOut={state.modalState.workout}
             />
           )}
         />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { FormProps } from './interfaces';
 
 const Form: React.FC<FormProps> = ({
@@ -37,4 +37,4 @@ const Form: React.FC<FormProps> = ({
   return render({ fields, handleChange, handleSubmit, handleCheckbox });
 };
 
-export default Form;
+export default memo(Form);

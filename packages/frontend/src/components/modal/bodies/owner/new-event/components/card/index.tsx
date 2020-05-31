@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   root: {
     width: '250px',
     maxHeight: '150px',
+    boxShadow: '0px 1px 10px 0px rgba(0,0,0,0.5)',
   },
   title: {
     fontSize: 14,

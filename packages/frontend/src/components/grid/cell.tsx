@@ -92,6 +92,21 @@ const Cell = ({
     setOpenEdit(!openEdit);
   }
 
+  function handleNewColumnBlur(): void {
+    const cellRow = Number(cellRef?.current?.dataset.cellRow);
+    const { cellCol } = cellRef?.current?.dataset as any;
+    const { value } = cellRef?.current as any;
+    
+    if (!hasError) {
+      if (handleCellChange) {
+        handleCellChange({ cellRow, cellCol, value });
+      }
+
+      setOpenEdit(!openEdit);
+      setShouldAutoFocus(false);
+    }
+  }
+
   if (shouldAutoFocus) {
     return (
       <td className={className}>
@@ -159,7 +174,8 @@ const Cell = ({
         <div
           className="value"
           style={{
-            cursor: canEdit && !hasError && !isEditingColumn ? 'pointer' : 'initial',
+            cursor:
+              canEdit && !hasError && !isEditingColumn ? 'pointer' : 'initial',
           }}
         >
           {isMouseOver && !hasError && !isEditingColumn && (

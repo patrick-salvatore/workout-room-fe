@@ -8,7 +8,7 @@ const Modal: React.FC<ModalProps> = ({ closeModal, render }) => {
   React.useEffect(() => {
     const escFunction = (e: KeyboardEvent): void => {
       if (e.keyCode === 27) {
-        closeModal(e);
+        closeModal();
       }
     };
     document.addEventListener('keydown', escFunction, false);

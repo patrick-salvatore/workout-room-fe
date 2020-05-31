@@ -50,7 +50,7 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
   container: {
-    maxHeight: 283,
+    height: 251,
   },
   row: {
     minHeight: 50,
@@ -308,4 +308,4 @@ const Grid: React.FC<IGridProps> = ({
   );
 };
 
-export default Grid;
+export default React.memo(Grid);

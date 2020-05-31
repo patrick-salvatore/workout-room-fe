@@ -1,15 +1,13 @@
-import { EventInput } from '@fullcalendar/core';
-
-export interface Event extends EventInput {
-  id: number;
-  idx?: number;
+export interface Event {
+  id: number | null;
+  idx?: number | null;
   title?: string;
-  start?: Date | string | undefined;
-  end?: Date | undefined;
+  start?: Date | string | undefined | null;
+  end?: Date | string | undefined | null;
   notes?: any;
   grid: {
-    rows: any[],
-    cols: any[],
+    rows: any[];
+    cols: any[];
   };
 }
 

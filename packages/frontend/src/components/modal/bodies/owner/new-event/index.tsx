@@ -24,6 +24,7 @@ function NewEvent({
   workoutDetails,
   handleGridChange,
   emptyColumnHeader,
+  handleModalDateChange,
   ...rest
 }): JSX.Element {
   const [view, setView] = useState(newEventStep.options);
@@ -67,6 +68,7 @@ function NewEvent({
         workoutDetails,
         handleGridChange,
         emptyColumnHeader,
+        handleModalDateChange,
         // TODO: ADD query for last three workouts
         // lastThreeWorkoutDetails
       } as any)}

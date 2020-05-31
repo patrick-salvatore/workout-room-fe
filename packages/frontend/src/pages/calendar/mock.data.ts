@@ -34,7 +34,6 @@ export const eventMap: Event[] = [
     title: 'April 1',
     start: new Date('April 27, 2020').toISOString(),
     id: Math.floor(Math.random() * 100),
-    className: 'test',
     grid: { rows: testRowsData, cols: defaultColHeader },
   },
   {

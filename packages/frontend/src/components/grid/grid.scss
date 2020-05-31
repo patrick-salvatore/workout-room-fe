@@ -20,11 +20,6 @@
 
       .value {
         height: auto;
-
-        &::before {
-          content: '';
-          width: 12px;
-        }
       }
 
       .shake {
