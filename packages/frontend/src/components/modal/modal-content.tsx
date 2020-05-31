@@ -48,8 +48,6 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
   const _updateEvent = (newWorkoutDetails): void => {
     if (updateEvent && !Boolean(emptyColumnHeader) && !Boolean(hasErrors)) {
-      console.log('CUSTOM -- UPDATING EVENT');
-
       newWorkoutDetails.start = new Date(newWorkoutDetails.start.setHours(12));
       newWorkoutDetails.end =
         newWorkoutDetails.end && new Date(newWorkoutDetails.end.setHours(12));
