@@ -1,22 +1,16 @@
-import React, {
-  createContext,
-  useState,
-  // useEffect,
-  useMemo,
-  useContext,
-} from 'react';
+import React from 'react';
 import { IAuthDataContext, IAuthDataMemo } from './interfaces';
 /**
  * TODO AUTH MIDDLEWARE
+ * import someManager from "../some-manager";
  */
-// import someManager from "../some-manager";
 
 const initialAuthData = { isAuthenticated: true, id: 0 };
 
-export const AuthDataContext = createContext<IAuthDataContext>(initialAuthData);
+export const AuthDataContext = React.createContext<IAuthDataContext>(initialAuthData);
 
 const AuthDataProvider = (props): any => {
-  const [authData, setAuthData] = useState<IAuthDataContext>(initialAuthData);
+  const [authData, setAuthData] = React.useState<IAuthDataContext>(initialAuthData);
   const { Provider } = AuthDataContext;
 
   /*
@@ -46,12 +40,12 @@ const AuthDataProvider = (props): any => {
     onLogout,
     onLogin,
   };
-  const authDataValue = useMemo<IAuthDataMemo>(() => memoObject, [authData]);
+  const authDataValue = React.useMemo<IAuthDataMemo>(() => memoObject, [authData]);
 
   return React.createElement(Provider, { value: authDataValue, ...props });
 };
 
 export const useAuthDataContext = (): IAuthDataContext =>
-  useContext(AuthDataContext);
+  React.useContext(AuthDataContext);
 
 export default AuthDataProvider;
