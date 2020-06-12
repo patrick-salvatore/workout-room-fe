@@ -6,11 +6,7 @@ import { SuspenseProps } from './interfaces';
 
 const Suspense: React.FC<SuspenseProps> = props => {
   const { children } = props;
-  return (
-    <React.Suspense fallback={<Loader {...props.loader} />}>
-      {children}
-    </React.Suspense>
-  );
+  return <React.Suspense fallback={<Loader {...props.loader} />}>{children}</React.Suspense>;
 };
 
 export default Suspense;

@@ -30,22 +30,14 @@ const useStyles = makeStyles({
   },
 });
 
-const SimpleCard: React.FC<SimpleCardProps> = ({
-  details,
-  children,
-  onClick,
-}): JSX.Element => {
+const SimpleCard: React.FC<SimpleCardProps> = ({ details, children, onClick }): JSX.Element => {
   const classes = useStyles();
   const [clicked, setClicked] = React.useState(false);
 
   const PropsComponent = (): JSX.Element => (
     <Card className={classes.root} onClick={onClick}>
       <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
           {details.title}
         </Typography>
         <Typography variant="body2" component="p">

@@ -6,7 +6,7 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
-  plugins: ['prettier', '@typescript-eslint',],
+  plugins: ['prettier', '@typescript-eslint'],
   env: {
     browser: true,
     jasmine: true,
@@ -71,12 +71,12 @@ module.exports = {
     ],
     'no-param-reassign': 'off',
     'compat/compat': 2,
-    'prettier/prettier': [2, { 'singleQuote': true, 'trailingComma': 'es5' }],
+    'prettier/prettier': [2, { singleQuote: true, trailingComma: 'es5' }],
 
     // typescript
-    "@typescript-eslint/explicit-function-return-type": "off",
-    '@typescript-eslint/interface-name-prefix' : [0],
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/interface-name-prefix': [0],
     '@typescript-eslint/camelcase': [0],
-    '@typescript-eslint/no-explicit-any': [0]
+    '@typescript-eslint/no-explicit-any': [0],
   },
 };

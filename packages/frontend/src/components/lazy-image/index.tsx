@@ -29,12 +29,8 @@ if (!_document.lazyLoadInstance) {
   _document.lazyLoadInstance = new LazyLoad(lazyloadConfig);
 }
 
-const LazyImage: React.FunctionComponent<ILazyImageProps> = (
-  props
-): JSX.Element => {
-  const [isMobile, setIsMobile] = useState<boolean>(
-    window.screen.availWidth < 600
-  );
+const LazyImage: React.FunctionComponent<ILazyImageProps> = (props): JSX.Element => {
+  const [isMobile, setIsMobile] = useState<boolean>(window.screen.availWidth < 600);
 
   const windowSizeChanged = (): void => {
     const _isMobile = props.srcMobile && window.screen.availWidth < 600;

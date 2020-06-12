@@ -40,9 +40,7 @@ const Cell = ({
   const [openEdit, setOpenEdit] = React.useState(false);
   const [isMouseOver, setIsMouseOver] = React.useState(false);
   const [shouldAutoFocus, setShouldAutoFocus] = React.useState(false);
-  const [cellInputValue, setCellInputValue] = React.useState<string | number>(
-    value
-  );
+  const [cellInputValue, setCellInputValue] = React.useState<string | number>(value);
 
   React.useEffect(() => {
     if (String(value).toLowerCase() === 'empty' && isColumn) {
@@ -96,7 +94,7 @@ const Cell = ({
     const cellRow = Number(cellRef?.current?.dataset.cellRow);
     const { cellCol } = cellRef?.current?.dataset as any;
     const { value } = cellRef?.current as any;
-    
+
     if (!hasError) {
       if (handleCellChange) {
         handleCellChange({ cellRow, cellCol, value });
@@ -117,10 +115,7 @@ const Cell = ({
             backgroundColor: 'inherit',
             textAlign: 'center',
             fontSize: '14px',
-            border:
-              hasError && isColumn
-                ? '2px solid #dc3545'
-                : '1px solid rgba(0, 0, 0, 0.1)',
+            border: hasError && isColumn ? '2px solid #dc3545' : '1px solid rgba(0, 0, 0, 0.1)',
           }}
           className={hasError && isColumn ? 'shake' : ''}
           ref={cellRef}
@@ -136,16 +131,8 @@ const Cell = ({
 
   return (
     <td
-      onMouseEnter={
-        canEdit && !openEdit && isColumn
-          ? () => changeMouseOver(true)
-          : undefined
-      }
-      onMouseLeave={
-        canEdit && !openEdit && isColumn
-          ? () => changeMouseOver(false)
-          : undefined
-      }
+      onMouseEnter={canEdit && !openEdit && isColumn ? () => changeMouseOver(true) : undefined}
+      onMouseLeave={canEdit && !openEdit && isColumn ? () => changeMouseOver(false) : undefined}
       onDoubleClick={
         canEdit && !openEdit && !hasError && !isEditingColumn
           ? (handleFirstClick as any)
@@ -174,15 +161,11 @@ const Cell = ({
         <div
           className="value"
           style={{
-            cursor:
-              canEdit && !hasError && !isEditingColumn ? 'pointer' : 'initial',
+            cursor: canEdit && !hasError && !isEditingColumn ? 'pointer' : 'initial',
           }}
         >
           {isMouseOver && !hasError && !isEditingColumn && (
-            <IconButton
-              size="small"
-              onClick={() => deleteColumn && deleteColumn(col as any)}
-            >
+            <IconButton size="small" onClick={() => deleteColumn && deleteColumn(col as any)}>
               <DeleteIcon />
             </IconButton>
           )}

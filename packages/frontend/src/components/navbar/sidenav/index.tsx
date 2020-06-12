@@ -51,9 +51,7 @@ const SideNav = (): JSX.Element => {
   );
 
   return (
-    <nav
-      className={`sidenav__wrapper ${isOpen ? 'slide-right' : 'slide-left'}`}
-    >
+    <nav className={`sidenav__wrapper ${isOpen ? 'slide-right' : 'slide-left'}`}>
       <SideNavToggle />
       <div className="sidenav-contents__wrapper">
         <div className="sidenav__top">
@@ -62,12 +60,7 @@ const SideNav = (): JSX.Element => {
         <div className="sidenav__main">
           <List>
             {listAnchors.map(({ text, icon, anchor }) => (
-              <Link
-                to={anchor}
-                className="sidenav__link"
-                key={text}
-                onClick={toggleSideNav}
-              >
+              <Link to={anchor} className="sidenav__link" key={text} onClick={toggleSideNav}>
                 <ListItem button className={classes.listItem}>
                   <ListItemIcon>{React.createElement(icon)}</ListItemIcon>
                   <ListItemText primary={text} />

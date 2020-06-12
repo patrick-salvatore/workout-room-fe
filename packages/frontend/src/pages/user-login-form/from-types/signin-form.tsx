@@ -61,12 +61,7 @@ const SignInFields: React.FC<any> = ({
   return (
     <Form
       formFields={signinFields}
-      render={({
-        fields,
-        handleChange,
-        handleSubmit,
-        handleCheckbox,
-      }): JSX.Element => (
+      render={({ fields, handleChange, handleSubmit, handleCheckbox }): JSX.Element => (
         <form className={classes.form} onSubmit={handleSubmit}>
           <OutlinedInput
             className={classes.input}
@@ -119,20 +114,12 @@ const SignInFields: React.FC<any> = ({
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link
-                variant="body2"
-                onClick={handleFieldView}
-                data-key="forgot-password"
-              >
+              <Link variant="body2" onClick={handleFieldView} data-key="forgot-password">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link
-                variant="body2"
-                onClick={handleFieldView}
-                data-key="sign-up"
-              >
+              <Link variant="body2" onClick={handleFieldView} data-key="sign-up">
                 <>Don&apos;t have an account? Sign Up</>
               </Link>
             </Grid>

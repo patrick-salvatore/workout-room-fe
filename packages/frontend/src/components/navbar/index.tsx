@@ -44,11 +44,7 @@ const TopNavBar = (): JSX.Element => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              color="inherit"
-            >
+            <IconButton edge="end" aria-label="account of current user" color="inherit">
               <AccountCircle />
             </IconButton>
           </div>

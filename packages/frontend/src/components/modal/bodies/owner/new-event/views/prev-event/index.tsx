@@ -38,10 +38,10 @@ const PrevEvent: React.FC<EventFormProps> = ({
   const classes = useStyles();
 
   const customSave = fields => {
-    console.log(fields)  
-    
+    console.log(fields);
+
     // _saveNewEvent(fields, workoutDetails.grid)
-  }
+  };
 
   return (
     <Form
@@ -73,7 +73,7 @@ const PrevEvent: React.FC<EventFormProps> = ({
             rows={workoutDetails.grid.rows}
             columns={workoutDetails.grid.cols}
             handleGridChange={handleGridChange}
-            gridColumnError={errors.gridColumnError}
+            gridErrors={errors.gridErrors}
             emptyColumnHeader={emptyColumnHeader}
           />
           <Grid container justify="space-between" alignItems="center">
@@ -86,12 +86,11 @@ const PrevEvent: React.FC<EventFormProps> = ({
                 timeIntervals={30}
                 withPortal={false}
                 disabled={false}
-                feedback={errors?.startDateChange.message}
-                isInvalid={errors?.startDateChange.error}
-                error={errors?.startDateChange.error}
+                feedback={errors?.dateErrors.startDateChange.message}
+                isInvalid={errors?.dateErrors.startDateChange.error}
+                error={errors?.dateErrors.startDateChange.error}
                 onChange={inputDate => {
-                  handleModalDateChange &&
-                    handleModalDateChange(inputDate, 'startDate');
+                  handleModalDateChange && handleModalDateChange(inputDate, 'startDate');
                 }}
               />
             </Grid>
@@ -104,12 +103,11 @@ const PrevEvent: React.FC<EventFormProps> = ({
                 timeIntervals={30}
                 withPortal={false}
                 disabled={false}
-                feedback={errors?.endDateChange.message}
-                isInvalid={errors?.endDateChange.error}
-                error={errors?.endDateChange.error}
+                feedback={errors?.dateErrors.endDateChange.message}
+                isInvalid={errors?.dateErrors.endDateChange.error}
+                error={errors?.dateErrors.endDateChange.error}
                 onChange={inputDate => {
-                  handleModalDateChange &&
-                    handleModalDateChange(inputDate, 'endDate');
+                  handleModalDateChange && handleModalDateChange(inputDate, 'endDate');
                 }}
               />
             </Grid>

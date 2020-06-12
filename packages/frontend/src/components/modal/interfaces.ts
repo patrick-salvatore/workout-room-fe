@@ -7,10 +7,15 @@ export interface ModalProps {
   render: (args: any) => JSX.Element;
 }
 
+export type BaseError = { error: boolean; message: string };
+
 export interface Errors {
-  startDateChange: { error: boolean; message: string };
-  endDateChange: { error: boolean; message: string };
-  gridColumnError: { error: boolean; message: string };
+  dateErrors: {
+    startDateChange: BaseError;
+    endDateChange: BaseError;
+  };
+  gridErrors: { gridColumnError: BaseError };
+  workoutEntriesErrors: { title: BaseError };
 }
 
 export interface ModalContentProps {

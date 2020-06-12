@@ -62,12 +62,7 @@ const RegisterFields: React.FC<any> = ({
   return (
     <Form
       formFields={registerFields}
-      render={({
-        fields,
-        handleChange,
-        handleSubmit,
-        handleCheckbox,
-      }): JSX.Element => (
+      render={({ fields, handleChange, handleSubmit, handleCheckbox }): JSX.Element => (
         <form className={classes.formColumn} onSubmit={handleSubmit}>
           <div className={classes.formRow}>
             <OutlinedInput
@@ -158,20 +153,12 @@ const RegisterFields: React.FC<any> = ({
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link
-                variant="body2"
-                onClick={handleFieldView}
-                data-key="sign-in"
-              >
+              <Link variant="body2" onClick={handleFieldView} data-key="sign-in">
                 Sign In
               </Link>
             </Grid>
             <Grid item>
-              <Link
-                variant="body2"
-                onClick={handleFieldView}
-                data-key="forgot-password"
-              >
+              <Link variant="body2" onClick={handleFieldView} data-key="forgot-password">
                 Forgot Password?
               </Link>
             </Grid>

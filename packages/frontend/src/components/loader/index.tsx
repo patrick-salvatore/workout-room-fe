@@ -1,11 +1,7 @@
 import React from 'react';
 import { LoaderProps } from './interfaces';
 
-const Loader: React.FC<LoaderProps> = ({
-  width,
-  height,
-  label,
-}): JSX.Element => (
+const Loader: React.FC<LoaderProps> = ({ width, height, label }): JSX.Element => (
   <svg
     width={width}
     height={height}

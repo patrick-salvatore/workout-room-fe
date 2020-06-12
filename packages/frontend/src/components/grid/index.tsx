@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  withStyles,
-  Theme,
-  createStyles,
-  makeStyles,
-} from '@material-ui/core/styles';
+import { withStyles, Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -26,7 +21,7 @@ interface IGridProps {
   columns: any[];
   handleGridChange?: (grid: any) => void;
   emptyColumnHeader?: boolean;
-  gridColumnError?: { error: boolean; message: string };
+  gridErrors?: { gridColumnError: { error: boolean; message: string } };
 }
 
 const StyledTableRow = withStyles((theme: Theme) =>
@@ -92,7 +87,7 @@ const Grid: React.FC<IGridProps> = ({
   rows,
   columns,
   canEdit,
-  gridColumnError,
+  gridErrors,
   handleGridChange,
   emptyColumnHeader,
 }): JSX.Element => {
@@ -110,8 +105,7 @@ const Grid: React.FC<IGridProps> = ({
         const newCols = columnHeaders;
         newCols[cellCol] = value.trim();
         setColumnHeaders([...newCols]);
-        handleGridChange &&
-          handleGridChange({ rows: rowData, cols: [...newCols] });
+        handleGridChange && handleGridChange({ rows: rowData, cols: [...newCols] });
       }
     }
   };
@@ -126,8 +120,7 @@ const Grid: React.FC<IGridProps> = ({
         newRows[cellRow][cellCol] = value;
       }
       setRowData([...newRows]);
-      handleGridChange &&
-        handleGridChange({ rows: [...newRows], cols: columnHeaders });
+      handleGridChange && handleGridChange({ rows: [...newRows], cols: columnHeaders });
     }
   };
 
@@ -144,8 +137,7 @@ const Grid: React.FC<IGridProps> = ({
         if (rowData) {
           rowData.push(newRow);
           setRowData([...rowData]);
-          handleGridChange &&
-            handleGridChange({ rows: [...rowData], cols: columnHeaders });
+          handleGridChange && handleGridChange({ rows: [...rowData], cols: columnHeaders });
         }
       } else {
         setError(true);
@@ -181,8 +173,7 @@ const Grid: React.FC<IGridProps> = ({
       const newRows = rowData;
       newRows.splice(idx, 1);
       setRowData([...newRows]);
-      handleGridChange &&
-        handleGridChange({ rows: [...newRows], cols: columnHeaders });
+      handleGridChange && handleGridChange({ rows: [...newRows], cols: columnHeaders });
     }
   };
 
@@ -210,8 +201,7 @@ const Grid: React.FC<IGridProps> = ({
 
       setColumnHeaders([...newCols]);
       setRowData([...newRowData]);
-      handleGridChange &&
-        handleGridChange({ rows: [...newRowData], cols: [...newCols] });
+      handleGridChange && handleGridChange({ rows: [...newRowData], cols: [...newCols] });
     }
   };
 
@@ -237,17 +227,9 @@ const Grid: React.FC<IGridProps> = ({
 
   return (
     <div style={{ width: '100%' }} className="grid__container">
-      <GridButtons
-        canEdit={canEdit}
-        addNewRow={addNewRow}
-        addNewCol={addNewCol}
-      />
+      <GridButtons canEdit={canEdit} addNewRow={addNewRow} addNewCol={addNewCol} />
       <TableContainer component={Paper} className={classes.container}>
-        <Table
-          stickyHeader
-          className={classes.table}
-          aria-label="Your workouts"
-        >
+        <Table stickyHeader className={classes.table} aria-label="Your workouts">
           <TableHead>
             <StyledTableRow>
               {canEdit && (
@@ -262,7 +244,7 @@ const Grid: React.FC<IGridProps> = ({
                 columnHeaders?.map((c, i) => (
                   <Cell
                     isEditingColumn={editingColumn}
-                    hasError={error || gridColumnError?.error}
+                    hasError={error || gridErrors?.gridColumnError.error}
                     isColumn={true}
                     key={i}
                     value={c}

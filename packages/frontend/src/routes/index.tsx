@@ -1,9 +1,5 @@
 import React, { Suspense } from 'react';
-import {
-  AppContainer,
-  FullPageContainer,
-  Container,
-} from 'styledComponents/containers';
+import { AppContainer, FullPageContainer, Container } from 'styledComponents/containers';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AuthDataProvider } from '../providers';
 import { useAuthDataContext } from '../providers/auth-provider';
@@ -21,10 +17,7 @@ const Calendar = React.lazy(() => import('pages/calendar'));
 const Progress = React.lazy(() => import('pages/progress'));
 const Teams = React.lazy(() => import('pages/teams'));
 
-const PrivateRoute: React.FC<any> = ({
-  component,
-  ...options
-}): JSX.Element => {
+const PrivateRoute: React.FC<any> = ({ component, ...options }): JSX.Element => {
   const { isAuthenticated } = useAuthDataContext();
   const FinalComponent = isAuthenticated ? component : Login;
 

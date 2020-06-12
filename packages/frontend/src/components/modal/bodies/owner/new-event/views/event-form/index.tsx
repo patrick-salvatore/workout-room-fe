@@ -11,6 +11,7 @@ import { FormFields } from 'components/form/interfaces';
 import Form from 'components/form';
 import WorkoutGrid from 'components/grid';
 import DateTimePicker from 'components/date-time-picker';
+import ErrorMessage from '../../components/error-message';
 
 import { EventFormProps } from 'components/modal/interfaces';
 
@@ -70,7 +71,6 @@ const NewEventForm: React.FC<EventFormProps> = ({
 
   const newEventFields = {
     title: '',
-    notes: '',
     ...workoutDetails,
   };
 
@@ -86,6 +86,7 @@ const NewEventForm: React.FC<EventFormProps> = ({
       formFields={newEventFields as any}
       render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className="form__container" onSubmit={handleSubmit}>
+          <ErrorMessage errors={errors?.workoutEntriesErrors} />
           <TextField
             className={classes.input}
             type="text"
@@ -95,21 +96,12 @@ const NewEventForm: React.FC<EventFormProps> = ({
             autoComplete="off"
             onChange={handleChange}
           />
-          <TextareaAutosize
-            rowsMax={4}
-            className={classes.input}
-            value={fields.notes}
-            placeholder="Workout Notes"
-            name="notes"
-            autoComplete="off"
-            onChange={handleChange}
-          />
           <WorkoutGrid
             canEdit={true}
             rows={workoutDetails.grid.rows}
             columns={workoutDetails.grid.cols}
             handleGridChange={handleGridChange}
-            gridColumnError={errors.gridColumnError}
+            gridErrors={errors?.gridErrors}
             emptyColumnHeader={emptyColumnHeader}
           />
           <Grid container justify="space-between" alignItems="center">
@@ -123,12 +115,11 @@ const NewEventForm: React.FC<EventFormProps> = ({
                 withPortal={false}
                 disabled={true}
                 selected={workoutDetails.start}
-                feedback={errors?.startDateChange.message}
-                isInvalid={errors?.startDateChange.error}
-                error={errors?.startDateChange.error}
+                feedback={errors?.dateErrors.startDateChange.message}
+                isInvalid={errors?.dateErrors.startDateChange.error}
+                error={errors?.dateErrors.startDateChange.error}
                 onChange={inputDate => {
-                  handleModalDateChange &&
-                    handleModalDateChange(inputDate, 'startDate');
+                  handleModalDateChange && handleModalDateChange(inputDate, 'startDate');
                 }}
               />
             </Grid>
@@ -142,12 +133,11 @@ const NewEventForm: React.FC<EventFormProps> = ({
                 withPortal={false}
                 disabled={false}
                 selected={workoutDetails.end}
-                feedback={errors?.endDateChange.message}
-                isInvalid={errors?.endDateChange.error}
-                error={errors?.endDateChange.error}
+                feedback={errors?.dateErrors.endDateChange.message}
+                isInvalid={errors?.dateErrors.endDateChange.error}
+                error={errors?.dateErrors.endDateChange.error}
                 onChange={inputDate => {
-                  handleModalDateChange &&
-                    handleModalDateChange(inputDate, 'endDate');
+                  handleModalDateChange && handleModalDateChange(inputDate, 'endDate');
                 }}
               />
             </Grid>

@@ -14,10 +14,6 @@ export const SubMenu: React.FC<ISubMenu> = ({
   isOpenSubMenu,
 }): JSX.Element => {
   return (
-    <div
-      className={isOpenSubMenu ? `${className} ${activeClassName}` : className}
-    >
-      {children}
-    </div>
+    <div className={isOpenSubMenu ? `${className} ${activeClassName}` : className}>{children}</div>
   );
 };

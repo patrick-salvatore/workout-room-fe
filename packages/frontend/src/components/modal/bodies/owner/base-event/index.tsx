@@ -80,7 +80,7 @@ function BaseEventOwner({
             columns={workoutDetails.grid.cols}
             handleGridChange={handleGridChange}
             emptyColumnHeader={emptyColumnHeader}
-            gridColumnError={errors.gridColumnError}
+            gridErrors={errors.gridErrors.gridColumnError}
           />
           <Grid container justify="space-between" alignItems="center">
             <Grid item>
@@ -92,12 +92,11 @@ function BaseEventOwner({
                 timeIntervals={30}
                 withPortal={false}
                 disabled={!editEvent}
-                feedback={errors?.startDateChange.message}
-                isInvalid={errors?.startDateChange.error}
-                error={errors?.startDateChange.error}
+                feedback={errors?.dateErrors.startDateChange.message}
+                isInvalid={errors?.dateErrors.startDateChange.error}
+                error={errors?.dateErrors.startDateChange.error}
                 onChange={inputDate => {
-                  handleModalDateChange &&
-                    handleModalDateChange(inputDate, 'startDate');
+                  handleModalDateChange && handleModalDateChange(inputDate, 'startDate');
                 }}
                 label="Start Date"
               />
@@ -111,12 +110,11 @@ function BaseEventOwner({
                 timeIntervals={30}
                 withPortal={false}
                 disabled={!editEvent}
-                feedback={errors?.endDateChange.message}
-                isInvalid={errors?.endDateChange.error}
-                error={errors?.endDateChange.error}
+                feedback={errors?.dateErrors.endDateChange.message}
+                isInvalid={errors?.dateErrors.endDateChange.error}
+                error={errors?.dateErrors.endDateChange.error}
                 onChange={inputDate => {
-                  handleModalDateChange &&
-                    handleModalDateChange(inputDate, 'endDate');
+                  handleModalDateChange && handleModalDateChange(inputDate, 'endDate');
                 }}
                 label="End Date"
               />
@@ -124,11 +122,7 @@ function BaseEventOwner({
           </Grid>
           <div className="base-event-owner__buttons">
             {editEvent ? (
-              <Button
-                variant="contained"
-                className={classes.greenButton}
-                onClick={handleSubmit}
-              >
+              <Button variant="contained" className={classes.greenButton} onClick={handleSubmit}>
                 SAVE
               </Button>
             ) : (

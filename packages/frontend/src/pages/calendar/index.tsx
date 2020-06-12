@@ -33,10 +33,7 @@ const calendarState: CalendarState = {
   },
 };
 
-function calendarReducer(
-  calendarState: CalendarState,
-  action: Action
-): CalendarState {
+function calendarReducer(calendarState: CalendarState, action: Action): CalendarState {
   switch (action.type) {
     case 'events': {
       return {
@@ -184,8 +181,7 @@ const Calendar: React.FC = (): JSX.Element => {
     event?.setStart(workoutDetails.start as any);
     workoutDetails.end && event?.setEnd(workoutDetails.end);
     event?.setExtendedProp('grid', workoutDetails.grid);
-    workoutDetails?.notes &&
-      event?.setExtendedProp('notes', workoutDetails?.notes);
+    workoutDetails?.notes && event?.setExtendedProp('notes', workoutDetails?.notes);
     workoutDetails?.title && event?.setProp('title', workoutDetails?.title);
 
     // todo add error handling here
@@ -197,11 +193,7 @@ const Calendar: React.FC = (): JSX.Element => {
      */
     dispatch({
       type: 'events',
-      payload: updateIdxOfArray<Event>(
-        workoutDetails.idx,
-        state.events,
-        workoutDetails
-      ),
+      payload: updateIdxOfArray<Event>(workoutDetails.idx, state.events, workoutDetails),
     });
   };
 
@@ -376,10 +368,7 @@ const Calendar: React.FC = (): JSX.Element => {
   return (
     <>
       <div className="calendar">
-        {React.createElement(
-          FullCalendar,
-          state.edit ? editProps : staticProps
-        )}
+        {React.createElement(FullCalendar, state.edit ? editProps : staticProps)}
       </div>
       {state.modalState.show && (
         <Modal

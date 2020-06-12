@@ -10,17 +10,13 @@ interface BaseEventProps {
   workoutDetails: Event;
 }
 
-const baseEvent: React.FC<BaseEventProps> = ({
-  workoutDetails,
-}): JSX.Element => {
+const baseEvent: React.FC<BaseEventProps> = ({ workoutDetails }): JSX.Element => {
   return (
     <div className="base-event__container">
       <div className="base-event__header"></div>
       <h2 className="base-event__title">{workoutDetails.title}</h2>
       <div className="base-event__notes">
-        <p className="base-event__notes-text">
-          {workoutDetails.notes || 'empty notes'}
-        </p>
+        <p className="base-event__notes-text">{workoutDetails.notes || 'empty notes'}</p>
       </div>
       <div className="base-event__grid">
         <WorkoutGrid

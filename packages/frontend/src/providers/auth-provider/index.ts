@@ -45,7 +45,6 @@ const AuthDataProvider = (props): any => {
   return React.createElement(Provider, { value: authDataValue, ...props });
 };
 
-export const useAuthDataContext = (): IAuthDataContext =>
-  React.useContext(AuthDataContext);
+export const useAuthDataContext = (): IAuthDataContext => React.useContext(AuthDataContext);
 
 export default AuthDataProvider;

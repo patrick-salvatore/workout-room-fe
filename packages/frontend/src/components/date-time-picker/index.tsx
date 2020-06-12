@@ -47,19 +47,12 @@ const DateTimePicker: React.FC<DateTimePickerProps> = (props): JSX.Element => {
     label,
   } = props;
 
-  const classname = isValid
-    ? 'valid-date-picker'
-    : isInvalid
-    ? 'invalid-date-picker'
-    : '';
+  const classname = isValid ? 'valid-date-picker' : isInvalid ? 'invalid-date-picker' : '';
 
   return (
     <div className="datepicker__wrapper">
       <label htmlFor={`datePicker-wrapper-${label}`}>{label}</label>
-      <div
-        id={`datePicker-wrapper-${label}`}
-        className={`datepicker ${classname}`}
-      >
+      <div id={`datePicker-wrapper-${label}`} className={`datepicker ${classname}`}>
         <label htmlFor={`datepicker-${label}`} className="datepicker-label">
           <CalendarIcon />
         </label>

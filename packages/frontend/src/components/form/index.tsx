@@ -1,11 +1,7 @@
 import { useState, memo } from 'react';
 import { FormProps } from './interfaces';
 
-const Form: React.FC<FormProps> = ({
-  formFields,
-  render,
-  customHandleSubmit,
-}) => {
+const Form: React.FC<FormProps> = ({ formFields, render, customHandleSubmit }) => {
   const [fields, setFields] = useState(formFields);
 
   const handleChange = (e: React.ChangeEvent): void => {

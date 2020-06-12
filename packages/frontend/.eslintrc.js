@@ -13,7 +13,7 @@ module.exports = {
     jasmine: true,
     jest: true,
     node: true,
-    es6: true
+    es6: true,
   },
   parserOptions: {
     ecmaVersion: 10, // Allows for the parsing of modern ECMAScript features
@@ -76,15 +76,15 @@ module.exports = {
     ],
     'no-param-reassign': 'off',
     'prettier/prettier': [2, { singleQuote: true, trailingComma: 'es5' }],
-    
+
     // react rules
     'react/prop-types': [0],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': [0],
 
     // typescript rules
-    '@typescript-eslint/interface-name-prefix' : [0],
+    '@typescript-eslint/interface-name-prefix': [0],
     '@typescript-eslint/camelcase': [0],
-    '@typescript-eslint/no-explicit-any': [0]
+    '@typescript-eslint/no-explicit-any': [0],
   },
 };
