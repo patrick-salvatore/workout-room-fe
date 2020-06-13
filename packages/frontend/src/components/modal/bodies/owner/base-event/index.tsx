@@ -9,6 +9,7 @@ import { green, red } from '@material-ui/core/colors';
 import DateTimePicker from 'components/date-time-picker';
 import WorkoutGrid from 'components/grid';
 import Form from 'components/form';
+import ErrorMessage from 'components/error-message';
 
 import './base-event-owner.scss';
 
@@ -44,9 +45,8 @@ function BaseEventOwner({
   errors,
   editEvent,
   setEditEvent,
-  baseWorkoutDetails,
-  emptyColumnHeader,
   handleGridChange,
+  baseWorkoutDetails,
   handleModalDateChange,
 }): JSX.Element {
   const classes = useStyles();
@@ -56,6 +56,7 @@ function BaseEventOwner({
       formFields={...baseWorkoutDetails}
       render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className="form__container">
+          <ErrorMessage errors={errors?.workoutEntriesErrors} />
           <TextField
             className={classes.input}
             type="text"

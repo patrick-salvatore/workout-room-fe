@@ -63,7 +63,6 @@ const NewEventForm: React.FC<EventFormProps> = ({
   _saveNewEvent,
   errors,
   handleGridChange,
-  emptyColumnHeader,
   baseWorkoutDetails,
   handleModalDateChange,
 }): JSX.Element => {
@@ -102,7 +101,6 @@ const NewEventForm: React.FC<EventFormProps> = ({
             columns={baseWorkoutDetails.grid.cols}
             handleGridChange={handleGridChange}
             gridErrors={errors?.gridErrors}
-            // emptyColumnHeader={emptyColumnHeader}
           />
           <Grid container justify="space-between" alignItems="center">
             <Grid item>

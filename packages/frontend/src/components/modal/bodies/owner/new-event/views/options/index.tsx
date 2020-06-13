@@ -17,17 +17,14 @@ const workouts = [
   {
     id: 0,
     title: 'title0',
-    notes: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, aut?',
   },
   {
     id: 1,
     title: 'title1',
-    notes: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, aut?',
   },
   {
     id: 22,
     title: 'title2',
-    notes: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, aut?',
   },
 ];
 

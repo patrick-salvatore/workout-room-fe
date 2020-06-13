@@ -50,21 +50,13 @@ const PrevEvent: React.FC<EventFormProps> = ({
       render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className="form__container" onSubmit={handleSubmit}>
           <TextField
+            error={errors.workoutEntriesErrors.title.error}
             className={classes.input}
             id="outlined"
             type="text"
             value={fields.name}
             placeholder="Workout Name"
             name="name"
-            autoComplete="off"
-            onChange={handleChange}
-          />
-          <TextField
-            className={classes.input}
-            type="text"
-            value={fields.notes}
-            placeholder="Notes"
-            name="notes"
             autoComplete="off"
             onChange={handleChange}
           />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { isBefore, isAfter } from 'date-fns';
 
-import { ModalContentProps, Errors } from './interfaces';
+import { ModalContentProps, Errors, BaseErrorType } from './interfaces';
 
 import Suspense from '../suspense';
 import BaseEvent from './bodies/base-event/index';
@@ -35,10 +35,19 @@ const getModalContents = (name: string): any => {
 
 const validateWorkoutEntry = (
   newWorkoutData
-): { errorType: string; notValidNewWorkout: boolean } => {
-  console.log(newWorkoutData);
+): { workoutEntryErrorsArr: any[]; notValidNewWorkout: boolean } => {
+  console.log(newWorkoutData)
 
-  return { errorType: '', notValidNewWorkout: true };
+  const workoutEntryErrorsArr = [];
+
+  if (!newWorkoutData.title) {
+    workoutEntryErrorsArr.push({
+      errorType: 'title',
+      message: 'Please provide a workout title',
+    } as never);
+  }
+
+  return { workoutEntryErrorsArr, notValidNewWorkout: Boolean(workoutEntryErrorsArr.length) };
 };
 
 const ModalContent: React.FC<ModalContentProps> = ({
@@ -71,14 +80,14 @@ const ModalContent: React.FC<ModalContentProps> = ({
       });
     }
 
-    return () => { 
+    return () => {
       setErrorState({
         ...errors,
         gridErrors: Object.assign(errors.gridErrors, {
           emptyColumnHeader: { error: false, message: '' },
         }),
       });
-    }
+    };
   }, [baseWorkoutDetails?.grid?.cols]);
 
   const _updateEvent = (newWorkoutDetails): void => {
@@ -110,14 +119,28 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const _saveNewEvent = (workoutEvent, extraData): void => {
     Object.keys(extraData).forEach(k => (workoutEvent[k] = extraData[k]));
     const newWorkoutData = workoutEvent;
-    const { errorType, notValidNewWorkout } = validateWorkoutEntry(newWorkoutData);
+    const { workoutEntryErrorsArr, notValidNewWorkout } = validateWorkoutEntry(newWorkoutData);
 
     if (errors.gridErrors.emptyColumnHeader.error && Boolean(hasErrors)) {
       return;
     }
 
     if (notValidNewWorkout) {
+      const newWorkoutEntryErrors = workoutEntryErrorsArr.reduce((acc, { errorType, message }) => {
+        acc[errorType] = { error: true, message };
+        return acc;
+      }, {});
+
+      setErrorState({
+        ...errors,
+        workoutEntriesErrors: Object.assign(errors.workoutEntriesErrors, newWorkoutEntryErrors),
+      });
       return;
+    } else { 
+      setErrorState({
+        ...errors,
+        workoutEntriesErrors: Object.assign(errors.workoutEntriesErrors, baseErrorsObject.workoutEntriesErrors),
+      });
     }
 
     if (saveNewEvent) {
