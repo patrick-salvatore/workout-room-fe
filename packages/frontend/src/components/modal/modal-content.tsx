@@ -15,7 +15,10 @@ const baseErrorsObject: Errors = {
     startDateChange: { error: false, message: '' },
     endDateChange: { error: false, message: '' },
   },
-  gridErrors: { gridColumnError: { error: false, message: '' } },
+  gridErrors: {
+    gridColumnError: { error: false, message: '' },
+    emptyColumnHeader: { error: false, message: '' },
+  },
   workoutEntriesErrors: { title: { error: false, message: '' } },
 };
 
@@ -50,16 +53,36 @@ const ModalContent: React.FC<ModalContentProps> = ({
   setEditEvent,
 }): JSX.Element => {
   const Body = name && getModalContents(name);
-  const [workoutDetails, setWorkoutDetails] = useState(modalWorkOut);
+  const [baseWorkoutDetails, setBaseWorkoutDetails] = useState(modalWorkOut);
   const [errors, setErrorState] = useState<Errors>(baseErrorsObject);
   const hasErrors = Object.keys(errors).filter(e => errors[e].error).length;
 
-  const emptyColumnHeader =
-    workoutDetails?.grid?.cols &&
-    workoutDetails?.grid?.cols.filter((c: string) => c.toLowerCase() === 'empty').length;
+  React.useEffect(() => {
+    const emptyColumnHeader = baseWorkoutDetails?.grid?.cols.filter(
+      (c: string) => c.toLowerCase() === 'empty'
+    ).length;
+
+    if (Boolean(emptyColumnHeader)) {
+      setErrorState({
+        ...errors,
+        gridErrors: Object.assign(errors.gridErrors, {
+          emptyColumnHeader: { error: true, message: '' },
+        }),
+      });
+    }
+
+    return () => { 
+      setErrorState({
+        ...errors,
+        gridErrors: Object.assign(errors.gridErrors, {
+          emptyColumnHeader: { error: false, message: '' },
+        }),
+      });
+    }
+  }, [baseWorkoutDetails?.grid?.cols]);
 
   const _updateEvent = (newWorkoutDetails): void => {
-    if (Boolean(emptyColumnHeader) && Boolean(hasErrors)) {
+    if (errors.gridErrors.emptyColumnHeader.error && Boolean(hasErrors)) {
       setErrorState({
         ...errors,
         gridErrors: Object.assign(errors.gridErrors, {
@@ -89,7 +112,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
     const newWorkoutData = workoutEvent;
     const { errorType, notValidNewWorkout } = validateWorkoutEntry(newWorkoutData);
 
-    if (Boolean(emptyColumnHeader) && Boolean(hasErrors)) {
+    if (errors.gridErrors.emptyColumnHeader.error && Boolean(hasErrors)) {
       return;
     }
 
@@ -106,15 +129,15 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const _deleteEvent = () => {
     deleteEvent &&
       deleteEvent({
-        id: parseFloat(workoutDetails.id),
-        idx: workoutDetails.idx,
+        id: parseFloat(baseWorkoutDetails.id),
+        idx: baseWorkoutDetails.idx,
       });
   };
 
   const handleModalDateChange = (date, type: string): void => {
     switch (type) {
       case 'endDate': {
-        if (isBefore(date, workoutDetails.start as any)) {
+        if (isBefore(date, baseWorkoutDetails.start as any)) {
           setErrorState({
             ...errors,
             dateErrors: {
@@ -126,8 +149,8 @@ const ModalContent: React.FC<ModalContentProps> = ({
             },
           });
         } else {
-          const newEvent = { ...workoutDetails, end: date };
-          setWorkoutDetails(newEvent);
+          const newEvent = { ...baseWorkoutDetails, end: date };
+          setBaseWorkoutDetails(newEvent);
           setErrorState({
             ...errors,
             dateErrors: baseErrorsObject.dateErrors,
@@ -138,7 +161,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
       case 'startDate': {
         let newErrors;
 
-        if (isAfter(date, workoutDetails.end as any)) {
+        if (isAfter(date, baseWorkoutDetails.end as any)) {
           setErrorState({
             ...errors,
             dateErrors: {
@@ -152,11 +175,11 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
           setErrorState(newErrors);
         } else {
-          const newEvent = { ...workoutDetails, start: date };
+          const newEvent = { ...baseWorkoutDetails, start: date };
           newErrors = Object.assign(errors, {
             dateErrors: baseErrorsObject.dateErrors,
           });
-          setWorkoutDetails(newEvent);
+          setBaseWorkoutDetails(newEvent);
           setErrorState(newErrors);
         }
         return;
@@ -168,7 +191,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
   };
 
   const handleGridChange = React.useCallback(grid => {
-    setWorkoutDetails({ ...workoutDetails, grid });
+    setBaseWorkoutDetails({ ...baseWorkoutDetails, grid });
   }, []);
 
   return (
@@ -182,10 +205,9 @@ const ModalContent: React.FC<ModalContentProps> = ({
             errors, // modal content errors
             editEvent, // can edit workout modal flag
             setEditEvent, // function to change edit state
-            workoutDetails, // workout object
             handleGridChange, // function to handle grid data change
+            baseWorkoutDetails, // workout object
             handleModalDateChange, // function to handle date change
-            emptyColumnHeader: Boolean(emptyColumnHeader), // does the grid have empty column header?
           })) ||
           children}
       </div>

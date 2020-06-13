@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Close';
 
+import { GridErrorType } from 'components/modal/interfaces';
 import Cell from './cell';
 
 import './grid.scss';
@@ -20,8 +21,7 @@ interface IGridProps {
   rows: any[];
   columns: any[];
   handleGridChange?: (grid: any) => void;
-  emptyColumnHeader?: boolean;
-  gridErrors?: { gridColumnError: { error: boolean; message: string } };
+  gridErrors?: GridErrorType;
 }
 
 const StyledTableRow = withStyles((theme: Theme) =>
@@ -89,7 +89,6 @@ const Grid: React.FC<IGridProps> = ({
   canEdit,
   gridErrors,
   handleGridChange,
-  emptyColumnHeader,
 }): JSX.Element => {
   const classes = useStyles();
   const [columnHeaders, setColumnHeaders] = React.useState<any[] | null>(null);
@@ -126,7 +125,7 @@ const Grid: React.FC<IGridProps> = ({
 
   const addNewRow = () => {
     if (columnHeaders) {
-      if (!emptyColumnHeader) {
+      if (!gridErrors?.emptyColumnHeader.error) {
         const newRow = {};
         const numOfCols = columnHeaders.length;
 
@@ -147,7 +146,7 @@ const Grid: React.FC<IGridProps> = ({
 
   const addNewCol = () => {
     if (columnHeaders) {
-      if (!emptyColumnHeader) {
+      if (!gridErrors?.emptyColumnHeader.error) {
         const newRowData = rowData?.reduce((acc, prev) => {
           prev[columnHeaders?.length] = '';
           acc.push(prev);
@@ -220,7 +219,7 @@ const Grid: React.FC<IGridProps> = ({
       setError(false);
     }
 
-    if (editingColumn && !emptyColumnHeader) {
+    if (editingColumn && !gridErrors?.emptyColumnHeader.error) {
       setEditingColumn(false);
     }
   }, [columnHeaders]);

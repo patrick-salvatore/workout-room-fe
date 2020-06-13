@@ -7,22 +7,22 @@ import WorkoutGrid from 'components/grid';
 import './base-event.scss';
 
 interface BaseEventProps {
-  workoutDetails: Event;
+  baseWorkoutDetails: Event;
 }
 
-const baseEvent: React.FC<BaseEventProps> = ({ workoutDetails }): JSX.Element => {
+const baseEvent: React.FC<BaseEventProps> = ({ baseWorkoutDetails }): JSX.Element => {
   return (
     <div className="base-event__container">
       <div className="base-event__header"></div>
-      <h2 className="base-event__title">{workoutDetails.title}</h2>
+      <h2 className="base-event__title">{baseWorkoutDetails.title}</h2>
       <div className="base-event__notes">
-        <p className="base-event__notes-text">{workoutDetails.notes || 'empty notes'}</p>
+        <p className="base-event__notes-text">{baseWorkoutDetails.notes || 'empty notes'}</p>
       </div>
       <div className="base-event__grid">
         <WorkoutGrid
           canEdit={false}
-          rows={workoutDetails.grid.rows}
-          columns={workoutDetails.grid.cols}
+          rows={baseWorkoutDetails.grid.rows}
+          columns={baseWorkoutDetails.grid.cols}
         />
       </div>
       <Grid container justify="space-between" alignItems="center">
@@ -31,17 +31,17 @@ const baseEvent: React.FC<BaseEventProps> = ({ workoutDetails }): JSX.Element =>
             dateFormat="MM/dd/yyyy"
             dateFormatCalendar="LLLL yyyy"
             dropdownMode="scroll"
-            selected={workoutDetails.start as any}
+            selected={baseWorkoutDetails.start as any}
             label="Start Date"
           />
         </Grid>
-        {workoutDetails.end && (
+        {baseWorkoutDetails.end && (
           <Grid item>
             <DateTimePicker
               dateFormat="MM/dd/yyyy"
               dateFormatCalendar="LLLL yyyy"
               dropdownMode="scroll"
-              selected={workoutDetails.end || workoutDetails.start}
+              selected={baseWorkoutDetails.end || baseWorkoutDetails.start}
               label="End Date"
             />
           </Grid>

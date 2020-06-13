@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 const PrevEvent: React.FC<EventFormProps> = ({
   _saveNewEvent,
   errors,
-  workoutDetails,
+  baseWorkoutDetails,
   handleGridChange,
   emptyColumnHeader,
   handleModalDateChange,
@@ -40,13 +40,13 @@ const PrevEvent: React.FC<EventFormProps> = ({
   const customSave = fields => {
     console.log(fields);
 
-    // _saveNewEvent(fields, workoutDetails.grid)
+    // _saveNewEvent(fields, baseWorkoutDetails.grid)
   };
 
   return (
     <Form
       customHandleSubmit={customSave}
-      formFields={{ ...workoutDetails } as any}
+      formFields={{ ...baseWorkoutDetails } as any}
       render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className="form__container" onSubmit={handleSubmit}>
           <TextField
@@ -70,11 +70,10 @@ const PrevEvent: React.FC<EventFormProps> = ({
           />
           <WorkoutGrid
             canEdit={true}
-            rows={workoutDetails.grid.rows}
-            columns={workoutDetails.grid.cols}
+            rows={baseWorkoutDetails.grid.rows}
+            columns={baseWorkoutDetails.grid.cols}
             handleGridChange={handleGridChange}
             gridErrors={errors.gridErrors}
-            emptyColumnHeader={emptyColumnHeader}
           />
           <Grid container justify="space-between" alignItems="center">
             <Grid item>

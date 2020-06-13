@@ -1,9 +1,9 @@
 import React from 'react';
-import { BaseError } from 'components/modal/interfaces';
+import { BaseErrorType } from 'components/modal/interfaces';
 
 interface Props {
   errors: {
-    [type: string]: BaseError;
+    [type: string]: BaseErrorType;
   };
 }
 

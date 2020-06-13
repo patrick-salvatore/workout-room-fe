@@ -11,7 +11,7 @@ import { FormFields } from 'components/form/interfaces';
 import Form from 'components/form';
 import WorkoutGrid from 'components/grid';
 import DateTimePicker from 'components/date-time-picker';
-import ErrorMessage from '../../components/error-message';
+import ErrorMessage from 'components/error-message';
 
 import { EventFormProps } from 'components/modal/interfaces';
 
@@ -62,25 +62,25 @@ const useStyles = makeStyles(theme => ({
 const NewEventForm: React.FC<EventFormProps> = ({
   _saveNewEvent,
   errors,
-  workoutDetails,
   handleGridChange,
   emptyColumnHeader,
+  baseWorkoutDetails,
   handleModalDateChange,
 }): JSX.Element => {
   const classes = useStyles();
 
   const newEventFields = {
     title: '',
-    ...workoutDetails,
+    ...baseWorkoutDetails,
   };
 
   return (
     <Form
       customHandleSubmit={fields =>
         _saveNewEvent(fields, {
-          grid: workoutDetails.grid,
-          start: workoutDetails.start,
-          end: workoutDetails.end,
+          grid: baseWorkoutDetails.grid,
+          start: baseWorkoutDetails.start,
+          end: baseWorkoutDetails.end,
         })
       }
       formFields={newEventFields as any}
@@ -98,11 +98,11 @@ const NewEventForm: React.FC<EventFormProps> = ({
           />
           <WorkoutGrid
             canEdit={true}
-            rows={workoutDetails.grid.rows}
-            columns={workoutDetails.grid.cols}
+            rows={baseWorkoutDetails.grid.rows}
+            columns={baseWorkoutDetails.grid.cols}
             handleGridChange={handleGridChange}
             gridErrors={errors?.gridErrors}
-            emptyColumnHeader={emptyColumnHeader}
+            // emptyColumnHeader={emptyColumnHeader}
           />
           <Grid container justify="space-between" alignItems="center">
             <Grid item>
@@ -114,7 +114,7 @@ const NewEventForm: React.FC<EventFormProps> = ({
                 timeIntervals={30}
                 withPortal={false}
                 disabled={true}
-                selected={workoutDetails.start}
+                selected={baseWorkoutDetails.start}
                 feedback={errors?.dateErrors.startDateChange.message}
                 isInvalid={errors?.dateErrors.startDateChange.error}
                 error={errors?.dateErrors.startDateChange.error}
@@ -132,7 +132,7 @@ const NewEventForm: React.FC<EventFormProps> = ({
                 timeIntervals={30}
                 withPortal={false}
                 disabled={false}
-                selected={workoutDetails.end}
+                selected={baseWorkoutDetails.end}
                 feedback={errors?.dateErrors.endDateChange.message}
                 isInvalid={errors?.dateErrors.endDateChange.error}
                 error={errors?.dateErrors.endDateChange.error}

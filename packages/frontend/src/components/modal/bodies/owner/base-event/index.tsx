@@ -44,7 +44,7 @@ function BaseEventOwner({
   errors,
   editEvent,
   setEditEvent,
-  workoutDetails,
+  baseWorkoutDetails,
   emptyColumnHeader,
   handleGridChange,
   handleModalDateChange,
@@ -53,7 +53,7 @@ function BaseEventOwner({
   return (
     <Form
       customHandleSubmit={fields => _updateEvent(fields)}
-      formFields={...workoutDetails}
+      formFields={...baseWorkoutDetails}
       render={({ fields, handleChange, handleSubmit }): JSX.Element => (
         <form className="form__container">
           <TextField
@@ -76,11 +76,10 @@ function BaseEventOwner({
           />
           <WorkoutGrid
             canEdit={editEvent}
-            rows={workoutDetails.grid.rows}
-            columns={workoutDetails.grid.cols}
+            rows={baseWorkoutDetails.grid.rows}
+            columns={baseWorkoutDetails.grid.cols}
             handleGridChange={handleGridChange}
-            emptyColumnHeader={emptyColumnHeader}
-            gridErrors={errors.gridErrors.gridColumnError}
+            gridErrors={errors.gridErrors}
           />
           <Grid container justify="space-between" alignItems="center">
             <Grid item>
@@ -88,7 +87,7 @@ function BaseEventOwner({
                 dateFormat="MM/dd/yyyy"
                 dateFormatCalendar="LLLL yyyy"
                 dropdownMode="scroll"
-                selected={workoutDetails.start}
+                selected={baseWorkoutDetails.start}
                 timeIntervals={30}
                 withPortal={false}
                 disabled={!editEvent}
@@ -106,7 +105,7 @@ function BaseEventOwner({
                 dateFormat="MM/dd/yyyy"
                 dateFormatCalendar="LLLL yyyy"
                 dropdownMode="scroll"
-                selected={workoutDetails.end || workoutDetails.start}
+                selected={baseWorkoutDetails.end || baseWorkoutDetails.start}
                 timeIntervals={30}
                 withPortal={false}
                 disabled={!editEvent}

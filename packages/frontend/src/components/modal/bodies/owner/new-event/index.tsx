@@ -21,9 +21,9 @@ const newEventStep = {
 function NewEvent({
   _saveNewEvent,
   errors,
-  workoutDetails,
   handleGridChange,
   emptyColumnHeader,
+  baseWorkoutDetails,
   handleModalDateChange,
   ...rest
 }): JSX.Element {
@@ -46,7 +46,7 @@ function NewEvent({
             component: newEventStep[type].component as any,
             props: {
               ...newEventStep[type].props,
-              workoutDetails: prevEventDetails,
+              baseWorkoutDetails: prevEventDetails,
             },
           });
         break;
@@ -65,9 +65,9 @@ function NewEvent({
         _saveNewEvent,
         errors,
         changeView,
-        workoutDetails,
         handleGridChange,
         emptyColumnHeader,
+        baseWorkoutDetails,
         handleModalDateChange,
         // TODO: ADD query for last three workouts
         // lastThreeWorkoutDetails

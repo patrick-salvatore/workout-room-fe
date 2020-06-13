@@ -7,15 +7,18 @@ export interface ModalProps {
   render: (args: any) => JSX.Element;
 }
 
-export type BaseError = { error: boolean; message: string };
+export type BaseErrorType = { error: boolean; message: string };
+export type DateErrorType = {
+  startDateChange: BaseErrorType;
+  endDateChange: BaseErrorType;
+};
+export type GridErrorType = { gridColumnError: BaseErrorType; emptyColumnHeader: BaseErrorType };
+export type WorkoutEntriesErrorType = { title: BaseErrorType };
 
 export interface Errors {
-  dateErrors: {
-    startDateChange: BaseError;
-    endDateChange: BaseError;
-  };
-  gridErrors: { gridColumnError: BaseError };
-  workoutEntriesErrors: { title: BaseError };
+  dateErrors: DateErrorType;
+  gridErrors: GridErrorType;
+  workoutEntriesErrors: WorkoutEntriesErrorType;
 }
 
 export interface ModalContentProps {
@@ -35,7 +38,7 @@ export interface ModalContentProps {
 export interface EventFormProps {
   _saveNewEvent: any;
   errors: Errors;
-  workoutDetails: Event;
+  baseWorkoutDetails: Event;
   emptyColumnHeader: boolean;
   handleGridChange: (grid: any) => void;
   handleModalDateChange: (date: Date, type: string) => void;
