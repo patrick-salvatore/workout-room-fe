@@ -18,15 +18,27 @@ import _schema from './modules';
 
   app.post('/refresh_token', handleRefresh);
 
-  await createConnection({
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: 'postgres',
-    database: 'ticket-dash',
-    type: 'postgres',
-    entities: [`${__dirname}/src/entity/**/*.ts`],
-  });
+  let retries = 5;
+  while (retries)
+    try {
+      await createConnection({
+        host: 'localhost',
+        port: 5432,
+        username: 'postgres',
+        password: 'postgres',
+        database: 'ticket-dash',
+        type: 'postgres',
+        entities: [`${__dirname}/src/entity/**/*.ts`],
+      });
+      break;
+    } catch (err) {
+      console.error(err);
+      retries -= 1;
+
+      // wait
+      await new Promise(res => setTimeout(res, 5000));
+    }
+
   const apolloServer = new ApolloServer({
     schema: await _schema,
     context: ({ req, res }) => ({ req, res }),

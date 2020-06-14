@@ -3,6 +3,7 @@
     "target": "es2017",
     "module": "commonjs",
     "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
+    "rootDir": ".",
     "paths": {
       "src/*": ["./src/*"],
       "entity/*": ["./src/entity/*"],
@@ -26,8 +27,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "baseUrl": "."
+    "baseUrl": ".."
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
+  "include": ["./src/**/*.ts"]
 }

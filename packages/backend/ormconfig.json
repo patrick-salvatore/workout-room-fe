@@ -4,7 +4,7 @@
    "port": 5432,
    "username": "postgres",
    "password": "postgres",
-   "database": "ticket-dash",
+   "database": "workout.room",
    "synchronize": true,
    "logging": false,
    "entities": [

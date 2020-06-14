@@ -8,10 +8,9 @@ module.exports = {
   ],
   plugins: ['prettier', '@typescript-eslint'],
   env: {
-    browser: true,
-    jasmine: true,
     jest: true,
     node: true,
+    es6: true,
   },
   parserOptions: {
     ecmaVersion: 10, // Allows for the parsing of modern ECMAScript features
@@ -70,7 +69,6 @@ module.exports = {
       },
     ],
     'no-param-reassign': 'off',
-    'compat/compat': 2,
     'prettier/prettier': [2, { singleQuote: true, trailingComma: 'es5' }],
 
     // typescript

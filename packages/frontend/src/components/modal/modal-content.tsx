@@ -145,6 +145,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
     if (saveNewEvent) {
       saveNewEvent(workoutEvent);
+      setErrorState(baseErrorsObject)
       closeModal && closeModal();
     }
   };
