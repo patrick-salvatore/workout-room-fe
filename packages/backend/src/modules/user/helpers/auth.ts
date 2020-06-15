@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken';
 import { MiddlewareFn } from 'type-graphql';
-import { IAGContext } from 'interfaces/AGContext';
+import { IAGContext } from '../../../interfaces/AGContext';
 
 export const checkAuthorization: MiddlewareFn<IAGContext> = (
   { context },

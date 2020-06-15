@@ -1,15 +1,13 @@
-FROM node
-WORKDIR /backend
+FROM node as builder 
+WORKDIR /usr/backend
 
-COPY ./package.json ./
+COPY ./package*.json /usr/backend
 
 RUN yarn install
+COPY . /usr/backend
 
-COPY . .
-
-RUN yarn build
-COPY ./ormconfig.docker.json ./ormconfig.json
-WORKDIR /dist
+COPY ./ormconfig.docker.json /usr/backend/ormconfig.json
+COPY .env /usr/backend
 
 EXPOSE 4000
-CMD node src/index.js
+CMD yarn start

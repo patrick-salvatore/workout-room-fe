@@ -13,3 +13,4 @@ temp/
 .env.production.local
 
 pgdata
+docker-compose.yml

@@ -1,21 +1,28 @@
-# docker-compose.yml
 version: '3.7'
 services:
-  postgres:
+  database:
     image: postgres
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_USER: patrick-salvatore
+      POSTGRES_USERNAME: patrick-salvatore
       POSTGRES_PASSWORD: secret-password
       POSTGRES_DB: workout-room
     volumes:
       - ./pgdata:/var/lib/postgresql/data
-  backend:
-    depends_on:
-      - postgres
-    ports:
-      - '4000:4000'
-    command: npm run start
+  # server: 
+  #   image: workout-room-server
+  #   depends_on:
+  #     - database
+  #   volumes:
+  #     - ./:/server
+  #     - /server/node_modules
+  #   ports:
+  #     - '4000:4000'
+  #   env_file:
+  #     .env
+  #   links:
+  #     - database
+  #   command: ['npm', 'start']
  
 
