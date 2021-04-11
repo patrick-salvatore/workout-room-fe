@@ -9,17 +9,7 @@
     ],
     "nohoist": [
       "**/rimraf",
-      "**/rimraf/**",
-      "**/react-native-elements",
-      "**/react-native-elements/**",
-      "**/react-native",
-      "**/react-native/**",
-      "**/expo",
-      "**/expo/**",
-      "**/react-native-typescript-transformer",
-      "**/react-native-typescript-transformer/**",
-      "**/metro-bundler-config-yarn-workspaces",
-      "**/metro-bundler-config-yarn-workspaces/**"
+      "**/rimraf/**"
     ]
   },
   "devDependencies": {

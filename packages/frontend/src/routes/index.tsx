@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import { AppContainer, FullPageContainer, Container } from 'styledComponents/containers';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AuthDataProvider } from '../providers';
 import { useAuthDataContext } from '../providers/auth-provider';
@@ -28,13 +27,7 @@ const PrivateRoute: React.FC<any> = ({ component, ...options }): JSX.Element => 
   );
 };
 
-const BigLoader = (): JSX.Element => (
-  <FullPageContainer>
-    <Container>
-      <Loader width={200} height={200} label="loader" />
-    </Container>
-  </FullPageContainer>
-);
+const BigLoader = (): JSX.Element => <Loader width={200} height={200} label="loader" />;
 
 const Router = () => (
   <Suspense fallback={<BigLoader />}>
@@ -51,12 +44,10 @@ const Router = () => (
 export const AppView: React.FC = (): JSX.Element => {
   return (
     <AuthDataProvider>
-      <AppContainer>
-        <BrowserRouter>
-          <NavBar />
-          <Router />
-        </BrowserRouter>
-      </AppContainer>
+      <BrowserRouter>
+        <NavBar />
+        <Router />
+      </BrowserRouter>
     </AuthDataProvider>
   );
 };

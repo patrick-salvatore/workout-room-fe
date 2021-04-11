@@ -4,7 +4,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-// import { FullPageContainer } from 'styledComponents/containers';
 import SignInFields from './from-types/signin-form';
 import ForgotPasswordFields from './from-types/forgot-password-form';
 import RegisterFields from './from-types/register-form';
@@ -55,7 +54,6 @@ const UserLoginForm = function(): JSX.Element {
   };
 
   return (
-    // <FullPageContainer>
     <Container component="main" maxWidth="sm">
       <CssBaseline />
       <div className={classes.paper}>
@@ -71,7 +69,6 @@ const UserLoginForm = function(): JSX.Element {
         showPassword,
       } as any)}
     </Container>
-    // </FullPageCont/ainer>
   );
 };
 

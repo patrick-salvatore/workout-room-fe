@@ -1,16 +1,16 @@
 const path = require('path');
-const Dotenv = require('dotenv-webpack');
+// const Dotenv = require('dotenv-webpack');
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const { currentDirectory, dotEnv } = require('./envs');
 
 const plugins = [
-  new Dotenv({
-    path: path.resolve(__dirname, dotEnv),
-  }),
+  // new Dotenv({
+  //   path: path.resolve(__dirname, dotEnv),
+  // }),
   new MiniCssExtractPlugin({
     filename: 'css/[name].min.css',
     chunkFilename: 'css/[id].min.css',

@@ -7,9 +7,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarState, Action, Event } from './interfaces';
 import { updateIdxOfArray } from './calendar.utils';
 
-import Modal from 'components/modal';
-import ModalContent from 'components/modal/modal-content';
-
 import { eventMap } from './mock.data';
 
 import './calendar.scss';
@@ -370,23 +367,6 @@ const Calendar: React.FC = (): JSX.Element => {
       <div className="calendar">
         {React.createElement(FullCalendar, state.edit ? editProps : staticProps)}
       </div>
-      {state.modalState.show && (
-        <Modal
-          closeModal={closeModal}
-          render={({ editEvent, setEditEvent }) => (
-            <ModalContent
-              editEvent={editEvent}
-              closeModal={closeModal}
-              setEditEvent={setEditEvent}
-              name={state.modalState.name}
-              saveNewEvent={handleNewEvent}
-              updateEvent={handleUpdateEvent}
-              deleteEvent={handleDeleteEventClick}
-              modalWorkOut={state.modalState.workout}
-            />
-          )}
-        />
-      )}
     </>
   );
 };

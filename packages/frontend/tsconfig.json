@@ -9,7 +9,6 @@
       "routes/*": ["./src/routes/*"],
       "hooks/*": ["./src/hooks/*"],
       "components/*": ["./src/components/*"],
-      "styledComponents/*": ["./src/styledComponents/*"],
       "scss/*": ["./src/scss/*"],
       "img/*": ["./src/img/*"],
       "utils/*": ["./src/utils/*"],
@@ -48,6 +47,6 @@
   ],
   "include": [
     "<rootDir>/src/__test__/test-setup.js",
-    "./src/**/**/*",
+    "./src/**/**/*", "webpack", "webpack",
   ]
 }

@@ -11,7 +11,6 @@ import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Close';
 
-import { GridErrorType } from 'components/modal/interfaces';
 import Cell from './cell';
 
 import './grid.scss';
@@ -21,7 +20,7 @@ interface IGridProps {
   rows: any[];
   columns: any[];
   handleGridChange?: (grid: any) => void;
-  gridErrors?: GridErrorType;
+  gridErrors?: any;
 }
 
 const StyledTableRow = withStyles((theme: Theme) =>

@@ -1,4 +1,3 @@
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -9,19 +8,7 @@ const { outputDir } = require('./webpack/paths');
 
 module.exports = merge(common, {
   mode: 'development',
-  cache: {
-    type: 'filesystem',
-    buildDependencies: { config: [__filename] },
-  },
   devtool: 'source-map',
-  resolve: {
-    plugins: [
-      new ForkTsCheckerNotifierWebpackPlugin({
-        title: 'TypeScript',
-        excludeWarnings: true,
-      }),
-    ],
-  },
   module: {
     rules: [
       {
@@ -34,7 +21,13 @@ module.exports = merge(common, {
       },
     ],
   },
-  plugins: [new ReactRefreshWebpackPlugin(), new ForkTsCheckerWebpackPlugin()],
+  plugins: [
+    new ReactRefreshWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
+    new ForkTsCheckerNotifierWebpackPlugin({
+      excludeWarnings: true,
+    }),
+  ],
   optimization: {
     removeAvailableModules: false,
     removeEmptyChunks: false,
