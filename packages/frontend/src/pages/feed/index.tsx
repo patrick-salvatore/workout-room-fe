@@ -1,6 +1,6 @@
 import React from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
-import { Container } from 'styledComponents/containers';
+// import { Container } from 'styledComponents/containers';
 
 // const useStyles = makeStyles(theme => ({
 //   paper: {
@@ -13,9 +13,9 @@ import { Container } from 'styledComponents/containers';
 
 const index = function(): JSX.Element {
   return (
-    <Container>
-      <h1>FEED</h1>
-    </Container>
+    // <Container>
+    <h1>FEED</h1>
+    // </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-import path from 'path';
+const path = require('path');
 
 module.exports = {
   root: path.join(process.cwd()), // project root directory
