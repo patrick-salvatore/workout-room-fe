@@ -124,7 +124,7 @@ const Grid: React.FC<IGridProps> = ({
 
   const addNewRow = () => {
     if (columnHeaders) {
-      if (!gridErrors?.emptyColumnHeader.error) {
+      if (!gridErrors.emptyColumnHeader.error) {
         const newRow = {};
         const numOfCols = columnHeaders.length;
 

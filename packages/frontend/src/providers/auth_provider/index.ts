@@ -9,15 +9,12 @@ const initialAuthData = { isAuthenticated: true, id: 0 };
 
 export const AuthDataContext = React.createContext<IAuthDataContext>(initialAuthData);
 
-const AuthDataProvider = (props): any => {
+export const AuthDataProvider = (props): any => {
   const [authData, setAuthData] = React.useState<IAuthDataContext>(initialAuthData);
   const { Provider } = AuthDataContext;
 
-  /*
-   * TODO: Add cookie/token check to
-   * set auth data on first render
-   */
-
+  // TODO: Add cookie/token check to
+  // set auth data on first render
   // useEffect(() => {
   //   const currentAuthData = someManager.getAuthData();
   //   if (currentAuthData) {
@@ -46,5 +43,3 @@ const AuthDataProvider = (props): any => {
 };
 
 export const useAuthDataContext = (): IAuthDataContext => React.useContext(AuthDataContext);
-
-export default AuthDataProvider;

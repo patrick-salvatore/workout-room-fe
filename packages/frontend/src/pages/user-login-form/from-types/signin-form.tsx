@@ -10,8 +10,8 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Visibility from '@material-ui/icons/Visibility';
 import { makeStyles } from '@material-ui/core/styles';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { FormFields } from 'components/form/interfaces';
-import Form from 'components/form';
+import { FormFields } from '@components/form/interfaces';
+import Form from '@components/form';
 
 const useStyles = makeStyles(theme => ({
   paper: {

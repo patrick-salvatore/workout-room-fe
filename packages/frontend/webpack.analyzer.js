@@ -1,8 +1,8 @@
-const webpackProd = require('./webpack.prod');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { merge } = require('webpack-merge');
+import webpackProd from './webpack.prod';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { merge } from 'webpack-merge';
 
-module.exports = (env) =>
+export default env =>
   merge(webpackProd(env), {
     plugins: [new BundleAnalyzerPlugin()],
   });

@@ -32,26 +32,26 @@ const testRowsData = [
 export const eventMap: Event[] = [
   {
     title: 'April 1',
-    start: new Date('April 27, 2020').toISOString(),
+    start: new Date('April 27, 2021').toISOString(),
     id: Math.floor(Math.random() * 100),
     grid: { rows: testRowsData, cols: defaultColHeader },
   },
   {
     title: 'April 2',
-    start: new Date('April 19, 2020').toISOString(),
+    start: new Date('April 19, 2021').toISOString(),
     id: Math.floor(Math.random() * 100),
     notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
     grid: { rows: testRowsData, cols: defaultColHeader },
   },
   {
     title: 'May 1',
-    start: new Date('May 19, 2020').toISOString(),
+    start: new Date('May 19, 2021').toISOString(),
     id: Math.floor(Math.random() * 100),
     grid: { rows: testRowsData, cols: defaultColHeader },
   },
   {
     title: 'May 2',
-    start: new Date('May 2, 2020').toISOString(),
+    start: new Date('May 2, 2021').toISOString(),
     id: Math.floor(Math.random() * 100),
     notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book`,
     grid: { rows: testRowsData, cols: defaultColHeader },

@@ -3,10 +3,6 @@
 @import '~@fullcalendar/timegrid/main.css';
 
 .calendar {
-  margin: 0 auto;
-  margin-top: 10px;
-  max-width: 900px;
-
   .fc {
     table {
       font-size: 14px;
@@ -31,12 +27,6 @@
       .fc-left {
         display: flex;
         align-items: center;
-      }
-
-      .fc-center {
-      }
-
-      .fc-right {
       }
     }
 

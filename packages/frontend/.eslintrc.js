@@ -1,12 +1,10 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['prettier', '@typescript-eslint', 'react-hooks'],
+  plugins: ['prettier', '@typescript-eslint', 'react-hooks', 'eslint-plugin-import'],
   extends: [
+    'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    'plugin:prettier/recommended',
-    // 'plugin:react-hooks',
-    'eslint:recommended',
   ],
   env: {
     browser: true,
@@ -30,7 +28,7 @@ module.exports = {
     ],
     'arrow-body-style': 'off',
     'class-methods-use-this': 'off',
-    'no-self-assign': off,
+    'no-self-assign': 'off',
     'consistent-return': 'off',
     'import/prefer-default-export': [0, { packageDir: '.' }],
     // Forbid the use of extraneous packages
