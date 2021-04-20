@@ -1,5 +1,3 @@
-import { Event } from './interfaces';
-
 const defaultColHeader = ['Lifts', 'Weight', 'Sets', 'Reps'];
 
 const testRowsData = [
@@ -29,7 +27,7 @@ const testRowsData = [
   },
 ];
 
-export const eventMap: Event[] = [
+export const eventMap = [
   {
     title: 'April 1',
     start: new Date('April 27, 2021').toISOString(),

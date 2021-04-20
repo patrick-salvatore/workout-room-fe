@@ -1,10 +1,11 @@
-import CompressionPlugin from 'compression-webpack-plugin';
-import HtmlMinifierPlugin from 'html-minifier-webpack-plugin';
-import { merge } from 'webpack-merge';
-import common from './webpack/common';
-import MiniCssExtractPlugin, { loader as _loader } from 'mini-css-extract-plugin';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const CompressionPlugin = require('compression-webpack-plugin');
+const HtmlMinifierPlugin = require('html-minifier-webpack-plugin');
+const { merge } = require('webpack-merge');
+const common = require('./webpack/common');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-export default merge(common, {
+module.exports = merge(common, {
   name: 'clientProd',
   mode: 'production',
   plugins: [
@@ -30,9 +31,8 @@ export default merge(common, {
       {
         test: /\.scss$|\.css$/,
         use: [
-          _loader,
+          MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader',
           'sass-loader',
         ],
       },

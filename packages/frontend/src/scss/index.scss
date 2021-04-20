@@ -16,11 +16,10 @@
 
   .screen--container {
     padding: 8px 16px;
-    min-width: 100%;
-    min-height: 100%;
   }
 }
 
-// @import './style_guide/font.scss';
+@import './pages.scss';
+@import './style_guide/font.scss';
 @import './style_guide/colors.scss';
 @import './style_guide/elements.scss';

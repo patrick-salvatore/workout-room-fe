@@ -1,0 +1,327 @@
+$cell-width: 55px;
+
+@mixin month {
+  &.month-view {
+    border: $border-solid-style;
+
+    .cal-section-header {
+      height: 1px;
+
+      .cal-header {
+        border-bottom: $border-solid-style;
+
+        .cal-header-cell {
+          font-size: 14px;
+
+          &-cushion {
+            display: inline-block;
+            padding: 2px 4px;
+          }
+        }
+      }
+    }
+
+    .cal-section-body {
+      .cal-scroller {
+        .cal-body {
+          .cal-table {
+            .cal-day {
+              height: 100px;
+              width: 100px;
+              border-left: $border-solid-style;
+
+              &--today {
+                background-color: rgba($color: #ddd, $alpha: 0.25);
+              }
+
+              &:first-of-type {
+                border-left: none;
+              }
+
+              .cal-day-frame {
+                display: grid;
+                height: 100%;
+                grid-template-rows: 1fr 1fr 1fr;
+
+                .cal-day-top {
+                  display: flex;
+                  align-items: center;
+                  justify-content: flex-end;
+
+                  .cal-day-number {
+                    font-size: 14px;
+                    padding: 3px;
+
+                    &:hover {
+                      cursor: pointer;
+                      text-decoration: underline;
+                    }
+
+                    &--not-this-month {
+                      opacity: 0.3;
+                    }
+                  }
+                }
+              }
+            }
+
+            tr {
+              border-bottom: $border-solid-style;
+
+              &:last-of-type {
+                border-bottom: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// @mixin week1 {
+//   &.week-view {
+//     position: relative;
+
+//     .week-view-head,
+//     .week-view-body {
+//       border: $border-solid-style;
+//     }
+
+//     .cal-section-header {
+//       border-bottom-width: 0;
+//       height: 1px;
+//       overflow: hidden scroll;
+//       border-bottom-width: 0;
+
+//       .cal-header {
+//         .cal-header-cell {
+//           font-size: 14px;
+//           box-sizing: border-box;
+//           border-right: $border-solid-style;
+//           text-align: center;
+
+//           &.cal-time-axis {
+//             width: $cell-width;
+//             border-right: $border-solid-style;
+
+//             .cal-time-axis-block {
+//               padding: 0 4px;
+//             }
+//           }
+
+//           &:last-of-type {
+//             border-right: none;
+//           }
+
+//           .cal-header-cell-cushion {
+//             display: inline-block;
+//             padding: 2px 4px;
+//           }
+//         }
+//       }
+//     }
+
+//     .week-view-body {
+//       .cal-section {
+//         .cal-time-divider {
+//           padding: 0 0 2px;
+//           border: $border-solid-style;
+
+//           height: 4px;
+//           background: var(--fc-neutral-bgor, hsla(0, 0%, 81.6%, 0.3));
+//         }
+
+//         &.cal-section-body {
+//           .cal-day {
+//             border-left: $border-solid-style;
+//           }
+//           .cal-time-axis {
+//             width: $cell-width;
+//             text-align: right;
+
+//             .cushion {
+//               max-width: $cell-width;
+//               flex-shrink: 0;
+//               padding: 0 4px;
+//             }
+//           }
+
+//           &.cal-scroller {
+//             height: auto;
+
+//             .cal-time-body {
+//               height: 100%;
+
+//               .cal-time-slots {
+//                 max-height: calc(100vh - 200px);
+//                 width: 100%;
+//                 border-spacing: 0;
+//                 right: 0;
+//                 left: 0;
+//                 position: absolute;
+//                 overflow: hidden scroll;
+//                 border: $border-solid-style;
+
+//                 .cal-time-slot {
+//                   display: flex;
+
+//                   &-label {
+//                     width: $cell-width;
+//                     padding: 0;
+//                     text-align: right;
+
+//                     &-cushion {
+//                       padding: 0 4px;
+//                     }
+//                   }
+
+//                   &-lane {
+//                     border-left: $border-solid-style;
+//                     flex: 1;
+//                     height: 1.5em;
+//                   }
+//                 }
+
+//                 tr {
+//                   td {
+//                     border-bottom: $border-dashed-style;
+//                   }
+
+//                   &:nth-of-type(2n) {
+//                     td {
+//                       border-bottom: $border-solid-style;
+//                     }
+//                   }
+
+//                   &:last-of-type {
+//                     td {
+//                       border-bottom: none;
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+@mixin week {
+  &.week-view {
+    .week-view-header,
+    .week-view-body {
+      border: $border-solid-style;
+    }
+
+    .week-view-header {
+      border-bottom-width: 0;
+
+      .cal-header-cell {
+        font-size: 14px;
+        box-sizing: border-box;
+        border-right: $border-solid-style;
+        text-align: center;
+
+        &-cushion {
+          display: inline-block;
+          padding: 2px 4px;
+        }
+
+        &-number-tag:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .week-view-body {
+      position: relative;
+
+      .cal-body-section {
+        height: calc(100vh - 150px);
+
+        .cal-body-cell {
+          border-right: $border-solid-style;
+
+          &--today {
+            background-color: rgba($color: #ddd, $alpha: 0.25);
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin day {
+  &.day-view {
+    .day-view-header,
+    .day-view-body {
+      border: $border-solid-style;
+    }
+
+    .day-view-header {
+      border-bottom-width: 0;
+
+      .cal-header-cell {
+        font-size: 14px;
+        box-sizing: border-box;
+        border-bottom: $border-solid-style;
+        text-align: center;
+
+        .cal-header-cell-cushion {
+          display: inline-block;
+          padding: 2px 4px;
+        }
+      }
+    }
+
+    .day-view-body {
+      position: relative;
+
+      &-section {
+        height: calc(100vh - 150px);
+      }
+      &-cell {
+        background-color: rgba($color: #ddd, $alpha: 0.25);
+        border-right: $border-solid-style;
+      }
+    }
+  }
+}
+
+.calendar--view {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  .calendar--table {
+    flex-grow: 1;
+
+    * {
+      font-size: 14px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    th {
+      padding: 0;
+      vertical-align: top;
+      text-align: center;
+      border-bottom: none;
+      width: 100%;
+    }
+    @include month();
+    @include week();
+    @include day();
+  }
+}

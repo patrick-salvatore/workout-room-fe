@@ -1,10 +1,11 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['prettier', '@typescript-eslint', 'react-hooks', 'eslint-plugin-import'],
+  plugins: ['prettier', '@typescript-eslint', 'react-hooks'],
   extends: [
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
   ],
   env: {
     browser: true,
@@ -77,12 +78,13 @@ module.exports = {
 
     // react rules
     'react/prop-types': [0],
-    'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': [0],
+    'react-hooks/rules-of-hooks': [0],
 
     // typescript rules
     '@typescript-eslint/interface-name-prefix': [0],
     '@typescript-eslint/camelcase': [0],
     '@typescript-eslint/no-explicit-any': [0],
+    '@typescript-eslint/no-non-null-assertion': [0],
   },
 };

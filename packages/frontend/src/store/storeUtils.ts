@@ -39,7 +39,7 @@ export const makeReducer = <
   if (!reducer) {
     return state || initState; // no reducer for this action
   }
-  return reducer(state, action as any); // TODO fix typings
+  return reducer(state, action as any);
 };
 
 export const isActionOfType = <B extends A, A extends Action = AnyAction>(type: B['type']) => (

@@ -1,90 +1,12 @@
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/daygrid/main.css';
-@import '~@fullcalendar/timegrid/main.css';
+$border-color: var(--lighterGrey);
+$border-solid-style: 1px solid $border-color;
+$border-dashed-style: 1px dashed $border-color;
 
 .calendar {
-  .fc {
-    table {
-      font-size: 14px;
-    }
-
-    .fc-toolbar {
-      margin-bottom: 0.5em;
-
-      .fc-button {
-        border: none;
-        background: #5393ff;
-        color: #121212;
-        width: 100px;
-        height: 35px;
-        border-radius: 4px;
-      }
-      .fc-today-button {
-        text-transform: capitalize;
-        background: #8fb5f8;
-      }
-
-      .fc-left {
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    .fc-view-container {
-      .fc-body {
-        .fc-day-grid {
-          .fc-row {
-            .fc-bg {
-              .fc-today {
-                background: transparent;
-              }
-            }
-
-            .fc-content-skeleton {
-              // EVENT CONTAINER
-              .fc-event-container {
-                .fc-day-grid-event {
-                  padding: 0;
-                  border-radius: 4px;
-                }
-
-                .fc-event {
-                  border: none;
-
-                  .event__wrapper {
-                    .event-text {
-                      padding-left: 6px;
-                    }
-
-                    &.event-today {
-                      background-color: #021a92;
-                      padding: 0;
-                      border-radius: 4px;
-                    }
-
-                    &--edit {
-                      .event-text--edit {
-                        padding-left: 6px;
-                      }
-                    }
-                  }
-                }
-              }
-
-              .fc-today {
-                .fc-day-number {
-                  margin: 3px;
-                  min-width: 15px;
-                  text-align: center;
-                  background-color: #ef5350;
-                  border-radius: 50%;
-                  color: #fff;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+  height: 100%;
+  * {
+    box-sizing: border-box;
   }
+  @import './calendar_body.scss';
+  @import './calendar_header.scss';
 }

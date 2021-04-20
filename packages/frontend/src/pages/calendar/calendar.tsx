@@ -1,102 +1,78 @@
-import React, { useReducer, useEffect } from 'react';
-import { render } from 'react-dom';
-import { isToday } from 'date-fns';
+import React from 'react';
+import { add, sub } from 'date-fns';
 
-import { makeReducer } from '@store/storeUtils';
+import { CalendarHeader } from './calendar_header';
+import { CalendarBody } from './calendar_body';
 
-import { CalendarState, Action, Event } from './interfaces';
-import { eventMap } from './mock.data';
-import { construct_month } from './calendar.utils';
+import {
+  CalendarState,
+  DAY_CONST,
+  get_calendar_fact,
+  MONTH_CONST,
+  ViewTypes,
+  WEEK_CONST,
+} from './calendar.utils';
 
-import './calendar.scss';
+const calendarFactory = get_calendar_fact();
 
-const calendarState: CalendarState = {
-  weekends: true,
-  events: [],
-  view: { toggleButtonText: 'Week', isWeek: false, type: 'dayGridMonth' },
-  edit: false,
-  modalState: {
-    show: false,
-    name: '',
-    workout: {
-      id: null,
-      idx: null,
-      notes: null,
-      grid: { rows: [], cols: [] },
-      start: null,
-      end: null,
-    },
-  },
-};
+const set_next_month = (
+  date: Date,
+  dispatch: React.Dispatch<React.SetStateAction<CalendarState>>
+) => dispatch({ date: add(date, { months: 1 }), view: MONTH_CONST });
 
-const closeModalAction = (payload: CalendarState['modalState']) =>
-  ({
-    type: 'CLOSE_MODAL',
-    payload,
-  } as const);
+const set_prev_month = (
+  date: Date,
+  dispatch: React.Dispatch<React.SetStateAction<CalendarState>>
+) => dispatch({ date: sub(date, { months: 1 }), view: MONTH_CONST });
 
-const toggleWeekView = (state: CalendarState) =>
-  ({
-    type: 'TO_WEEK_VIEW',
-    payload: {
-      toggleButtonText: 'Month',
-      isWeek: !state.view.isWeek,
-      type: 'dayGridWeek',
-    },
-  } as const);
+const set_next_day = (date: Date, dispatch: React.Dispatch<React.SetStateAction<CalendarState>>) =>
+  dispatch({ date: add(date, { days: 1 }), view: DAY_CONST });
 
-const toggleMonthView = (state: CalendarState) =>
-  ({
-    type: 'TO_MONTH_VIEW',
-    payload: {
-      toggleButtonText: 'Week',
-      isWeek: !state.view.isWeek,
-      type: 'dayGridMonth',
-    },
-  } as const);
+const set_prev_day = (date: Date, dispatch: React.Dispatch<React.SetStateAction<CalendarState>>) =>
+  dispatch({ date: sub(date, { days: 1 }), view: DAY_CONST });
 
-type CalendarActions = ReturnType<
-  typeof closeModalAction | typeof toggleWeekView | typeof toggleMonthView
->;
+const set_next_week = (date: Date, dispatch: React.Dispatch<React.SetStateAction<CalendarState>>) =>
+  dispatch({ date: add(date, { days: 7 }), view: WEEK_CONST });
 
-const calendarReducer = makeReducer<CalendarState, CalendarActions>(
-  {
-    TO_WEEK_VIEW: (state, { payload }) => ({
-      ...state,
-      view: payload,
-    }),
-    TO_MONTH_VIEW: (state, { payload }) => ({
-      ...state,
-      view: payload,
-    }),
-    CLOSE_MODAL: (state, { payload }) => ({
-      ...state,
-      modalState: payload,
-    }),
-  },
-  calendarState
-);
-
-type CalendarStruct = Array<Date[]>;
-const CalendarBody = () => {
-  const [calendar, setCalendar] = React.useState<CalendarStruct>(construct_month());
-  return (
-    <table>
-      {calendar.map((week, i) => (
-        <tr key={i}>
-          {week.map(day => (
-            <td>{day.getDate()}</td>
-          ))}
-        </tr>
-      ))}
-    </table>
-  );
-};
+const set_prev_week = (date: Date, dispatch: React.Dispatch<React.SetStateAction<CalendarState>>) =>
+  dispatch({ date: sub(date, { days: 7 }), view: WEEK_CONST });
 
 export const Calendar: React.FC = (): JSX.Element => {
+  const [{ date, view }, setCalendar] = React.useState(
+    calendarFactory.get_calendar_state(new Date(), MONTH_CONST)
+  );
+
+  const set_this_month = () => setCalendar(calendarFactory.get_calendar_state(new Date(), view));
+
+  const decrement_date = () =>
+    (view === MONTH_CONST ? set_prev_month : view === WEEK_CONST ? set_prev_week : set_prev_day)(
+      date,
+      setCalendar
+    );
+
+  const increment_date = () =>
+    (view === MONTH_CONST ? set_next_month : view === WEEK_CONST ? set_next_week : set_next_day)(
+      date,
+      setCalendar
+    );
+
+  const toggle_view = (view: ViewTypes, nextDate = date) => setCalendar({ date: nextDate, view });
+
   return (
-    <div className="calendar">
-      <CalendarBody />
+    <div className="calendar--view">
+      <CalendarHeader
+        prevMonth={decrement_date}
+        nextMonth={increment_date}
+        resetMonth={set_this_month}
+        toggleView={toggle_view}
+        date={date}
+        view={view}
+      />
+      <CalendarBody
+        date={date}
+        view={view}
+        goToDayView={(date: Date) => setCalendar({ date, view: DAY_CONST })}
+      />
     </div>
   );
 };

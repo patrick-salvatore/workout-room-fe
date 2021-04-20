@@ -39,4 +39,4 @@ export const GlobalUiProvider: React.FC = props => {
 
 export const useGlobalUiContext = (): TGlobalUiContextMemo => React.useContext(GlobalUiContext);
 
-export const navigationOpenState = () => useGlobalUiContext().isNavigationOpen;
+export const navigationOpenState = (): boolean => useGlobalUiContext().isNavigationOpen;

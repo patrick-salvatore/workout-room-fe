@@ -34,11 +34,6 @@ const imagesLoader = {
   ],
 };
 
-const svgLoader = {
-  test: /\.svg$/,
-  use: ['@svgr/webpack'],
-};
-
 const mediaLoader = {
   test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
   use: {
@@ -70,6 +65,11 @@ const fileLoader = {
       name: 'static/[name].[ext]',
     },
   },
+};
+
+const svgLoader = {
+  test: /\.svg$/,
+  use: ['@svgr/webpack'],
 };
 
 module.exports = [

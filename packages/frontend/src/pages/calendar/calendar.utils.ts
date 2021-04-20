@@ -1,56 +1,123 @@
+import { isToday, format, add, sub } from 'date-fns';
 import { chunk } from '@helpers/index';
+
+export type DaysOfWeek = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat';
+export type SpecialDate = {
+  date: Date;
+  isToday: boolean;
+  thisMonth: boolean;
+  dateString: string;
+};
+export type DateList = Date[];
+export type Week = SpecialDate[];
+export type Month = SpecialDate[][];
+export type MonthNumbers = typeof months_by_number[number];
+export type MonthAbbrev = typeof months[number];
+export type ViewTypes = typeof MONTH_CONST | typeof WEEK_CONST | typeof DAY_CONST;
+export type CalendarState = {
+  date: Date;
+  view: ViewTypes;
+};
+type CalendarData = {
+  get_this_month_name: (month_index: MonthNumbers) => MonthAbbrev;
+  get_calendar_state: (date: Date, view: ViewTypes) => CalendarState;
+};
 
 const COLS = 7;
 const ROWS = 6;
 const TOTAL_CELLS = COLS * ROWS;
+export const MONTH_CONST = 'MONTH' as const;
+export const WEEK_CONST = 'WEEK' as const;
+export const DAY_CONST = 'DAY' as const;
 export const number_of_weeks = 4;
-export const days = [0, 1, 2, 3, 4, 5, 6];
-export const months_by_number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-export const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+export const months_by_number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
 
-export const get_month = (month = new Date().getMonth(), year = new Date().getFullYear()) =>
+export const days_of_week = [
+  { number: 0, day: 'sun' },
+  { number: 1, day: 'mon' },
+  { number: 2, day: 'tue' },
+  { number: 3, day: 'wed' },
+  { number: 4, day: 'thu' },
+  { number: 5, day: 'fri' },
+  { number: 6, day: 'sat' },
+] as const;
+export const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+] as const;
+export const hours = [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+] as const;
+
+export const get_month = (month = new Date().getMonth(), year = new Date().getFullYear()): Date[] =>
   new Array(31)
     .fill(null)
     .map((_, i) => new Date(year, month, i + 1))
     .filter(v => v.getMonth() === month);
 
-export const get_last_month = (month = new Date().getMonth(), year = new Date().getFullYear()) =>
-  new Array(31).fill(null).map((_, i) => new Date(year, month - 1, i + 1));
+export const get_last_month = (
+  month = new Date().getMonth(),
+  year = new Date().getFullYear()
+): Date[] => new Array(31).fill(null).map((_, i) => new Date(year, month - 1, i + 1));
 
-export const get_next_month = (month = new Date().getMonth(), year = new Date().getFullYear()) =>
-  new Array(31).fill(null).map((_, i) => new Date(year, month + 1, i + 1));
+export const get_next_month = (
+  month = new Date().getMonth(),
+  year = new Date().getFullYear()
+): Date[] => new Array(31).fill(null).map((_, i) => new Date(year, month + 1, i + 1));
 
-export const get_next_date = (today = new Date()) => {
+export const get_next_date = (today = new Date()): Date => {
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
   return tomorrow;
 };
 
-export const get_prev_date = (today = new Date()) => {
+export const get_prev_date = (today = new Date()): Date => {
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
   return yesterday;
 };
 
-export const construct_month = (month = new Date().getMonth(), year = new Date().getFullYear()) => {
+export const construct_month = (month: MonthNumbers, year: number): Month => {
   const calArray: Date[] = [];
   const this_month = get_month(month, year);
   const next_month = get_next_month(month, year);
   const start = new Date(this_month[0]);
   const mut_clone = new Date(start.getTime());
+
+  const part_of_main_month = (date: Date) => start.getMonth() === date.getMonth();
 
   let isSunday = start.getDay() === 0;
 
@@ -73,5 +140,37 @@ export const construct_month = (month = new Date().getMonth(), year = new Date()
     calArray.push(this_month[step++]);
   }
 
-  return chunk(calArray, 7);
+  const updateArray: Week = calArray.map(date => ({
+    date,
+    dateString: format(date, 'yyyy/dd/MM'),
+    isToday: isToday(date),
+    thisMonth: part_of_main_month(date),
+  }));
+
+  return chunk(updateArray, 7);
+};
+
+export const get_calendar_state = (given_date: Date, view: ViewTypes): CalendarState => ({
+  view,
+  date: new Date(given_date.getTime()),
+});
+
+export const get_week = (date: Date): DateList => {
+  const daysToSunday = Math.abs(0 - date.getDay());
+  const clone = new Date(sub(date, { days: daysToSunday }));
+
+  return new Array(7).fill('').map((d, inc) => add(clone, { days: inc }));
+};
+
+export const get_this_month_name = (month_index: MonthNumbers): MonthAbbrev => months[month_index];
+
+export const get_calendar_fact = (): CalendarData => {
+  const get_calendar_state = (given_date: Date, view: ViewTypes): CalendarState => ({
+    view,
+    date: new Date(given_date.getTime()),
+  });
+
+  const get_this_month_name = (month_index: MonthNumbers) => months[month_index];
+
+  return { get_this_month_name, get_calendar_state };
 };

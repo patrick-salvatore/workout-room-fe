@@ -14,6 +14,7 @@
       "@helpers/*": ["src/helpers/*"],
       "@providers/*": ["./src/providers/*"],
       "@store/*": ["./src/store/*"],
+      "@svgs/*": ["./src/svgs/*"],
     },
     "target": "es5",
     "declaration": false,

@@ -1,8 +1,5 @@
 import React from 'react';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
 
-// import FilingCabinetLogo from '@assets/filing_cabinet_3.svg';
 import { useGlobalUiContext } from '@providers/global/global_ui';
 
 import './nav.scss';
@@ -17,9 +14,25 @@ const SideNavToggle = ({
   <div data-testid="clickElm" className="icon__wrapper">
     <div className="sidebar-btn__wrapper">
       {isOpen ? (
-        <ChevronLeft onClick={toggleSideNav} className="icon" />
+        <svg
+          onClick={toggleSideNav}
+          xmlns="http://www.w3.org/2000/svg"
+          width={24}
+          height={24}
+          className="icon"
+        >
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+        </svg>
       ) : (
-        <ChevronRight onClick={toggleSideNav} className="icon" />
+        <svg
+          onClick={toggleSideNav}
+          xmlns="http://www.w3.org/2000/svg"
+          width={24}
+          height={24}
+          className="icon"
+        >
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+        </svg>
       )}
     </div>
   </div>
@@ -41,15 +54,11 @@ const SideNav = (): JSX.Element => {
   );
 };
 
-const GlobalNav = () => (
-  <div className="navigation__global">
-    <div className="logo__wrapper" />
-  </div>
-);
-
-export const NavBarContainer = () => (
+export const NavBarContainer: React.FC = (): JSX.Element => (
   <nav className="navigation">
-    <GlobalNav />
+    <div className="navigation__global">
+      <div className="logo__wrapper" />
+    </div>
     <SideNav />
   </nav>
 );

@@ -1,12 +1,13 @@
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import { merge } from 'webpack-merge';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const { merge } = require('webpack-merge');
 
-import common from './webpack/common';
-import { outputDir } from './webpack/paths';
+const common = require('./webpack/common');
+const { outputDir } = require('./webpack/paths');
 
-export default merge(common, {
+module.exports = merge(common, {
   mode: 'development',
   devtool: 'source-map',
   module: {
