@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-// const Dotenv = require('dotenv-webpack');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const Dotenv = require('dotenv-webpack');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const { currentDirectory, dotEnv } = require('./envs');
