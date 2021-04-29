@@ -1,0 +1,36 @@
+$cell-width: 55px;
+
+.calendar--view {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  .calendar--table {
+    flex-grow: 1;
+
+    * {
+      font-size: 14px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    th {
+      padding: 0;
+      vertical-align: top;
+      text-align: center;
+      border-bottom: none;
+      width: 100%;
+    }
+
+    @import './month_view.scss';
+    @import './week_view.scss';
+    @import './day_view.scss';
+  }
+}

@@ -1,7 +1,8 @@
 * {
   font-family: 'Muli', sans-serif;
   outline: none;
-  user-select: none;
+  color: var(--color-primary-100);
+
   -webkit-tap-highlight-color: transparent;
 
   &:focus {
@@ -30,7 +31,7 @@ select:-webkit-autofill:focus {
 html,
 body {
   position: relative;
-  background-color: var(--pure-white);
+  background-color: var(--color-primary-900);
 
   height: 100%;
   margin: 0;
@@ -88,16 +89,21 @@ button {
 }
 
 .button-primary {
-  color: var(--pure-white);
-  background-color: var(--navy-50);
-  border-color: var(--navy-50);
+  color: var(--color-primary-100);
+  background-color: var(--color-accent);
+  border-color: 1px solid transparent;
 
   &:hover {
-    background-color: var(--navy-90);
-    border-color: var(--navy-90);
+    background-color: var(--color-accent-hover);
   }
 
   &.button-active {
-    background-color: var(--navy-90);
+    color: var(--color-primary-100);
+    background-color: var(--color-primary-700-opaque);
+  }
+
+  &:disabled {
+    color: var(--color-primary-100);
+    background-color: rgba(44, 62, 80, 0.65);
   }
 }

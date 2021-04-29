@@ -1,38 +1,31 @@
 import React from 'react';
-import { isThisMonth, sub } from 'date-fns';
+import { isThisMonth, isThisWeek, isToday } from 'date-fns';
 
 import ChevronLeft from '@svgs/ChevronLeft';
 import ChevronRight from '@svgs/ChevronRight';
 
-import {
-  DAY_CONST,
-  MonthNumbers,
-  months,
-  MONTH_CONST,
-  ViewTypes,
-  WEEK_CONST,
-} from './calendar.utils';
+import { MonthNumbers, months, MONTH_CONST, ViewTypes, WEEK_CONST } from './calendar.utils';
 
 type CalendarHeaderProps = {
   date: Date;
   view: ViewTypes;
-  prevMonth: () => void;
-  nextMonth: () => void;
+  previous: () => void;
+  next: () => void;
   resetMonth: () => void;
   toggleView: (view: ViewTypes, d?: Date) => void;
 };
 
-const getDateForWeekToggle = (date: Date) =>
-  isThisMonth(date) ? date : sub(date, { days: date.getDate() - 1 });
-
 export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
-  prevMonth,
-  nextMonth,
+  previous,
+  next,
   date,
   resetMonth,
   view,
   toggleView,
 }) => {
+  const is_today_func =
+    view === MONTH_CONST ? isThisMonth : view === WEEK_CONST ? isThisWeek : isToday;
+
   return (
     <div className="cal-header-toolbar cal-toolbar">
       <div className="cal-toolbar-left">
@@ -40,19 +33,23 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           <button
             className="cal-prev-button cal-button button-primary"
             aria-label="prev"
-            onClick={prevMonth}
+            onClick={previous}
           >
             <ChevronLeft height={21} />
           </button>
           <button
             className="cal-next-button cal-button button-primary"
             aria-label="next"
-            onClick={nextMonth}
+            onClick={next}
           >
             <ChevronRight height={21} />
           </button>
         </div>
-        <button className="cal-today-button cal-button button-primary" onClick={resetMonth}>
+        <button
+          disabled={is_today_func(date)}
+          className={`cal-today-button cal-button button-primary`}
+          onClick={resetMonth}
+        >
           today
         </button>
       </div>
@@ -72,7 +69,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           month
         </button>
         <button
-          onClick={() => toggleView(WEEK_CONST, getDateForWeekToggle(date))}
+          onClick={() => toggleView(WEEK_CONST)}
           disabled={view === WEEK_CONST}
           className={`cal-dayGridMonth-button cal-button button-primary ${
             view === WEEK_CONST ? 'button-active' : ''
@@ -80,7 +77,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         >
           week
         </button>
-        <button
+        {/* <button
           onClick={() => toggleView(DAY_CONST)}
           disabled={view === DAY_CONST}
           className={`cal-dayGridMonth-button cal-button button-primary ${
@@ -88,7 +85,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           }`}
         >
           day
-        </button>
+        </button> */}
       </div>
     </div>
   );

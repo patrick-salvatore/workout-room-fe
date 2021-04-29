@@ -1,0 +1,77 @@
+.activity-wrapper {
+  padding: 16px 24px;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+
+  .activity-title-wrapper {
+    .title {
+      color: var(--purple-30);
+
+      font-size: 16px;
+    }
+  }
+
+  .activity-notes-wrapper {
+    .notes {
+      color: var(--purple-30);
+    }
+  }
+
+  .activity-table-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 16px;
+    margin-top: 16px;
+
+    .activity-table {
+      table-layout: fixed;
+      border-spacing: 0;
+      border-collapse: collapse;
+
+      .session-row {
+        height: 2rem;
+        .activity-session {
+          font-size: 16px;
+          font-weight: bold;
+          text-decoration: underline;
+        }
+      }
+
+      .activity-row {
+        display: flex;
+
+        .activity-cell {
+          padding: 8px 4px;
+          width: 100%;
+          border: $border-solid-style;
+
+          .activity-data-wrapper {
+            .activity-text {
+              display: flex;
+              align-items: center;
+
+              .activity-title {
+                &::after {
+                  padding-left: 2px;
+                  content: ':';
+                }
+              }
+
+              .activity-input {
+                padding-left: 2px;
+              }
+            }
+
+            .activity-schema {
+              &--input {
+                margin: 4px 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

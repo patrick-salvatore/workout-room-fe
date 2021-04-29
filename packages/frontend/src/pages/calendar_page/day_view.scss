@@ -1,0 +1,45 @@
+$paddingLeft: 8px;
+
+&.day-view {
+  height: calc(100vh - 150px);
+
+  .day-view-header,
+  .day-view-body {
+    border: $border-solid-style;
+  }
+
+  .day-view-header {
+    border-bottom-width: 0;
+
+    .cal-header-cell {
+      position: relative;
+      font-size: 14px;
+      box-sizing: border-box;
+      border-bottom: $border-solid-style;
+      text-align: center;
+      padding: 4px;
+
+      .cal-header-cell-cushion {
+        display: inline-block;
+        padding: 2px 4px;
+      }
+
+      .icon-wrapper {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  .day-view-body {
+    position: relative;
+
+    &-cell {
+      border-right: $border-solid-style;
+
+      @import './day_activity.scss';
+    }
+  }
+}

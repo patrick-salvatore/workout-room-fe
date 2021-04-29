@@ -26,3 +26,23 @@ export const capitalize = (s: string): string =>
 export const randomInteger = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+export const query_params_map = (fullParams: string): Record<string, string> =>
+  Object.freeze(
+    fullParams
+      .trim()
+      .replace(/^[?#&]/, '')
+      .split('&')
+      .reduce((acc, prev) => {
+        const [key, value] = prev.split('=');
+        acc[key] = value;
+        return acc;
+      }, Object.create(null))
+  );
+
+export const query_map_to_string = (map: Record<string, string>): string =>
+  Object.freeze(
+    Object.entries(map)
+      .map(([key, val]) => `${key}=${val}`)
+      .join('&')
+  );

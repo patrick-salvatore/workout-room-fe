@@ -1,12 +1,13 @@
-import { isToday, format, add, sub } from 'date-fns';
+import { isToday, format, add, sub, isThisMonth, isSameMonth } from 'date-fns';
 import { chunk } from '@helpers/index';
 
-export type DaysOfWeek = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat';
+export type DaysOfWeek = 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
 export type SpecialDate = {
   date: Date;
   isToday: boolean;
   thisMonth: boolean;
   dateString: string;
+  sameMonth: (d: Date) => boolean;
 };
 export type DateList = Date[];
 export type Week = SpecialDate[];
@@ -16,11 +17,10 @@ export type MonthAbbrev = typeof months[number];
 export type ViewTypes = typeof MONTH_CONST | typeof WEEK_CONST | typeof DAY_CONST;
 export type CalendarState = {
   date: Date;
-  view: ViewTypes;
 };
-type CalendarData = {
+export type CalendarData = {
   get_this_month_name: (month_index: MonthNumbers) => MonthAbbrev;
-  get_calendar_state: (date: Date, view: ViewTypes) => CalendarState;
+  get_calendar_state: (date: Date) => CalendarState;
 };
 
 const COLS = 7;
@@ -98,17 +98,23 @@ export const get_next_month = (
   year = new Date().getFullYear()
 ): Date[] => new Array(31).fill(null).map((_, i) => new Date(year, month + 1, i + 1));
 
-export const get_next_date = (today = new Date()): Date => {
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  return tomorrow;
-};
-
-export const get_prev_date = (today = new Date()): Date => {
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-  return yesterday;
-};
+const check_if_monday = (date: Date) => date.getDay() === 1;
+const days_to_last_monday = (d: Date) =>
+  d.getDay() === 0
+    ? 6
+    : d.getDay() === 1
+    ? 0
+    : d.getDay() === 2
+    ? 1
+    : d.getDay() === 3
+    ? 2
+    : d.getDay() === 4
+    ? 3
+    : d.getDay() === 5
+    ? 4
+    : d.getDay() === 6
+    ? 5
+    : 0;
 
 export const construct_month = (month: MonthNumbers, year: number): Month => {
   const calArray: Date[] = [];
@@ -119,11 +125,11 @@ export const construct_month = (month: MonthNumbers, year: number): Month => {
 
   const part_of_main_month = (date: Date) => start.getMonth() === date.getMonth();
 
-  let isSunday = start.getDay() === 0;
+  let isMonday = check_if_monday(start);
 
-  while (!isSunday) {
+  while (!isMonday) {
     mut_clone.setDate(mut_clone.getDate() - 1);
-    isSunday = mut_clone.getDay() === 0;
+    isMonday = check_if_monday(mut_clone);
   }
 
   while (mut_clone < start) {
@@ -145,32 +151,39 @@ export const construct_month = (month: MonthNumbers, year: number): Month => {
     dateString: format(date, 'yyyy/dd/MM'),
     isToday: isToday(date),
     thisMonth: part_of_main_month(date),
+    sameMonth: (comp_date: Date) => isSameMonth(comp_date, date),
   }));
 
   return chunk(updateArray, 7);
 };
 
-export const get_calendar_state = (given_date: Date, view: ViewTypes): CalendarState => ({
-  view,
+export const get_calendar_state = (given_date: Date): CalendarState => ({
   date: new Date(given_date.getTime()),
 });
 
-export const get_week = (date: Date): DateList => {
-  const daysToSunday = Math.abs(0 - date.getDay());
-  const clone = new Date(sub(date, { days: daysToSunday }));
-
-  return new Array(7).fill('').map((d, inc) => add(clone, { days: inc }));
+export const get_week = (incoming_date: Date): Week => {
+  const clone = new Date(sub(incoming_date, { days: days_to_last_monday(incoming_date) }));
+  const dates = new Array(7).fill('').map((__, inc) => add(clone, { days: inc }));
+  const week = dates.map(date => ({
+    date,
+    dateString: format(date, 'yyyy/dd/MM'),
+    isToday: isToday(date),
+    thisMonth: isThisMonth(date),
+    sameMonth: (comp_date: Date) => isSameMonth(comp_date, date),
+  }));
+  return week;
 };
 
 export const get_this_month_name = (month_index: MonthNumbers): MonthAbbrev => months[month_index];
 
 export const get_calendar_fact = (): CalendarData => {
-  const get_calendar_state = (given_date: Date, view: ViewTypes): CalendarState => ({
-    view,
-    date: new Date(given_date.getTime()),
+  const get_calendar_state = (given_date: Date): CalendarState => ({
+    date: add(given_date, { days: 0 }),
   });
 
   const get_this_month_name = (month_index: MonthNumbers) => months[month_index];
 
   return { get_this_month_name, get_calendar_state };
 };
+
+export const get_name_from_date = (day: Date): DaysOfWeek => days_of_week[day.getDay()].day;

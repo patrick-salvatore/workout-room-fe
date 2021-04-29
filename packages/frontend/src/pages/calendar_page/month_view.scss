@@ -1,0 +1,92 @@
+&.month-view {
+  user-select: none;
+  border: $border-solid-style;
+
+  .cal-section-header {
+    height: 1px;
+
+    .cal-header {
+      border-bottom: $border-solid-style;
+
+      .cal-header-cell {
+        font-size: 14px;
+
+        &-cushion {
+          display: inline-block;
+          padding: 2px 4px;
+        }
+      }
+    }
+  }
+
+  .cal-month-body {
+    .cal-section-body {
+      position: relative;
+      display: flex;
+
+      .cal-body {
+        .cal-table {
+          .cal-day {
+            height: 100px;
+            width: 100px;
+            border-left: $border-solid-style;
+
+            &--today {
+              background-color: var(--color-primary-700-opaque);
+            }
+
+            &:first-of-type {
+              border-left: none;
+            }
+
+            .cal-day-frame {
+              display: grid;
+              height: 100%;
+              grid-template-rows: auto 1fr 1fr;
+
+              .cal-day-top {
+                display: flex;
+                justify-content: flex-end;
+
+                .cal-day-number {
+                  font-size: 14px;
+                  padding: 3px;
+
+                  &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                  }
+
+                  &--not-this-month {
+                    opacity: 0.3;
+                  }
+                }
+              }
+
+              .cal-day-activity {
+                .activity {
+                  padding: 2px;
+                  margin: 0 4px;
+                  border-radius: 4px;
+                  background-color: var(--color-accent);
+
+                  .activity-text {
+                    margin: 0 3px;
+                  }
+                }
+              }
+            }
+          }
+
+          tr {
+            border-bottom: $border-solid-style;
+
+            &:last-of-type {
+              border-bottom: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

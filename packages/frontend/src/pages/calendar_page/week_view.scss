@@ -1,0 +1,68 @@
+&.week-view {
+  .week-view-header,
+  .week-view-body {
+    border: $border-solid-style;
+  }
+
+  .week-view-header {
+    border-bottom-width: 0;
+
+    .cal-header-cell {
+      font-size: 14px;
+      box-sizing: border-box;
+      border-right: $border-solid-style;
+      text-align: center;
+
+      &--not-this-month {
+        opacity: 0.3;
+      }
+
+      &-cushion {
+        display: inline-block;
+        padding: 2px 4px;
+      }
+
+      &-number-tag:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .week-view-body {
+    position: relative;
+
+    .cal-body-section {
+      height: calc(100vh - 150px);
+
+      .cal-body-cell {
+        border-right: $border-solid-style;
+
+        &--today {
+          background-color: var(--color-primary-700-opaque);
+        }
+
+        .activity-block-wrapper {
+          padding: 2px;
+          margin: 8px 4px;
+          border-radius: 4px;
+          background-color: var(--color-accent);
+
+          .activity-title {
+            margin: 0 3px;
+            font-weight: bold;
+          }
+
+          .activity-list-wrapper {
+            flex-direction: column;
+            display: flex;
+
+            .activity-list-item {
+              margin: 2px 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
