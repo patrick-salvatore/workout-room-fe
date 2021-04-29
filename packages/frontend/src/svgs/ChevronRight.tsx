@@ -7,7 +7,7 @@ function SvgChevronRight(props) {
       width={16}
       height={16}
       fill="currentColor"
-      className="chevron-right_svg__bi chevron-right_svg__bi-chevron-right"
+      className="chevron-right_svg__bi chevron-right_svg__bi"
       {...props}
     >
       <path
