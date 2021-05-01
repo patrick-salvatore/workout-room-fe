@@ -17,10 +17,10 @@
   }
 
   .navigation__context {
-    will-change: width;
     background-color: var(--neutral-10);
     height: 100%;
     border-right: 1px solid var(--neutral-30);
+    will-change: width;
     transition: width 400ms cubic-bezier(0.2, 0, 0, 1) 0s;
 
     &-opened {

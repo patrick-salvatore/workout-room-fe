@@ -123,8 +123,6 @@ export const construct_month = (month: MonthNumbers, year: number): Month => {
   const start = new Date(this_month[0]);
   const mut_clone = new Date(start.getTime());
 
-  const part_of_main_month = (date: Date) => start.getMonth() === date.getMonth();
-
   let isMonday = check_if_monday(start);
 
   while (!isMonday) {
@@ -150,7 +148,7 @@ export const construct_month = (month: MonthNumbers, year: number): Month => {
     date,
     dateString: format(date, 'yyyy/dd/MM'),
     isToday: isToday(date),
-    thisMonth: part_of_main_month(date),
+    thisMonth: start.getMonth() === date.getMonth(),
     sameMonth: (comp_date: Date) => isSameMonth(comp_date, date),
   }));
 

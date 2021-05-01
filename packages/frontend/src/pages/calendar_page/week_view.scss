@@ -43,22 +43,34 @@
         }
 
         .activity-block-wrapper {
-          padding: 2px;
+          padding: 4px;
           margin: 8px 4px;
           border-radius: 4px;
           background-color: var(--color-accent);
 
           .activity-title {
-            margin: 0 3px;
+            margin: 3px 0;
             font-weight: bold;
           }
 
+          .activity-notes {
+            margin: 8px 0 4px 0;
+            overflow: hidden;
+            height: 60px;
+          }
+
           .activity-list-wrapper {
+            padding: 0;
             flex-direction: column;
             display: flex;
 
+            .activity-list-title {
+              font-weight: bold;
+              margin: 8px 0 4px 0;
+            }
+
             .activity-list-item {
-              margin: 2px 0;
+              margin: 2px 4px 0;
             }
           }
         }

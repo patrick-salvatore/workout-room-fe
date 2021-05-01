@@ -41,10 +41,10 @@ const set_prev_week = (date: Date, dispatch: React.Dispatch<React.SetStateAction
 
 export const Calendar: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
-  const { view } = query_params_map(useLocation().search);
+  const { view, ...other_params } = query_params_map(useLocation().search);
   const [{ date }, setCalendar] = React.useState(calendarFactory.get_calendar_state(new Date()));
 
-  const set_this_month = () => setCalendar(calendarFactory.get_calendar_state(new Date()));
+  const set_today = () => setCalendar(calendarFactory.get_calendar_state(new Date()));
 
   const decrement_date = () =>
     (view === MONTH_CONST ? set_prev_month : view === WEEK_CONST ? set_prev_week : set_prev_day)(
@@ -59,38 +59,44 @@ export const Calendar: React.FC = (): JSX.Element => {
     );
 
   const toggle_view = (view: ViewTypes) => {
-    navigate(`?${query_map_to_string({ view })}`);
+    navigate(`?${query_map_to_string({ view, ...other_params })}`);
     setCalendar({ date });
   };
 
   const go_to_day_view = (date: Date) => {
-    navigate(`?${query_map_to_string({ view: DAY_CONST })}`);
+    navigate(`?${query_map_to_string({ view: DAY_CONST, ...other_params })}`);
     setCalendar({ date });
   };
 
   React.useEffect(() => {
-    const keyPress = e => {
-      const { code } = e;
+    if (!view) {
+      navigate(`?${query_map_to_string({ view: MONTH_CONST, ...other_params })}`);
+    }
+  }, []);
 
-      if (code === 'ArrowLeft') {
-        decrement_date();
-      }
+  // React.useEffect(() => {
+  //   const keyPress = e => {
+  //     const { code } = e;
 
-      if (code === 'ArrowRight') {
-        increment_date();
-      }
-    };
+  //     if (code === 'ArrowLeft') {
+  //       decrement_date();
+  //     }
 
-    document.addEventListener('keyup', keyPress);
-    return () => document.removeEventListener('keyup', keyPress);
-  }, [date, view]);
+  //     if (code === 'ArrowRight') {
+  //       increment_date();
+  //     }
+  //   };
+
+  //   document.addEventListener('keyup', keyPress);
+  //   return () => document.removeEventListener('keyup', keyPress);
+  // }, [date, view]);
 
   return (
     <div id="calendar--view" className="calendar--view" tabIndex={0}>
       <CalendarHeader
         previous={decrement_date}
         next={increment_date}
-        resetMonth={set_this_month}
+        setToday={set_today}
         toggleView={toggle_view}
         date={date}
         view={view as ViewTypes}

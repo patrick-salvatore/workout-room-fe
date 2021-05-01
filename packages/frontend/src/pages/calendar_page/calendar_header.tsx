@@ -11,7 +11,7 @@ type CalendarHeaderProps = {
   view: ViewTypes;
   previous: () => void;
   next: () => void;
-  resetMonth: () => void;
+  setToday: () => void;
   toggleView: (view: ViewTypes, d?: Date) => void;
 };
 
@@ -19,7 +19,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   previous,
   next,
   date,
-  resetMonth,
+  setToday,
   view,
   toggleView,
 }) => {
@@ -48,7 +48,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         <button
           disabled={is_today_func(date)}
           className={`cal-today-button cal-button button-primary`}
-          onClick={resetMonth}
+          onClick={setToday}
         >
           today
         </button>
@@ -77,15 +77,6 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         >
           week
         </button>
-        {/* <button
-          onClick={() => toggleView(DAY_CONST)}
-          disabled={view === DAY_CONST}
-          className={`cal-dayGridMonth-button cal-button button-primary ${
-            view === DAY_CONST ? 'button-active' : ''
-          }`}
-        >
-          day
-        </button> */}
       </div>
     </div>
   );

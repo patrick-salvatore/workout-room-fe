@@ -2,9 +2,9 @@ import React from 'react';
 import { format } from 'date-fns';
 
 import { capitalize } from '@helpers/index';
-import { get_name_from_date } from './calendar.utils';
-import { ActivityMetaData } from './mock.data';
 import { Check, Pencil, Plus } from '@svgs/index';
+import { get_name_from_date } from './calendar.utils';
+import { ActivityMetaData } from './calendar_types';
 import { DayActivity } from './day_activity';
 
 export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | null }> = ({

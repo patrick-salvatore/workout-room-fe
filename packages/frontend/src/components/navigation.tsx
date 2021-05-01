@@ -2,8 +2,6 @@ import React from 'react';
 
 import { useGlobalUiContext } from '@providers/global/global_ui';
 
-import './nav.scss';
-
 const SideNavToggle = ({
   toggleSideNav,
   isOpen,

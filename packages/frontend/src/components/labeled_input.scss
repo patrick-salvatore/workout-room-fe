@@ -1,0 +1,41 @@
+.shared-input-wrapper {
+  border: 0;
+  margin: 8px;
+  padding: 0;
+  position: relative;
+  min-width: 0;
+  padding-top: 15px;
+  vertical-align: top;
+
+  .shared-input-label {
+    left: 0;
+    top: 18px;
+    padding: 0;
+    line-height: 1;
+    position: absolute;
+    will-change: top, font-size;
+    transition: all 275ms cubic-bezier(0.2, 0, 0, 1) 0s;
+
+    &.shared-input-animated {
+      &-color {
+        color: var(--color-accent);
+      }
+
+      &-shrink {
+        top: 0;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .shared-input {
+    border: none;
+    margin: 0;
+    display: block;
+    width: 100%;
+    background: none;
+    box-sizing: content-box;
+    letter-spacing: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+}

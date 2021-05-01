@@ -41,8 +41,6 @@ export const query_params_map = (fullParams: string): Record<string, string> =>
   );
 
 export const query_map_to_string = (map: Record<string, string>): string =>
-  Object.freeze(
-    Object.entries(map)
-      .map(([key, val]) => `${key}=${val}`)
-      .join('&')
-  );
+  Object.entries(map)
+    .map(([key, val]) => `${key}=${val}`)
+    .join('&');

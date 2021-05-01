@@ -1,0 +1,47 @@
+.shared-text-area-wrapper {
+  margin: 8px;
+
+  padding-top: 15px;
+  position: relative;
+  vertical-align: top;
+
+  .shared-text-area-label {
+    padding: 0;
+    top: 35px;
+    left: 0;
+    position: absolute;
+    will-change: top, font-size;
+    transition: all 325ms cubic-bezier(0.2, 0, 0, 1) 0s;
+
+    &.shared-text-area-animated {
+      &-color {
+        color: var(--color-accent);
+      }
+
+      &-shrink {
+        top: 0;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .shared-text-area {
+    border: none;
+    margin: 0;
+    display: block;
+    width: 100%;
+    background: none;
+    box-sizing: content-box;
+    letter-spacing: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@keyframes shrink {
+  from {
+    top: 24px;
+  }
+  to {
+    top: 0;
+  }
+}
