@@ -35,7 +35,11 @@ export const query_params_map = (fullParams: string): Record<string, string> =>
       .split('&')
       .reduce((acc, prev) => {
         const [key, value] = prev.split('=');
-        acc[key] = value;
+
+        if (value) {
+          acc[key] = value;
+        }
+
         return acc;
       }, Object.create(null))
   );
