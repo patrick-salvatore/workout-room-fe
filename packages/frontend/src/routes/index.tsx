@@ -8,7 +8,7 @@ import ROUTES from './constants';
 /* COMPONENTS */
 import { AppContainer } from 'src/AppContainer';
 
-/*PAGES*/
+/* PAGES */
 import { CalendarScreen } from '@pages/calendar_page';
 
 export const AppView: React.FC = (): JSX.Element => {

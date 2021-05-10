@@ -5,6 +5,6 @@ import '@scss/index.scss';
 
 const appRoot = document.getElementById('app-r--root');
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   render(<AppView />, appRoot);
 });

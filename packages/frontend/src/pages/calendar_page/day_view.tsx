@@ -6,13 +6,17 @@ import { Check, Pencil, Plus } from '@svgs/index';
 import { get_name_from_date } from './calendar.utils';
 import { ActivityMetaData } from './calendar_types';
 import { DayActivity } from './day_activity';
+import { useCalendarContext } from './calendar_context';
+import { CeateDayActivityForm } from './create_day_activity';
 
 export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | null }> = ({
   date,
   activityMeta,
 }) => {
-  const [isEditing, setIsEditing] = React.useState(false);
-  const toggleIsEditing = (bool: boolean) => setIsEditing(bool);
+  const {
+    set_calendar_day_view,
+    day_view: { is_editing_activity, is_creating_activity },
+  } = useCalendarContext();
 
   return (
     <table className="calendar--table day-view">
@@ -33,13 +37,31 @@ export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | nu
             </div>
             <div className="icon-wrapper">
               {activityMeta ? (
-                isEditing ? (
-                  <Check height={22} width={22} onClick={() => toggleIsEditing(false)} />
+                is_editing_activity ? (
+                  <Check
+                    height={22}
+                    width={22}
+                    onClick={() => set_calendar_day_view('is_editing_activity')(false)}
+                  />
                 ) : (
-                  <Pencil height={22} width={22} onClick={() => toggleIsEditing(true)} />
+                  <Pencil
+                    height={22}
+                    width={22}
+                    onClick={() => set_calendar_day_view('is_editing_activity')(true)}
+                  />
                 )
+              ) : is_creating_activity ? (
+                <Check
+                  height={22}
+                  width={22}
+                  onClick={() => set_calendar_day_view('is_creating_activity')(false)}
+                />
               ) : (
-                <Plus height={22} width={22} />
+                <Plus
+                  height={22}
+                  width={22}
+                  onClick={() => set_calendar_day_view('is_creating_activity')(true)}
+                />
               )}
             </div>
           </td>
@@ -48,7 +70,21 @@ export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | nu
       <tbody className="day-view-body">
         <tr>
           <td className="day-view-body-cell">
-            {activityMeta && <DayActivity {...{ activityMeta, isEditing }} />}
+            {is_creating_activity ? (
+              <CeateDayActivityForm />
+            ) : (
+              <>
+                {activityMeta && (
+                  <DayActivity
+                    {...{
+                      activityMeta,
+                      isEditing: is_editing_activity,
+                      isCreating: is_creating_activity,
+                    }}
+                  />
+                )}
+              </>
+            )}
           </td>
         </tr>
       </tbody>

@@ -93,23 +93,3 @@ textarea {
   border: none;
   resize: none;
 }
-
-.button-primary {
-  color: var(--color-primary-100);
-  background-color: var(--color-accent);
-  border-color: 1px solid transparent;
-
-  &:hover {
-    background-color: var(--color-accent-hover);
-  }
-
-  &.button-active {
-    color: var(--color-primary-100);
-    background-color: var(--color-primary-700-opaque);
-  }
-
-  &:disabled {
-    color: var(--color-primary-100);
-    background-color: rgba(44, 62, 80, 0.65);
-  }
-}

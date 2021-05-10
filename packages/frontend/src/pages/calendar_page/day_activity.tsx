@@ -5,24 +5,22 @@ import { ActivitiesType, ActivityMetaData } from './calendar_types';
 import { LabeledInput } from '@components/labeled_input';
 import { activities } from './mock.data';
 
-export const DayActivity: React.FC<{ activityMeta: ActivityMetaData; isEditing: boolean }> = ({
-  activityMeta,
-  isEditing,
-}) => {
-  return (
-    <div
-      className={`activity-wrapper  grid-view ${
-        isEditing ? 'activity-form-wrapper' : 'activity-view-wrapper'
-      }`}
-    >
-      {isEditing ? (
-        <DayActivityForm {...{ activityMeta }} />
-      ) : (
-        <DayActivityStatic {...{ activityMeta }} />
-      )}
-    </div>
-  );
-};
+export const DayActivity: React.FC<{
+  activityMeta: ActivityMetaData;
+  isEditing: boolean;
+}> = ({ activityMeta, isEditing }) => (
+  <div
+    className={`activity-wrapper  grid-view ${
+      isEditing ? 'activity-form-wrapper' : 'activity-view-wrapper'
+    }`}
+  >
+    {isEditing ? (
+      <DayActivityForm {...{ activityMeta }} />
+    ) : (
+      <DayActivityStatic {...{ activityMeta }} />
+    )}
+  </div>
+);
 
 export const DayActivityStatic: React.FC<{
   activityMeta: ActivityMetaData;
@@ -104,16 +102,25 @@ const reduce_activity_map = (activity: ActivitiesType, map = {}, step = 0) => {
   return map;
 };
 
-const default_values = (activityMeta: ActivityMetaData, activity: ActivitiesType) => {
-  return {
-    title: activityMeta.title,
-    notes: activityMeta.notes || '',
-    ...reduce_activity_map(activity),
-  };
-};
+const default_values = (activityMeta: ActivityMetaData, activity: ActivitiesType) => ({
+  title: activityMeta.title,
+  notes: activityMeta.notes || '',
+  ...reduce_activity_map(activity),
+});
 
-const schema_path = ({ session_key, activity_index, schema_key, name }) =>
-  `activity_${session_key + 1}.${activity_index}.activity_schema.${schema_key}.${name}`;
+type SchemaPathArgs = {
+  session_index: number;
+  activity_index: number;
+  schema_key: string;
+  name: string;
+};
+export const schema_path = ({
+  session_index,
+  activity_index,
+  schema_key,
+  name,
+}: SchemaPathArgs): string =>
+  `activity_${session_index + 1}[${activity_index}].activity_schema.${schema_key}.${name}`;
 
 export const DayActivityForm: React.FC<{
   activityMeta: ActivityMetaData;
@@ -124,8 +131,6 @@ export const DayActivityForm: React.FC<{
     defaultValues: default_values(activityMeta, activity),
   });
 
-  console.log(getValues());
-
   return (
     <>
       <LabeledInput
@@ -133,11 +138,12 @@ export const DayActivityForm: React.FC<{
           register,
           hasValue: Boolean(getValues().title),
           name: 'title',
-          className: 'activity-title-input',
+          className: 'create-activity-title-input',
           label: 'Title',
-          inputWrapperClass: 'input-wrapper activity-title-input-wrapper',
+          inputWrapperClass: 'input-wrapper create-activity-title-input-wrapper',
         }}
       />
+
       <LabeledInput
         {...{
           register,
@@ -148,11 +154,11 @@ export const DayActivityForm: React.FC<{
         }}
       />
       <div className="activity-table-wrapper">
-        {activity.flatMap((session, session_key) => (
-          <table key={session_key} className="activity-table">
+        {activity.flatMap((session, session_index) => (
+          <table key={session_index} className="activity-table">
             <tbody>
               <tr className="session-row">
-                <td className="activity-session">Session: {session_key + 1}</td>
+                <td className="activity-session">Session: {session_index + 1}</td>
               </tr>
               {session.map(({ activity_title, activity_schema, activity_id }, activity_index) => (
                 <Fragment key={`${activity_title}-${activity_id}`}>
@@ -170,7 +176,7 @@ export const DayActivityForm: React.FC<{
                       <textarea
                         {...{
                           ...register(
-                            `activity_${session_key + 1}[${activity_index}].activity_title`
+                            `activity_${session_index + 1}[${activity_index}].activity_title`
                           ),
                           className: 'activity-cell-input activity-cell-title-input',
                         }}
@@ -181,7 +187,7 @@ export const DayActivityForm: React.FC<{
                         <textarea
                           {...{
                             ...register(
-                              `activity_${session_key + 1}[${activity_index}].activity_input`
+                              `activity_${session_index + 1}[${activity_index}].activity_input`
                             ),
                             className: 'activity-cell-input activity-cell-input-input',
                           }}
@@ -199,7 +205,7 @@ export const DayActivityForm: React.FC<{
                               {...{
                                 ...register(
                                   schema_path({
-                                    session_key,
+                                    session_index,
                                     activity_index,
                                     schema_key,
                                     name: 'sets',
@@ -213,7 +219,7 @@ export const DayActivityForm: React.FC<{
                               {...{
                                 ...register(
                                   schema_path({
-                                    session_key,
+                                    session_index,
                                     activity_index,
                                     schema_key,
                                     name: 'reps',
@@ -227,7 +233,7 @@ export const DayActivityForm: React.FC<{
                               {...{
                                 ...register(
                                   schema_path({
-                                    session_key,
+                                    session_index,
                                     activity_index,
                                     schema_key,
                                     name: 'weight',

@@ -51,6 +51,10 @@
           border-radius: 50%;
           box-shadow: rgba(9, 30, 66, 0.08) 0px 0px 0px 1px, rgba(9, 30, 66, 0.08) 0px 2px 4px 1px;
 
+          path {
+            fill: var(--navy-90);
+          }
+
           &:hover {
             background-color: var(--navy-90);
             color: var(--neutral-10);

@@ -23,10 +23,6 @@ export const capitalize = (s: string): string =>
     .map((l, i) => (i === 0 ? l.toUpperCase() : l))
     .join('');
 
-export const randomInteger = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 export const query_params_map = (fullParams: string): Record<string, string> =>
   Object.freeze(
     fullParams

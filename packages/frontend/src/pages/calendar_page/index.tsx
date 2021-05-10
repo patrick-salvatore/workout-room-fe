@@ -3,8 +3,14 @@ import { RouteComponentProps } from '@reach/router';
 
 import { Calendar } from './calendar';
 
-export const CalendarScreen: React.FC<unknown & RouteComponentProps> = () => (
-  <div className="calendar">
-    <Calendar />
-  </div>
-);
+import { CalendarProvider } from './calendar_context';
+
+export const CalendarScreen: React.FC<unknown & RouteComponentProps> = () => {
+  return (
+    <div className="calendar">
+      <CalendarProvider>
+        <Calendar />
+      </CalendarProvider>
+    </div>
+  );
+};

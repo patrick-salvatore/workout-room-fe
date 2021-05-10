@@ -40,6 +40,7 @@ $paddingLeft: 8px;
       border-right: $border-solid-style;
 
       @import './day_activity.scss';
+      @import './create_day_activity.scss';
     }
   }
 }

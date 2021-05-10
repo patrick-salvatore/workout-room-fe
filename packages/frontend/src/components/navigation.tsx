@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { useGlobalUiContext } from '@providers/global/global_ui';
+import ChevronRight from '@svgs/ChevronRight';
+import ChevronLeft from '@svgs/ChevronLeft';
 
 const SideNavToggle = ({
   toggleSideNav,

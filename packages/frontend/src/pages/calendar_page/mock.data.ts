@@ -84,7 +84,7 @@ export const activities: ActivitySetType = {
 export const activitiesMetaData: ActivityMetaDataList = [
   {
     title: 'work out 4',
-    date: new Date(),
+    date: new Date('may 3, 2021'),
     id: Math.floor(Math.random() * 100),
     notes: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`,
     activity_id: 1,

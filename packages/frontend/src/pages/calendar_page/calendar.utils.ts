@@ -29,6 +29,7 @@ const TOTAL_CELLS = COLS * ROWS;
 export const MONTH_CONST = 'MONTH' as const;
 export const WEEK_CONST = 'WEEK' as const;
 export const DAY_CONST = 'DAY' as const;
+export const view_types = [MONTH_CONST, WEEK_CONST, DAY_CONST];
 export const number_of_weeks = 4;
 export const months_by_number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
 
