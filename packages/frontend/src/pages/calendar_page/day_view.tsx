@@ -2,12 +2,12 @@ import React from 'react';
 import { format } from 'date-fns';
 
 import { capitalize } from '@helpers/index';
-import { Check, Pencil, Plus } from '@svgs/index';
+import { Pencil, Plus } from '@svgs/index';
 import { get_name_from_date } from './calendar.utils';
 import { ActivityMetaData } from './calendar_types';
 import { DayActivity } from './day_activity';
 import { useCalendarContext } from './calendar_context';
-import { CeateDayActivityForm } from './create_day_activity';
+import { CreateActivityForm } from './create_day_activity';
 
 export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | null }> = ({
   date,
@@ -38,11 +38,7 @@ export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | nu
             <div className="icon-wrapper">
               {activityMeta ? (
                 is_editing_activity ? (
-                  <Check
-                    height={22}
-                    width={22}
-                    onClick={() => set_calendar_day_view('is_editing_activity')(false)}
-                  />
+                  <></>
                 ) : (
                   <Pencil
                     height={22}
@@ -51,11 +47,7 @@ export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | nu
                   />
                 )
               ) : is_creating_activity ? (
-                <Check
-                  height={22}
-                  width={22}
-                  onClick={() => set_calendar_day_view('is_creating_activity')(false)}
-                />
+                <></>
               ) : (
                 <Plus
                   height={22}
@@ -70,21 +62,30 @@ export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | nu
       <tbody className="day-view-body">
         <tr>
           <td className="day-view-body-cell">
-            {is_creating_activity ? (
-              <CeateDayActivityForm />
-            ) : (
-              <>
-                {activityMeta && (
-                  <DayActivity
-                    {...{
-                      activityMeta,
-                      isEditing: is_editing_activity,
-                      isCreating: is_creating_activity,
-                    }}
-                  />
+            <div className="activity-wrapper grid-view">
+              <div
+                className={`${
+                  is_editing_activity || is_creating_activity
+                    ? 'activity-form-wrapper'
+                    : 'activity-view-wrapper'
+                }`}
+              >
+                {is_creating_activity ? (
+                  <CreateActivityForm />
+                ) : (
+                  <>
+                    {activityMeta && (
+                      <DayActivity
+                        {...{
+                          activityMeta,
+                          isEditing: is_editing_activity,
+                        }}
+                      />
+                    )}
+                  </>
                 )}
-              </>
-            )}
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>

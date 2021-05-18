@@ -100,6 +100,7 @@ export const get_next_month = (
 ): Date[] => new Array(31).fill(null).map((_, i) => new Date(year, month + 1, i + 1));
 
 const check_if_monday = (date: Date) => date.getDay() === 1;
+
 const days_to_last_monday = (d: Date) =>
   d.getDay() === 0
     ? 6

@@ -1,133 +1,73 @@
-.activity-wrapper {
-  padding: 16px 20px;
-  height: 100%;
+.activity-table-wrapper {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: minmax(50px, auto) minmax(50px, auto) 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 16px;
+  margin-top: 24px;
 
-  .activity-table-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 16px;
-    margin-top: 24px;
+  .activity-table {
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
 
-    .activity-table {
-      table-layout: fixed;
-      border-spacing: 0;
-      border-collapse: collapse;
-
-      .session-row {
-        height: 2rem;
-        .activity-session {
-          font-size: 16px;
-          font-weight: bold;
-          text-decoration: underline;
-        }
-      }
-
-      .activity-row {
-        display: flex;
-
-        .activity-cell {
-          padding: 8px 4px;
-          width: 100%;
-          border: $border-solid-style;
-
-          .activity-data-wrapper {
-            .activity-text {
-              display: flex;
-              align-items: center;
-
-              .activity-title {
-                &::after {
-                  padding-left: 2px;
-                  content: ':';
-                }
-              }
-
-              .activity-input {
-                padding-left: 2px;
-              }
-            }
-
-            .activity-schema {
-              &--input {
-                margin: 4px 0;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  &.activity-form-wrapper {
-    .input-wrapper {
-      margin-left: 0;
-      border-bottom: 1px solid var(--color-accent);
-    }
-
-    .activity-title-input-wrapper {
-      width: 30%;
-    }
-
-    .activity-notes-input-wrapper {
-      width: 50%;
-    }
-
-    .activity-table-wrapper {
-      .activity-table {
-        .activity-row {
-          display: table-row;
-
-          .activity-cell {
-            vertical-align: middle;
-
-            .activity-cell-input {
-              width: 100%;
-              height: 100%;
-              background-color: var(--transparent);
-            }
-
-            .activity-schema {
-              .activity-schema-input-wrapper {
-                display: grid;
-                align-items: end;
-                column-gap: 4px;
-                grid-template-columns: 32px 8px 32px 8px 44px;
-
-                .activity-schema-input {
-                  padding: 0 4px;
-                  background-color: var(--transparent);
-                  border-bottom: 1px solid var(--color-accent);
-                }
-
-                .activity-schema-input-spacer {
-                  text-align: center;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  &.activity-view-wrapper {
-    * {
-      user-select: none;
-    }
-    .activity-title-wrapper {
-      .title {
-        color: var(--purple-30);
-
+    .session-row {
+      height: 2rem;
+      .activity-session {
         font-size: 16px;
+        font-weight: bold;
+        text-decoration: underline;
       }
     }
-    .activity-notes-wrapper {
-      .notes {
-        color: var(--purple-30);
+
+    .activity-row {
+      display: flex;
+
+      .activity-cell {
+        padding: 8px 4px;
+        width: 100%;
+        border: $border-solid-style;
+
+        .activity-data-wrapper {
+          .activity-text {
+            display: flex;
+            align-items: center;
+
+            .activity-title {
+              &::after {
+                padding-left: 2px;
+                content: ':';
+              }
+            }
+
+            .activity-input {
+              padding-left: 2px;
+            }
+          }
+
+          .activity-schema {
+            &--input {
+              margin: 4px 0;
+            }
+          }
+        }
       }
+    }
+  }
+}
+
+&.activity-view-wrapper {
+  * {
+    user-select: none;
+  }
+  .activity-title-wrapper {
+    .title {
+      color: var(--purple-30);
+
+      font-size: 16px;
+    }
+  }
+  .activity-notes-wrapper {
+    .notes {
+      color: var(--purple-30);
     }
   }
 }

@@ -1,25 +1,24 @@
 import React, { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
+import { nanoid } from 'nanoid';
 
-import { ActivitiesType, ActivityMetaData } from './calendar_types';
-import { LabeledInput } from '@components/labeled_input';
+import { ActivityMetaData } from './calendar_types';
+import { ActivitiesType, ActivityForm } from './activity_form';
+
 import { activities } from './mock.data';
+import { useCalendarContext } from './calendar_context';
 
 export const DayActivity: React.FC<{
   activityMeta: ActivityMetaData;
   isEditing: boolean;
 }> = ({ activityMeta, isEditing }) => (
-  <div
-    className={`activity-wrapper  grid-view ${
-      isEditing ? 'activity-form-wrapper' : 'activity-view-wrapper'
-    }`}
-  >
+  <>
     {isEditing ? (
       <DayActivityForm {...{ activityMeta }} />
     ) : (
       <DayActivityStatic {...{ activityMeta }} />
     )}
-  </div>
+  </>
 );
 
 export const DayActivityStatic: React.FC<{
@@ -93,14 +92,30 @@ export const DayActivityStatic: React.FC<{
   ) : null;
 };
 
-const reduce_activity_map = (activity: ActivitiesType, map = {}, step = 0) => {
-  if (step !== activity.length) {
-    map[`activity_${step + 1}`] = activity[step];
-    reduce_activity_map(activity, map, (step += 1));
-  }
-
-  return map;
+export const empty_activity_schema = {
+  a: { sets: '', reps: '', weight: '' },
 };
+
+export const empty_activity = {
+  activity_title: '',
+  activity_schema: empty_activity_schema,
+  activity_input: null,
+};
+
+const reduce_activity_map = (activityList: ActivitiesType) =>
+  activityList.reduce(
+    (_activity_map, _activity, _activity_index) => ({
+      ..._activity_map,
+      ..._activity.reduce(
+        (activity_map, { _renderId, ...activity }) => ({
+          ...activity_map,
+          [`activity_${_activity_index + 1}__${_renderId}`]: activity,
+        }),
+        {}
+      ),
+    }),
+    {}
+  );
 
 const default_values = (activityMeta: ActivityMetaData, activity: ActivitiesType) => ({
   title: activityMeta.title,
@@ -108,151 +123,24 @@ const default_values = (activityMeta: ActivityMetaData, activity: ActivitiesType
   ...reduce_activity_map(activity),
 });
 
-type SchemaPathArgs = {
-  session_index: number;
-  activity_index: number;
-  schema_key: string;
-  name: string;
-};
-export const schema_path = ({
-  session_index,
-  activity_index,
-  schema_key,
-  name,
-}: SchemaPathArgs): string =>
-  `activity_${session_index + 1}[${activity_index}].activity_schema.${schema_key}.${name}`;
-
 export const DayActivityForm: React.FC<{
   activityMeta: ActivityMetaData;
 }> = ({ activityMeta }) => {
-  const activity = activities[activityMeta.activity_id];
+  const { cleanup_calendar_day_view } = useCalendarContext();
 
-  const { register, getValues } = useForm<any>({
+  const activity = activities[activityMeta.activity_id].map(a =>
+    a.map(_a => ({ ..._a, _renderId: nanoid(4) }))
+  );
+  const form_methods = useForm<any>({
     defaultValues: default_values(activityMeta, activity),
+    shouldUnregister: true,
   });
 
-  return (
-    <>
-      <LabeledInput
-        {...{
-          register,
-          hasValue: Boolean(getValues().title),
-          name: 'title',
-          className: 'create-activity-title-input',
-          label: 'Title',
-          inputWrapperClass: 'input-wrapper create-activity-title-input-wrapper',
-        }}
-      />
+  React.useEffect(() => {
+    return () => {
+      cleanup_calendar_day_view();
+    };
+  }, []);
 
-      <LabeledInput
-        {...{
-          register,
-          hasValue: Boolean(getValues().notes),
-          name: 'notes',
-          label: 'Notes',
-          inputWrapperClass: 'input-wrapper activity-notes-input-wrapper',
-        }}
-      />
-      <div className="activity-table-wrapper">
-        {activity.flatMap((session, session_index) => (
-          <table key={session_index} className="activity-table">
-            <tbody>
-              <tr className="session-row">
-                <td className="activity-session">Session: {session_index + 1}</td>
-              </tr>
-              {session.map(({ activity_title, activity_schema, activity_id }, activity_index) => (
-                <Fragment key={`${activity_title}-${activity_id}`}>
-                  {activity_index === 0 && (
-                    <tr className="activity-row activity-row-title">
-                      <td className="activity-cell title-cell">Title</td>
-                      {session.some(({ activity_input }) => activity_input) ? (
-                        <td className="activity-cell title-cell">Notes</td>
-                      ) : null}
-                      <td className="activity-cell title-cell">Setx x Reps, Weight</td>
-                    </tr>
-                  )}
-                  <tr className="activity-row">
-                    <td className="activity-cell">
-                      <textarea
-                        {...{
-                          ...register(
-                            `activity_${session_index + 1}[${activity_index}].activity_title`
-                          ),
-                          className: 'activity-cell-input activity-cell-title-input',
-                        }}
-                      />
-                    </td>
-                    {session.some(({ activity_input }) => activity_input) ? (
-                      <td className="activity-cell">
-                        <textarea
-                          {...{
-                            ...register(
-                              `activity_${session_index + 1}[${activity_index}].activity_input`
-                            ),
-                            className: 'activity-cell-input activity-cell-input-input',
-                          }}
-                        />
-                      </td>
-                    ) : null}
-                    <td className="activity-cell">
-                      <div className="activity-schema">
-                        {Object.entries(activity_schema).map(([schema_key], schema_index) => (
-                          <div
-                            className="activity-schema-input-wrapper"
-                            key={`schema-${activity_id}-${schema_key}-${schema_index}`}
-                          >
-                            <input
-                              {...{
-                                ...register(
-                                  schema_path({
-                                    session_index,
-                                    activity_index,
-                                    schema_key,
-                                    name: 'sets',
-                                  })
-                                ),
-                                className: 'activity-schema-input activity-schema-input-sets',
-                              }}
-                            />
-                            <div className="activity-schema-input-spacer">x</div>
-                            <input
-                              {...{
-                                ...register(
-                                  schema_path({
-                                    session_index,
-                                    activity_index,
-                                    schema_key,
-                                    name: 'reps',
-                                  })
-                                ),
-                                className: 'activity-schema-input activity-schema-input-reps',
-                              }}
-                            />
-                            <div className="activity-schema-input-spacer">,</div>
-                            <input
-                              {...{
-                                ...register(
-                                  schema_path({
-                                    session_index,
-                                    activity_index,
-                                    schema_key,
-                                    name: 'weight',
-                                  })
-                                ),
-                                className: 'activity-schema-input activity-schema-input-weight',
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </td>
-                  </tr>
-                </Fragment>
-              ))}
-            </tbody>
-          </table>
-        ))}
-      </div>
-    </>
-  );
+  return <ActivityForm {...form_methods} {...{ defaultSessions: activity }} />;
 };

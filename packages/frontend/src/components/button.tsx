@@ -1,13 +1,13 @@
 import React from 'react';
 
 type ButtonProps = {
-  variant?: 'outlined';
+  variant?: 'outlined' | 'block';
 } & React.ButtonHTMLAttributes<any>;
 
 export const Button: React.FC<ButtonProps> = ({
   className,
   children,
-  variant,
+  variant = 'block',
   ...rest
 }): JSX.Element => {
   return (

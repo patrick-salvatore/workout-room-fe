@@ -44,3 +44,16 @@ export const query_map_to_string = (map: Record<string, string>): string =>
   Object.entries(map)
     .map(([key, val]) => `${key}=${val}`)
     .join('&');
+
+export const omit = <T extends Record<string, any>>(
+  key: string | number,
+  obj: T
+): Omit<T, typeof key> => {
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    [key]: __,
+    ...new_obj
+  } = obj;
+
+  return new_obj;
+};

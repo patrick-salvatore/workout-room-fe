@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from '@reach/router';
 import { CalendarHeader } from './calendar_header';
 import { CalendarBody } from './calendar_body';
 
-import { CalendarState, DAY_CONST, MONTH_CONST, ViewTypes, WEEK_CONST } from './calendar.utils';
+import { DAY_CONST, MONTH_CONST, ViewTypes, WEEK_CONST } from './calendar.utils';
 import { query_params_map, query_map_to_string } from '@helpers/index';
 import { useCalendarContext } from './calendar_context';
 

@@ -6,7 +6,7 @@ export type ActivityType = {
   activity_title: string;
   activity_schema: ActivitySchemaType;
   activity_input: string | null;
-  activity_id: number;
+  activity_id: string | number;
 };
 
 export type ActivitiesType = ActivityType[][];
