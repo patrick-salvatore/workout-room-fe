@@ -2,12 +2,12 @@ import React from 'react';
 import { add, sub } from 'date-fns';
 import { useLocation, useNavigate } from '@reach/router';
 
+import { query_params_map, query_map_to_string } from '@helpers/index';
+
 import { CalendarHeader } from './calendar_header';
 import { CalendarBody } from './calendar_body';
-
-import { DAY_CONST, MONTH_CONST, ViewTypes, WEEK_CONST } from './calendar.utils';
-import { query_params_map, query_map_to_string } from '@helpers/index';
 import { useCalendarContext } from './calendar_context';
+import { DAY_CONST, MONTH_CONST, ViewTypes, WEEK_CONST } from './calendar.utils';
 
 const set_next_month = (date: Date, dispatch: (date: Date) => void) =>
   dispatch(add(date, { months: 1 }));
@@ -32,7 +32,7 @@ export const Calendar: React.FC = (): JSX.Element => {
   const { view, ...other_params } = query_params_map(useLocation().search);
   const { set_calendar_date, date } = useCalendarContext();
 
-  const set_today = () => set_calendar_date!(new Date());
+  const set_today = () => set_calendar_date(new Date());
 
   const decrement_date = () =>
     (view === MONTH_CONST ? set_prev_month : view === WEEK_CONST ? set_prev_week : set_prev_day)(
