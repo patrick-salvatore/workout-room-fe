@@ -155,6 +155,21 @@ export const SessionTable: React.FC<{
         : [[{ ...empty_activity, _renderId: nanoid(4) }]]
     );
 
+  const delete_session = (session_index: number) =>
+    setSessionsList(prev => {
+      const [session_one, session_two] = prev;
+
+      if (prev.length === 1) {
+        return [];
+      }
+
+      if (session_index === 0) {
+        return [session_two];
+      } else {
+        return [session_one];
+      }
+    });
+
   return (
     <div className="session-table-wrapper">
       {sessionsList.flatMap((activity, session_index) => (
@@ -163,7 +178,11 @@ export const SessionTable: React.FC<{
             <tr className="session-meta">
               <td className="session-session">Session: {session_index + 1}</td>
               <td className="session-button-cell">
-                <Button className="add-row-button" onClick={() => add_row(session_index)}>
+                <Button className="session-button" onClick={() => delete_session(session_index)}>
+                  <Minus className="minus-icon" /> Delete Session
+                </Button>
+
+                <Button className="session-button" onClick={() => add_row(session_index)}>
                   <Plus className="plus-icon" /> Add
                 </Button>
               </td>
