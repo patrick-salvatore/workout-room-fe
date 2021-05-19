@@ -17,6 +17,9 @@ export const chunk = <T>(array: T[], size = 1): T[][] => {
   return result;
 };
 
+/**
+ * capitalize first letter of a string
+ */
 export const capitalize = (s: string): string =>
   s
     .split('')
@@ -49,11 +52,8 @@ export const omit = <T extends Record<string, any>>(
   key: string | number,
   obj: T
 ): Omit<T, typeof key> => {
-  const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [key]: __,
-    ...new_obj
-  } = obj;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { [key]: __, ...new_obj } = obj;
 
   return new_obj;
 };
