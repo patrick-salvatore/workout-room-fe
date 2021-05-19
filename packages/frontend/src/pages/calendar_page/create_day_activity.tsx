@@ -6,7 +6,7 @@ import { useCalendarContext } from './calendar_context';
 
 export const CreateActivityForm = (): JSX.Element => {
   const { cleanup_calendar_day_view } = useCalendarContext();
-  const methods = useForm({
+  const form_methods = useForm({
     shouldUnregister: true,
   });
 
@@ -16,5 +16,5 @@ export const CreateActivityForm = (): JSX.Element => {
     };
   }, []);
 
-  return <ActivityForm {...methods} />;
+  return <ActivityForm {...form_methods} />;
 };
