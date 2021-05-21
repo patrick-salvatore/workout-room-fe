@@ -4,19 +4,25 @@ import { format } from 'date-fns';
 import { capitalize } from '@helpers/index';
 import { Pencil, Plus } from '@svgs/index';
 import { get_name_from_date } from './calendar.utils';
-import { ActivityMetaData } from './calendar_types';
+import { CalActivityMetaData } from './calendar_types';
 import { DayActivity } from './day_activity';
 import { useCalendarContext } from './calendar_context';
 import { CreateActivityForm } from './create_day_activity';
 
-export const DayView: React.FC<{ date: Date; activityMeta: ActivityMetaData | null }> = ({
+export const DayView: React.FC<{ date: Date; activityMeta: CalActivityMetaData | null }> = ({
   date,
   activityMeta,
 }) => {
   const {
+    date: cal_date,
     set_calendar_day_view,
+    cleanup_calendar_day_view,
     day_view: { is_editing_activity, is_creating_activity },
   } = useCalendarContext();
+
+  React.useEffect(() => {
+    cleanup_calendar_day_view();
+  }, [cal_date]);
 
   return (
     <table className="calendar--table day-view">

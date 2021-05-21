@@ -2,14 +2,14 @@ import React, { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
 
-import { ActivityMetaData } from './calendar_types';
-import { ActivitiesType, ActivityForm } from './activity_form';
+import { CalActivityMetaData } from './calendar_types';
 
 import { activities } from './mock.data';
 import { useCalendarContext } from './calendar_context';
+import { ActivityForm, ActivitiesType } from './activity_form';
 
 export const DayActivity: React.FC<{
-  activityMeta: ActivityMetaData;
+  activityMeta: CalActivityMetaData;
   isEditing: boolean;
 }> = ({ activityMeta, isEditing }) => (
   <>
@@ -22,7 +22,7 @@ export const DayActivity: React.FC<{
 );
 
 export const DayActivityStatic: React.FC<{
-  activityMeta: ActivityMetaData;
+  activityMeta: CalActivityMetaData;
 }> = ({ activityMeta }) => {
   const activity = activities[activityMeta.activity_id];
 
@@ -102,14 +102,23 @@ export const empty_activity = {
   activity_input: null,
 };
 
-const reduce_activity_map = (activityList: ActivitiesType) =>
-  activityList.reduce(
-    (_activity_map, _activity, _activity_index) => ({
-      ..._activity_map,
-      ..._activity.reduce(
-        (activity_map, { _renderId, ...activity }) => ({
-          ...activity_map,
-          [`activity_${_activity_index + 1}__${_renderId}`]: activity,
+const reduce_session_map = (sessions: ActivitiesType[]) =>
+  sessions.reduce(
+    (map, activities) => ({
+      ...map,
+      [nanoid(5)]: activities,
+    }),
+    {} as Record<string, ActivitiesType>
+  );
+
+const reduce_session_map_to_map = (map: Record<string, ActivitiesType>) =>
+  Object.entries(map).reduce(
+    (map, [key, activites]) => ({
+      ...map,
+      [key]: activites.reduce(
+        (_map, { _renderId, ...activity }) => ({
+          ..._map,
+          [_renderId]: { _renderId, ...activity },
         }),
         {}
       ),
@@ -117,30 +126,31 @@ const reduce_activity_map = (activityList: ActivitiesType) =>
     {}
   );
 
-const default_values = (activityMeta: ActivityMetaData, activity: ActivitiesType) => ({
-  title: activityMeta.title,
-  notes: activityMeta.notes || '',
-  ...reduce_activity_map(activity),
-});
-
 export const DayActivityForm: React.FC<{
-  activityMeta: ActivityMetaData;
+  activityMeta: CalActivityMetaData;
 }> = ({ activityMeta }) => {
-  const { cleanup_calendar_day_view } = useCalendarContext();
-
-  const activity = activities[activityMeta.activity_id].map(a =>
-    a.map(_a => ({ ..._a, _renderId: nanoid(4) }))
+  const sessions = reduce_session_map(
+    // soon to be data coming from store -- 05/20 --
+    activities[activityMeta.activity_id].map(
+      // find a better way to ensure the ids are unified - right not - DO NOT REMOVE -- 05/20 --
+      activity => activity.map(_a => ({ ..._a, _renderId: nanoid(5) }))
+    )
   );
   const form_methods = useForm<any>({
-    defaultValues: default_values(activityMeta, activity),
+    defaultValues: {
+      title: activityMeta.title,
+      notes: activityMeta.notes || '',
+      ...reduce_session_map_to_map(sessions),
+    },
     shouldUnregister: true,
   });
 
-  React.useEffect(() => {
-    return () => {
-      cleanup_calendar_day_view();
-    };
-  }, []);
-
-  return <ActivityForm {...form_methods} {...{ defaultSessions: activity }} />;
+  return (
+    <ActivityForm
+      {...form_methods}
+      {...{
+        defaultSessions: sessions,
+      }}
+    />
+  );
 };

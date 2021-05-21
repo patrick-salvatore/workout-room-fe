@@ -5,7 +5,7 @@ import { pipe } from 'fp-ts/lib/function';
 
 import { capitalize } from '@helpers/index';
 import { get_name_from_date, Week } from './calendar.utils';
-import { ActivityMetaDataList } from './calendar_types';
+import { CalActivityMetaDataList } from './calendar_types';
 import { activities } from './mock.data';
 
 const format_notes = <S extends string>(notes_string?: S) =>
@@ -19,7 +19,7 @@ const format_notes = <S extends string>(notes_string?: S) =>
   );
 
 const ActivityBlock: React.FC<{
-  activitiesMeta: ActivityMetaDataList;
+  activitiesMeta: CalActivityMetaDataList;
   date: Date;
 }> = ({ activitiesMeta, date }) =>
   pipe(
@@ -52,7 +52,7 @@ const ActivityBlock: React.FC<{
   );
 
 export const WeekView: React.FC<{
-  activitiesMeta: ActivityMetaDataList;
+  activitiesMeta: CalActivityMetaDataList;
   week: Week;
   goToDayView: (d: Date) => void;
 }> = ({ week, goToDayView, activitiesMeta }) => (

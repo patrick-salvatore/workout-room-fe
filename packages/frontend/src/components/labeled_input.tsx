@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 type LabeledInputProps = {
-  register: UseFormRegister<any>;
+  register: (name: string) => ReturnType<UseFormRegister<any>>;
   name: string;
   label: string;
   inputWrapperClass?: string;

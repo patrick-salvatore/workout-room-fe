@@ -57,3 +57,11 @@ export const omit = <T extends Record<string, any>>(
 
   return new_obj;
 };
+
+export const len = (collection: Array<any> | Record<string, any>): number => {
+  if (Array.isArray(collection)) {
+    return collection.length;
+  }
+
+  return Object.keys(collection).length;
+};

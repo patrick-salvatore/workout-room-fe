@@ -4,10 +4,10 @@ import { fold, fromNullableK } from 'fp-ts/lib/Option';
 import { pipe } from 'fp-ts/lib/function';
 
 import { Month, days_of_week } from './calendar.utils';
-import { ActivityMetaDataList } from './calendar_types';
+import { CalActivityMetaDataList } from './calendar_types';
 
 export const MonthView: React.FC<{
-  activitiesMeta: ActivityMetaDataList;
+  activitiesMeta: CalActivityMetaDataList;
   month: Month;
   goToDayView: (d: Date) => void;
 }> = ({ month, goToDayView, activitiesMeta }): JSX.Element => (

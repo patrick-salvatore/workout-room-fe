@@ -1,19 +1,19 @@
-export type ActivitySchemaType = {
+export type CalActivitySchemaType = {
   [a: string]: { sets: number | string; reps: number | string; weight: number | string | null };
 };
 
-export type ActivityType = {
+export type CalActivityType = {
   activity_title: string;
-  activity_schema: ActivitySchemaType;
+  activity_schema: CalActivitySchemaType;
   activity_input: string | null;
-  activity_id: string | number;
+  activity_id: number;
 };
 
-export type ActivitiesType = ActivityType[][];
+export type CalActivitiesType = CalActivityType[][];
 
-export type ActivitySetType = { [id: number]: ActivitiesType };
+export type CalActivitySetType = { [id: number]: CalActivitiesType };
 
-export type ActivityMetaData = {
+export type CalActivityMetaData = {
   title: string;
   date: Date;
   id: number;
@@ -21,4 +21,4 @@ export type ActivityMetaData = {
   activity_id: number;
 };
 
-export type ActivityMetaDataList = ActivityMetaData[];
+export type CalActivityMetaDataList = CalActivityMetaData[];

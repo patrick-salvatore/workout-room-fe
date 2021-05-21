@@ -5,37 +5,50 @@ import { UseFormReturn, UseFormRegister } from 'react-hook-form';
 import { LabeledInput } from '@components/labeled_input';
 import { Button } from '@components/button';
 
-import { omit } from '@helpers/index';
+import { len, omit } from '@helpers/index';
 import { Minus, Plus, TrashCan } from '@svgs/index';
-import { ActivitySchemaType } from './calendar_types';
+import { CalActivitySchemaType } from './calendar_types';
 
+export type ActivityType = {
+  activity_title: string;
+  activity_schema: CalActivitySchemaType;
+  activity_input: string | null;
+  _renderId: string;
+  activity_id?: string | number;
+};
+export type ActivitiesType = ActivityType[];
+type TActivitiesType = { [_: string]: ActivitiesType };
 type ActivityFormProps = {
-  defaultSessions?: ActivitiesType;
+  defaultSessions?: TActivitiesType;
 } & UseFormReturn<any>;
 
-export const concat_activities = (fields: Record<string, any>) =>
-  [new RegExp('activity_1'), new RegExp('activity_2')].reduce((map, regex) => {
-    map[regex.source] = Object.keys(fields).reduce(
-      (list, k) => (regex.test(k) ? [...list, fields[k]] : list),
-      [] as string[]
-    );
-
-    return map;
-  }, {});
+export const concat_activities = (
+  fields: Record<string, Record<string, ActivityType>>,
+  ticks: ReadonlyArray<string>
+): Record<string, ActivitiesType> =>
+  Object.entries(fields).reduce(
+    (acc, [key, activity]) => ({
+      ...acc,
+      [key === ticks[0] ? 'activity_1' : 'activity_2']: Object.values(activity),
+    }),
+    {}
+  );
 
 export const ActivityForm = ({
   register,
   handleSubmit,
   getValues,
-  defaultSessions = [],
+  defaultSessions = {},
+  watch,
 }: ActivityFormProps): JSX.Element => {
+  const [ticks, setTicks] = React.useState<ReadonlyArray<string>>([]);
   return (
     <div className="form-wrapper">
       <div className="form-top">
         <div className="inputs-wrapper">
           <LabeledInput
             {...{
-              register,
+              register: name => register(name, { required: true }),
               hasValue: Boolean(getValues().title),
               name: 'title',
               className: 'create-activity-title-input',
@@ -45,7 +58,7 @@ export const ActivityForm = ({
           />
           <LabeledInput
             {...{
-              register,
+              register: name => register(name, { required: true }),
               hasValue: Boolean(getValues().notes),
               name: 'notes',
               label: 'Notes',
@@ -57,7 +70,7 @@ export const ActivityForm = ({
           <Button
             className="save-button"
             onClick={handleSubmit(({ title, notes, ...other }) => {
-              console.log({ title, notes, ...concat_activities(other) });
+              console.log({ title, notes, ...concat_activities(other, ticks) });
             })}
           >
             Save
@@ -69,6 +82,10 @@ export const ActivityForm = ({
           {...{
             register,
             defaultSessions,
+            watch,
+            ticks,
+            setTicks,
+            getValues,
           }}
         />
       </div>
@@ -76,120 +93,112 @@ export const ActivityForm = ({
   );
 };
 
-export type ActivitiesType = {
-  _renderId: string;
-  activity_title: string;
-  activity_schema: ActivitySchemaType;
-  activity_input: string | null;
-  activity_id?: string | number;
-}[][];
-
 const empty_activity_schema = { sets: '', reps: '', weight: '' };
 
 const empty_activity = {
   activity_title: '',
-  activity_schema: { 0: empty_activity_schema },
+  activity_schema: { 1: empty_activity_schema },
   activity_input: null,
 };
 
 export const SessionTable: React.FC<{
   register: UseFormRegister<any>;
-  defaultSessions: ActivitiesType;
-}> = ({ register, defaultSessions }) => {
-  const [sessionsList, setSessionsList] = React.useState<ActivitiesType>(defaultSessions);
+  defaultSessions: TActivitiesType;
+  setTicks: React.Dispatch<React.SetStateAction<readonly string[]>>;
+}> = ({ register, defaultSessions, setTicks }) => {
+  const [sessionsMap, setSessionsMap] = React.useState<TActivitiesType>(defaultSessions);
 
-  const add_schema = (session_index: number, activity_index: number) => {
-    const activity = sessionsList[session_index][activity_index];
+  const add_row = (session_key: string) =>
+    setSessionsMap(prev => ({
+      ...prev,
+      [session_key]: [...sessionsMap[session_key], { ...empty_activity, _renderId: nanoid(4) }],
+    }));
+
+  const add_session = () => {
+    const sessionTick = nanoid(4);
+    setTicks(prev => [...prev, sessionTick]);
+    setSessionsMap(prev =>
+      len(prev)
+        ? {
+            ...prev,
+            [sessionTick]: [{ ...empty_activity, _renderId: nanoid(4) }],
+          }
+        : {
+            [sessionTick]: [{ ...empty_activity, _renderId: nanoid(4) }],
+          }
+    );
+  };
+
+  const add_schema = (session_key: string, activity_index: number) => {
+    const activity = sessionsMap[session_key][activity_index];
     const old_schema = activity.activity_schema;
-    const new_schema: ActivitySchemaType = {
+    const new_schema: CalActivitySchemaType = {
       ...old_schema,
-      [Object.keys(old_schema).length + 1]: empty_activity_schema,
+      [nanoid(2)]: empty_activity_schema,
     };
     activity.activity_schema = new_schema;
-    setSessionsList([...sessionsList]);
+    setSessionsMap(prev => ({ ...prev, [session_key]: sessionsMap[session_key] }));
   };
 
-  const remove_schema = (session_index: number, activity_index: number) => {
-    const activity = sessionsList[session_index][activity_index];
+  const delete_session = (session_key: string) => {
+    setTicks(prev => {
+      const [first, second] = prev;
+      return prev.length > 1 ? [first === session_key ? second : first] : [];
+    });
 
-    activity.activity_schema = omit(
-      Object.keys(activity.activity_schema).length,
-      activity.activity_schema
-    );
-    setSessionsList([...sessionsList]);
+    setSessionsMap(prev => omit(session_key, prev));
   };
 
-  const add_row = (session_index: number) =>
-    setSessionsList(prev => {
-      const activity = [
-        ...sessionsList[session_index],
-        { ...empty_activity, _renderId: nanoid(4) },
-      ];
-      return prev.length > 1
-        ? session_index === 1
-          ? [prev[0], activity]
-          : [activity, prev[1]]
-        : [activity];
-    });
+  const delete_row = (session_key: string, activity_index: number) => {
+    const old_session = sessionsMap[session_key].filter((__, i) => i !== activity_index);
 
-  const delete_row = (session_index: number, activity_index: number) =>
-    setSessionsList(prev => {
-      const activity = [...prev[session_index]]; // create a new array literal since splice mutates
-      activity.splice(activity_index, 1);
-
-      if (activity.length < 1) {
-        return prev.length > 1 ? (session_index === 1 ? [prev[0]] : [prev[1]]) : [];
-      }
-
-      return prev.length > 1
-        ? session_index === 1
-          ? [prev[0], activity]
-          : [activity, prev[1]]
-        : [activity];
-    });
-
-  const add_session = () =>
-    setSessionsList(prev =>
-      prev.length
-        ? [...prev, [{ ...empty_activity, _renderId: nanoid(4) }]]
-        : [[{ ...empty_activity, _renderId: nanoid(4) }]]
-    );
-
-  const delete_session = (session_index: number) =>
-    setSessionsList(prev => {
-      const [session_one, session_two] = prev;
-
-      if (prev.length === 1) {
-        return [];
-      }
-
-      if (session_index === 0) {
-        return [session_two];
+    setTicks(prev => {
+      if (!old_session.length) {
+        const [first, second] = prev;
+        return prev.length > 1 ? [first === session_key ? second : first] : [];
       } else {
-        return [session_one];
+        return prev;
       }
     });
+
+    setSessionsMap(prev => {
+      if (!old_session.length) {
+        return omit(session_key, prev);
+      }
+      return {
+        ...prev,
+        [session_key]: old_session,
+      };
+    });
+  };
+
+  const delete_schema = (session_key: string, activity_index: number) => {
+    const activity = sessionsMap[session_key][activity_index]; // assigning activity to reference
+    const keys = Object.keys(activity.activity_schema);
+
+    activity.activity_schema = omit(keys[keys.length - 1], activity.activity_schema); // mutating reference to activity scheam
+    setSessionsMap(prev => ({ ...prev, [session_key]: sessionsMap[session_key] }));
+  };
 
   return (
     <div className="session-table-wrapper">
-      {sessionsList.flatMap((activity, session_index) => (
+      {Object.entries(sessionsMap).flatMap(([session_key, session_activities], session_index) => (
         <table className="session-table" key={`session-${session_index}`}>
           <tbody>
             <tr className="session-meta">
               <td className="session-session">Session: {session_index + 1}</td>
               <td className="session-button-cell">
-                <Button className="session-button" onClick={() => delete_session(session_index)}>
+                <Button className="session-button" onClick={() => delete_session(session_key)}>
                   <Minus className="minus-icon" /> Delete Session
                 </Button>
-
-                <Button className="session-button" onClick={() => add_row(session_index)}>
+                <Button className="session-button" onClick={() => add_row(session_key)}>
                   <Plus className="plus-icon" /> Add
                 </Button>
               </td>
             </tr>
             <tr>
               <td>
-                {activity.map(({ activity_schema, _renderId }, activity_index) => (
+                {session_activities.map(({ activity_schema, _renderId }, activity_index) => (
                   <table key={`${session_index}-${activity_index}`} className="activity-table">
                     <thead className="activity-table-header">
                       <tr>
@@ -203,12 +212,9 @@ export const SessionTable: React.FC<{
                       <tr className="activity-row" key={`${session_index}-${_renderId}`}>
                         <td className="activity-cell">
                           <textarea
-                            {...register(
-                              `activity_${session_index + 1}__${_renderId}.activity_title`,
-                              {
-                                required: true,
-                              }
-                            )}
+                            {...register(`${session_key}.${_renderId}.activity_title`, {
+                              required: true,
+                            })}
                             {...{
                               className: 'activity-cell-input activity-cell-input-input',
                             }}
@@ -216,9 +222,7 @@ export const SessionTable: React.FC<{
                         </td>
                         <td className="activity-cell">
                           <textarea
-                            {...register(
-                              `activity_${session_index + 1}__${_renderId}.activity_input`
-                            )}
+                            {...register(`${session_key}.${_renderId}.activity_input`)}
                             {...{
                               className: 'activity-cell-input activity-cell-input-input',
                             }}
@@ -233,7 +237,7 @@ export const SessionTable: React.FC<{
                                     className="plus-icon"
                                     height={15}
                                     width={15}
-                                    onClick={() => remove_schema(session_index, activity_index)}
+                                    onClick={() => delete_schema(session_key, activity_index)}
                                   />
                                 </div>
                               )}
@@ -243,7 +247,7 @@ export const SessionTable: React.FC<{
                                     className="plus-icon"
                                     height={15}
                                     width={15}
-                                    onClick={() => add_schema(session_index, activity_index)}
+                                    onClick={() => add_schema(session_key, activity_index)}
                                   />
                                 </div>
                               )}
@@ -257,9 +261,7 @@ export const SessionTable: React.FC<{
                                   <input
                                     type="string"
                                     {...register(
-                                      `activity_${
-                                        session_index + 1
-                                      }__${_renderId}.activity_schema.${schema_key}.sets`
+                                      `${session_key}.${_renderId}.activity_schema.${schema_key}.sets`
                                     )}
                                     {...{
                                       className: 'activity-schema-input activity-schema-input-sets',
@@ -269,9 +271,7 @@ export const SessionTable: React.FC<{
                                   <input
                                     type="string"
                                     {...register(
-                                      `activity_${
-                                        session_index + 1
-                                      }__${_renderId}.activity_schema.${schema_key}.reps`
+                                      `${session_key}.${_renderId}.activity_schema.${schema_key}.reps`
                                     )}
                                     {...{
                                       className: 'activity-schema-input activity-schema-input-reps',
@@ -281,9 +281,7 @@ export const SessionTable: React.FC<{
                                   <input
                                     type="string"
                                     {...register(
-                                      `activity_${
-                                        session_index + 1
-                                      }__${_renderId}.activity_schema.${schema_key}.weight`
+                                      `${session_key}.${_renderId}.activity_schema.${schema_key}.weight`
                                     )}
                                     {...{
                                       className:
@@ -296,7 +294,7 @@ export const SessionTable: React.FC<{
                           </div>
                         </td>
                         <td className="activity-cell action-cell">
-                          <TrashCan onClick={() => delete_row(session_index, activity_index)} />
+                          <TrashCan onClick={() => delete_row(session_key, activity_index)} />
                         </td>
                       </tr>
                     </tbody>
@@ -307,7 +305,7 @@ export const SessionTable: React.FC<{
           </tbody>
         </table>
       ))}
-      {sessionsList.length < 2 && (
+      {len(sessionsMap) < 2 && (
         <div className="session-button-wrapper">
           <Button variant="outlined" className="session-button" onClick={add_session}>
             <Plus height={24} width={24} /> Create Session
