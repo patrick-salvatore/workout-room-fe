@@ -1,7 +1,7 @@
 .form-wrapper {
   .form-top {
     display: grid;
-    grid-template-columns: 1fr 70px;
+    grid-template-columns: 1fr 100px;
 
     .inputs-wrapper {
       .input-wrapper {
@@ -17,9 +17,13 @@
         }
       }
     }
-    .save-button-wrapper {
-      .save-button {
+    .buttons-wrapper {
+      button[class$='-button'] {
         width: 100%;
+      }
+
+      button:last-of-type {
+        margin-top: 8px;
       }
     }
   }
@@ -157,6 +161,7 @@
 
               .action-cell {
                 border: none;
+                display: flex;
               }
             }
           }

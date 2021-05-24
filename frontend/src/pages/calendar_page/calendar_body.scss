@@ -16,11 +16,12 @@ $cell-width: 55px;
   .calendar--table {
     flex-grow: 1;
 
-    * {
+    td,
+    th,
+    tr {
       font-size: 14px;
       box-sizing: border-box;
     }
-
     th {
       padding: 0;
       vertical-align: top;

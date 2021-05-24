@@ -8,6 +8,7 @@ import { Button } from '@components/button';
 import { len, omit } from '@helpers/index';
 import { Minus, Plus, TrashCan } from '@svgs/index';
 import { CalActivitySchemaType } from './calendar_types';
+import { useCalendarContext } from './calendar_context';
 
 export type ActivityType = {
   activity_title: string;
@@ -42,6 +43,8 @@ export const ActivityForm = ({
   watch,
 }: ActivityFormProps): JSX.Element => {
   const [ticks, setTicks] = React.useState<ReadonlyArray<string>>([]);
+  const { cleanup_calendar_day_view } = useCalendarContext();
+
   return (
     <div className="form-wrapper">
       <div className="form-top">
@@ -66,7 +69,7 @@ export const ActivityForm = ({
             }}
           />
         </div>
-        <div className="save-button-wrapper">
+        <div className="buttons-wrapper">
           <Button
             className="save-button"
             onClick={handleSubmit(({ title, notes, ...other }) => {
@@ -74,6 +77,9 @@ export const ActivityForm = ({
             })}
           >
             Save
+          </Button>
+          <Button className="cancel-button" onClick={() => cleanup_calendar_day_view()}>
+            Cancel
           </Button>
         </div>
       </div>

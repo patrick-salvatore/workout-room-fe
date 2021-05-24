@@ -13,7 +13,7 @@ type CalendarHeaderProps = {
   previous: () => void;
   next: () => void;
   setToday: () => void;
-  toggleView: (view: ViewTypes, d?: Date) => void;
+  toggleView: (v: ViewTypes, d?: Date) => void;
 };
 
 export const CalendarHeader: React.FC<CalendarHeaderProps> = ({

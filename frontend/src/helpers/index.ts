@@ -53,9 +53,9 @@ export const omit = <T extends Record<string, any>>(
   obj: T
 ): Omit<T, typeof key> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { [key]: __, ...new_obj } = obj;
+  const { [key]: __, ...pruned_obj } = obj;
 
-  return new_obj;
+  return pruned_obj;
 };
 
 export const len = (collection: Array<any> | Record<string, any>): number => {

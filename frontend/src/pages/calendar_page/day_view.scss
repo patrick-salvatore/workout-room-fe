@@ -43,10 +43,18 @@ $paddingLeft: 8px;
       .activity-wrapper {
         max-height: 560px;
         overflow-y: scroll;
+        box-sizing: border-box;
         padding: 16px 20px;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: minmax(50px, auto) minmax(50px, auto) 1fr;
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        &::-webkit-scrollbar {
+          width: 1px;
+        }
 
         .activity-form-wrapper {
           @import './activity_form.scss';

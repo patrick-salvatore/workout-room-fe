@@ -53,6 +53,7 @@
   background-color: var(--color-accent);
   &:hover {
     background-color: var(--color-accent-hover);
+    border: 1px solid var(--transparent);
   }
 }
 
@@ -63,6 +64,7 @@
 
   &:hover {
     background-color: var(--color-accent-hover);
+    border: 1px solid var(--transparent);
   }
 
   &.button-active {

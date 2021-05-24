@@ -8,6 +8,7 @@ import { CalendarHeader } from './calendar_header';
 import { CalendarBody } from './calendar_body';
 import { useCalendarContext } from './calendar_context';
 import { DAY_CONST, MONTH_CONST, ViewTypes, WEEK_CONST } from './calendar.utils';
+import { useArrowDateIncrement } from './hooks';
 
 const set_next_month = (date: Date, dispatch: (date: Date) => void) =>
   dispatch(add(date, { months: 1 }));
@@ -56,22 +57,7 @@ export const Calendar: React.FC = (): JSX.Element => {
     set_calendar_date(date);
   };
 
-  // React.useEffect(() => {
-  //   const keyPress = e => {
-  //     const { code } = e;
-
-  //     if (code === 'ArrowLeft') {
-  //       decrement_date();
-  //     }
-
-  //     if (code === 'ArrowRight') {
-  //       increment_date();
-  //     }
-  //   };
-
-  //   document.addEventListener('keyup', keyPress);
-  //   return () => document.removeEventListener('keyup', keyPress);
-  // }, [date, view]);
+  useArrowDateIncrement({ date, view: view as ViewTypes, increment_date, decrement_date });
 
   return (
     <div id="calendar--view" className="calendar--view" tabIndex={0}>

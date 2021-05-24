@@ -5,7 +5,6 @@ import { nanoid } from 'nanoid';
 import { CalActivityMetaData } from './calendar_types';
 
 import { activities } from './mock.data';
-import { useCalendarContext } from './calendar_context';
 import { ActivityForm, ActivitiesType } from './activity_form';
 
 export const DayActivity: React.FC<{
@@ -40,7 +39,15 @@ export const DayActivityStatic: React.FC<{
           </p>
         ) : null}
       </div>
-      <div className="activity-table-wrapper">
+      <div
+        className="activity-table-wrapper"
+        style={{
+          gridTemplateColumns: `repeat(${activity.length}, 1fr)`,
+          display: 'grid',
+          gridColumnGap: '16px',
+          marginTop: '24px',
+        }}
+      >
         {activity.flatMap((session, key) => (
           <table key={key} className="activity-table">
             <tbody>
@@ -56,7 +63,7 @@ export const DayActivityStatic: React.FC<{
                         {session.some(({ activity_input }) => activity_input) ? (
                           <td className="activity-cell title-cell">Notes</td>
                         ) : null}
-                        <td className="activity-cell title-cell">Setx x Reps, Weight</td>
+                        <td className="activity-cell title-cell">Sets x Reps, Weight</td>
                       </tr>
                     )}
                     <tr className="activity-row">

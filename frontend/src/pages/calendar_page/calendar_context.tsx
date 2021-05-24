@@ -1,8 +1,4 @@
-import { query_map_to_string, query_params_map } from '@helpers/index';
-import { useLocation, useNavigate } from '@reach/router';
-
 import React from 'react';
-import { MONTH_CONST, view_types } from './calendar.utils';
 
 type DayView = {
   is_editing_activity: boolean;
@@ -34,8 +30,6 @@ export const CalendarContext = React.createContext<CalendarContextT>(initial_cal
 
 export const CalendarProvider: React.FC = (props): any => {
   const { Provider } = CalendarContext;
-  const navigate = useNavigate();
-  const { view, ...other_params } = query_params_map(useLocation().search);
   const [calendar_data, set_calendar_data] = React.useState<CalendarContextT>(
     initial_calendar_state
   );
@@ -60,18 +54,6 @@ export const CalendarProvider: React.FC = (props): any => {
       ...prev,
       day_view: initial_day_view,
     }));
-
-  // initial update of the view query param - maybe this isn't the way
-  React.useEffect(() => {
-    const new_view = view_types.includes(view as any) ? view : MONTH_CONST;
-
-    navigate(
-      `?${query_map_to_string({
-        view: new_view,
-        ...other_params,
-      })}`
-    );
-  }, []);
 
   const memoObject = {
     ...calendar_data,
