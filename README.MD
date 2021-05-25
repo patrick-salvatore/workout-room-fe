@@ -1,3 +1,4 @@
 **Repo Structure**
 
-leg day: React Frontend
+leg_day: React Frontend
+back_day: Scala Backend
