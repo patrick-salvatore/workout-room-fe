@@ -2,7 +2,7 @@
 
 ## About
 
-This application is meant to be using by, coaches, trainers, and general fitness enthusiasts track, collaborate training plans and schedules to be better
+This suite of applications is meant to be using by, coaches, trainers, and general fitness enthusiasts track, collaborate training plans and schedules to be better
 
 ## Ideas:
 
