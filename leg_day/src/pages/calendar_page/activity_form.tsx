@@ -6,7 +6,7 @@ import { LabeledInput } from '@components/labeled_input';
 import { Button } from '@components/button';
 
 import { len, omit } from '@helpers/index';
-import { Minus, Plus, TrashCan } from '@svgs/index';
+import { Minus, Pencil, Plus, TrashCan } from '@svgs/index';
 import { CalActivitySchemaType } from './calendar_types';
 import { useCalendarContext } from './calendar_context';
 
@@ -112,16 +112,17 @@ export const SessionTable: React.FC<{
   defaultSessions: TActivitiesType;
   setTicks: React.Dispatch<React.SetStateAction<readonly string[]>>;
 }> = ({ register, defaultSessions, setTicks }) => {
+  const scrollRef = React.useRef<HTMLTableRowElement>(null);
   const [sessionsMap, setSessionsMap] = React.useState<TActivitiesType>(defaultSessions);
 
   const add_row = (session_key: string) =>
     setSessionsMap(prev => ({
       ...prev,
-      [session_key]: [...sessionsMap[session_key], { ...empty_activity, _renderId: nanoid(4) }],
+      [session_key]: [{ ...empty_activity, _renderId: nanoid(4) }, ...sessionsMap[session_key]],
     }));
 
   const add_session = () => {
-    const sessionTick = nanoid(4);
+    const sessionTick = nanoid(4); // DO NOT MOVE: key sync ticks and sessions
     setTicks(prev => [...prev, sessionTick]);
     setSessionsMap(prev =>
       len(prev)
@@ -187,7 +188,7 @@ export const SessionTable: React.FC<{
   };
 
   return (
-    <div className="session-table-wrapper">
+    <div className="session-table-wrapper" ref={scrollRef}>
       {Object.entries(sessionsMap).flatMap(([session_key, session_activities], session_index) => (
         <table className="session-table" key={`session-${session_index}`}>
           <tbody>
@@ -234,7 +235,7 @@ export const SessionTable: React.FC<{
                             }}
                           />
                         </td>
-                        <td className="activity-cell activity-schema">
+                        <td className="activity-cell">
                           <div className="activity-schema-wrapper">
                             <div className="activity-buttons-wrapper">
                               {Object.keys(activity_schema).length > 1 && (
@@ -301,6 +302,7 @@ export const SessionTable: React.FC<{
                         </td>
                         <td className="activity-cell action-cell">
                           <TrashCan onClick={() => delete_row(session_key, activity_index)} />
+                          {/* <Pencil className="pencil-icon" onClick={() => console.log('click')} /> */}
                         </td>
                       </tr>
                     </tbody>

@@ -1,15 +1,17 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-import { capitalize } from '@helpers/index';
+import { capitalize, query_params_map } from '@helpers/index';
 import { Pencil, Plus } from '@svgs/index';
 import { get_name_from_date } from './calendar.utils';
 import { CalActivityMetaData } from './calendar_types';
-import { DayActivity } from './day_activity';
 import { useCalendarContext } from './calendar_context';
-import { CreateActivityForm } from './create_day_activity';
+import { ActivityView } from './activity_view';
+import { useLocation } from '@reach/router';
 
-export const DayView: React.FC<{ date: Date; activityMeta: CalActivityMetaData | null }> = ({
+export type CalActivityMetaDataType = CalActivityMetaData | null;
+
+export const DayView: React.FC<{ date: Date; activityMeta: CalActivityMetaDataType }> = ({
   date,
   activityMeta,
 }) => {
@@ -19,10 +21,11 @@ export const DayView: React.FC<{ date: Date; activityMeta: CalActivityMetaData |
     cleanup_calendar_day_view,
     day_view: { is_editing_activity, is_creating_activity },
   } = useCalendarContext();
+  const { view } = query_params_map(useLocation().search);
 
   React.useEffect(() => {
-    cleanup_calendar_day_view();
-  }, [cal_date]);
+    return () => cleanup_calendar_day_view();
+  }, [cal_date, view]);
 
   return (
     <table className="calendar--table day-view">
@@ -76,20 +79,13 @@ export const DayView: React.FC<{ date: Date; activityMeta: CalActivityMetaData |
                     : 'activity-view-wrapper'
                 }`}
               >
-                {is_creating_activity ? (
-                  <CreateActivityForm />
-                ) : (
-                  <>
-                    {activityMeta && (
-                      <DayActivity
-                        {...{
-                          activityMeta,
-                          isEditing: is_editing_activity,
-                        }}
-                      />
-                    )}
-                  </>
-                )}
+                <ActivityView
+                  {...{
+                    isCreatingActivity: is_creating_activity,
+                    iEditingActivity: is_editing_activity,
+                    activityMeta,
+                  }}
+                />
               </div>
             </div>
           </td>

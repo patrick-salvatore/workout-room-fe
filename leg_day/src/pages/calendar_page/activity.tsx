@@ -7,20 +7,7 @@ import { CalActivityMetaData } from './calendar_types';
 import { activities } from './mock.data';
 import { ActivityForm, ActivitiesType } from './activity_form';
 
-export const DayActivity: React.FC<{
-  activityMeta: CalActivityMetaData;
-  isEditing: boolean;
-}> = ({ activityMeta, isEditing }) => (
-  <>
-    {isEditing ? (
-      <DayActivityForm {...{ activityMeta }} />
-    ) : (
-      <DayActivityStatic {...{ activityMeta }} />
-    )}
-  </>
-);
-
-export const DayActivityStatic: React.FC<{
+const ActivityStatic: React.FC<{
   activityMeta: CalActivityMetaData;
 }> = ({ activityMeta }) => {
   const activity = activities[activityMeta.activity_id];
@@ -99,6 +86,10 @@ export const DayActivityStatic: React.FC<{
   ) : null;
 };
 
+export const Activity: React.FC<{
+  activityMeta: CalActivityMetaData;
+}> = ActivityStatic;
+
 export const empty_activity_schema = {
   a: { sets: '', reps: '', weight: '' },
 };
@@ -133,7 +124,7 @@ const reduce_session_map_to_map = (map: Record<string, ActivitiesType>) =>
     {}
   );
 
-export const DayActivityForm: React.FC<{
+export const EditActivityForm: React.FC<{
   activityMeta: CalActivityMetaData;
 }> = ({ activityMeta }) => {
   const sessions = reduce_session_map(
@@ -160,4 +151,12 @@ export const DayActivityForm: React.FC<{
       }}
     />
   );
+};
+
+export const CreateActivityForm = (): JSX.Element => {
+  const form_methods = useForm({
+    shouldUnregister: true,
+  });
+
+  return <ActivityForm {...form_methods} />;
 };

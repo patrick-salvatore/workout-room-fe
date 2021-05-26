@@ -125,7 +125,7 @@
                   background-color: var(--transparent);
                 }
 
-                &.activity-schema {
+                .activity-schema-wrapper {
                   .activity-buttons-wrapper {
                     display: flex;
                     align-items: flex-end;
@@ -140,6 +140,8 @@
                   }
 
                   .activity-schema {
+                    margin-top: 8px;
+
                     .activity-schema-input-wrapper {
                       display: grid;
                       align-items: end;
@@ -162,6 +164,15 @@
               .action-cell {
                 border: none;
                 display: flex;
+                flex-direction: column;
+
+                .pencil-icon {
+                  margin-top: 8px;
+
+                  path {
+                    transform: scale(0.7);
+                  }
+                }
               }
             }
           }

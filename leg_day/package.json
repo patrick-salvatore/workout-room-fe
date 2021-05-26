@@ -7,7 +7,7 @@
   "scripts": {
     "clean-build": "rm -rf build/*",
     "test": "jest --watchAll",
-    "start": "webpack-dev-server --progress --overlay --config webpack.dev.js",
+    "dev": "webpack-dev-server --progress --overlay --config webpack.dev.js",
     "build": "yarn run clean-build && webpack --mode production --config webpack.prod.js",
     "lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix"
   },
