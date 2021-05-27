@@ -1,34 +1,25 @@
 package server
 
-import akka.actor.typed.ActorSystem
-import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.server.Directives._
-import scala.io.StdIn
+import com.twitter.finagle.Http
+import com.twitter.util.Await
 
-object HttpServerRoutingMinimal {
+import io.finch._
+import io.finch.circe._
+import io.finch.syntax._
+import io.circe.generic.auto._
 
-  def main(args: Array[String]): Unit = {
+object Main extends App {
 
-    implicit val system = ActorSystem(Behaviors.empty, "wr_backend")
-    // needed for the future flatMap/onComplete in the end
-    implicit val executionContext = system.executionContext
+  case class Locale(language: String, country: String)
+  case class Time(locale: Locale, time: String)
 
-    val route =
-      path("hello") {
-        get {
-          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
-        }
-      }
+  def currentTime(l: java.util.Locale): String =
+    java.util.Calendar.getInstance(l).getTime.toString
 
-    println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
-    StdIn.readLine() // let it run until user presses return
+  val time: Endpoint[Time] =
+    post("time" :: jsonBody[Locale]) { l: Locale =>
+      Ok(Time(l, currentTime(new java.util.Locale(l.language, l.country))))
+    }
 
-    Http()
-      .newServerAt("localhost", 8080)
-      .bind(route)
-      .flatMap(_.unbind()) // trigger unbinding from the port
-      .onComplete(_ => system.terminate()) // and shutdown when done
-  }
+  Await.ready(Http.server.serve(":8081", time.toService))
 }
