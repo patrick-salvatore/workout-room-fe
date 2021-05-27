@@ -1,0 +1,6 @@
+{
+  "files.watcherExclude": {
+    "**/target": true
+  },
+  "metals.scalafmtConfigPath": "back_day/.scalafmt.conf"
+}
