@@ -1,0 +1,26 @@
+.app--container {
+  height: calc(100vh - 0px);
+  display: flex;
+  flex-direction: row;
+  padding-left: 20px;
+  margin-top: 0px;
+
+  &.compressable-container {
+    transition: padding-left 400ms cubic-bezier(0.2, 0, 0, 1) 0s;
+
+    &.compressed {
+      padding-left: 170px;
+    }
+  }
+
+  .screen--container {
+    padding: 8px 20px;
+  }
+}
+
+@import './pages.scss';
+@import '../components/index.scss';
+@import './style_guide/colors.scss';
+@import './style_guide/font.scss';
+@import './style_guide/elements.scss';
+@import './style_guide/classes.scss';

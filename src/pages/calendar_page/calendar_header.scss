@@ -1,0 +1,61 @@
+.cal-header-toolbar {
+  &.cal-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cal-toolbar-cell {
+    display: flex;
+    justify-content: center;
+    min-width: 250px;
+  }
+
+  .cal-toolbar-cell-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .cal-button {
+      font-size: 14px;
+    }
+
+    .cal-button-group {
+      position: relative;
+      display: inline-flex;
+      vertical-align: middle;
+
+      .cal-button {
+        flex: 1;
+
+        svg {
+          path {
+            transform: translateY(10%);
+          }
+        }
+
+        &:last-of-type {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        &:first-of-type {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+
+    // .cal-today-button {
+    //   margin-left: 8px;
+    // }
+  }
+
+  .cal-toolbar-cell-right {
+    justify-content: flex-start;
+
+    .cal-button {
+      font-size: 14px;
+      margin: 0 4px;
+    }
+  }
+}
