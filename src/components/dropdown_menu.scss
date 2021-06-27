@@ -1,3 +1,5 @@
+@import '../scss/animations/growDown.scss';
+
 .shared-dropdown-wrapper {
   position: relative;
   z-index: 1;
@@ -62,17 +64,5 @@
         }
       }
     }
-  }
-}
-
-@keyframes growDown {
-  0% {
-    transform: scaleY(0) scaleX(0);
-  }
-  80% {
-    transform: scaleY(1.1) scaleX(1.1);
-  }
-  100% {
-    transform: scaleY(1) scaleX(1.1);
   }
 }

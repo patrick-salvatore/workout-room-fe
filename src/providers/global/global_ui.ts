@@ -5,14 +5,6 @@ export type GlobalState = {
   isNavigationOpen: boolean;
 };
 
-export const toggleNavigationState = (payload = false) =>
-  ({
-    payload,
-    type: 'global/TOGGLE_NAVIGATION',
-  } as const);
-
-export type GlobalStateActions = ReturnType<typeof toggleNavigationState>;
-
 const globalInitialState = {
   isNavigationOpen: false,
 };

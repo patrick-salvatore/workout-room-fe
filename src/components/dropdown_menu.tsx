@@ -83,9 +83,9 @@ export const DropDown = <T extends string>({
   defaultItem,
   onSelect,
 }: DropDownProps<T>): JSX.Element => {
-  const [selectedItem, setSelectedItem] = React.useState<string>(() => defaultItem?.label || '');
+  const [selectedItem, setSelectedItem] = React.useState<string>(defaultItem?.label || '');
   const [isMenuOpen, setMenuOpen] = React.useState(false);
-  const componentOnSelect = v => {
+  const componentOnSelect = (v: T) => {
     setSelectedItem(v);
     onSelect(v);
     setMenuOpen(false);

@@ -33,7 +33,6 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   const { date } = useCalendarContext();
   const query_map = query_params_map(useLocation().search);
   const view = query_map.get('view');
-
   return (
     <div className="cal-header-toolbar cal-toolbar">
       <div className="cal-toolbar-cell cal-toolbar-cell-left">

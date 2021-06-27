@@ -1,3 +1,5 @@
+@import '../scss/animations/fade.scss';
+
 .modal {
   &.opening {
     animation: fadeIn ease 0.5s;
@@ -59,16 +61,6 @@
 
   .fadeIn {
     animation: fadeIn 800ms;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
   }
 }
 

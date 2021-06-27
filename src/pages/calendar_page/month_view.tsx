@@ -23,7 +23,7 @@ const SessionCell: React.FC<{ session: CalSessionType; variant?: string }> = ({
           query_map_to_string({
             ...query_params_map(window.location.search).exclude('view'),
             view: 'DAY',
-            act_id: session_id,
+            a: session_id,
           })
         )
       }
