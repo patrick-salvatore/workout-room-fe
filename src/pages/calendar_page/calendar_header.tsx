@@ -18,6 +18,7 @@ type CalendarHeaderProps = {
   toggleView: (v: ViewTypes, d?: Date) => void;
 };
 
+const DEFAULT_MENU_ITEM = { label: 'Month', value: 'M' as ViewTypes };
 const menuItems: DropDownProps<ViewTypes>['menuItems'] = [
   { label: 'Month', value: 'MONTH', actionSymbol: 'M' },
   { label: 'Week', value: 'WEEK', actionSymbol: 'W' },
@@ -67,7 +68,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           {...{
             onSelect: v => toggleView(v),
             menuItems,
-            defaultItem: view ? { label: view, value: view as ViewTypes } : null,
+            defaultItem: view ? { label: view, value: view as ViewTypes } : DEFAULT_MENU_ITEM,
           }}
         />
       </div>

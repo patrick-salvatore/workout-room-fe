@@ -1,17 +1,19 @@
 import { useEffect } from 'react';
 import { ViewTypes } from './calendar.utils';
 
+type TUseArrowDateIncrement = {
+  date: Date;
+  view: ViewTypes;
+  increment_date(): void;
+  decrement_date(): void;
+};
+
 export const useArrowDateIncrement = ({
   increment_date,
   decrement_date,
   date,
   view,
-}: {
-  date: Date;
-  view: ViewTypes;
-  increment_date(): void;
-  decrement_date(): void;
-}): void => {
+}: TUseArrowDateIncrement): void => {
   useEffect(() => {
     const keyPress = e => {
       const { code, target } = e;

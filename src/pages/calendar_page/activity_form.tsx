@@ -52,7 +52,6 @@ export const ActivityForm = ({
           <LabeledInput
             {...{
               register: name => register(name, { required: true }),
-              hasValue: Boolean(getValues().title),
               name: 'title',
               className: 'create-activity-title-input',
               label: 'Title',
@@ -62,7 +61,6 @@ export const ActivityForm = ({
           <LabeledInput
             {...{
               register: name => register(name, { required: true }),
-              hasValue: Boolean(getValues().notes),
               name: 'notes',
               label: 'Notes',
               inputWrapperClass: 'input-wrapper notes-input-wrapper',
