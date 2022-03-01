@@ -1,21 +1,12 @@
-import React, { InputHTMLAttributes } from 'react';
-import { UseFormRegister } from 'react-hook-form';
-
 type LabeledInputProps = {
-  register: (name: string) => ReturnType<UseFormRegister<any>>;
+  // register: (name: string) => ReturnType<UseFormRegister<any>>;
   name: string;
   label: string;
   inputWrapperClass?: string;
 };
 
-export const LabeledInput: React.FC<LabeledInputProps & InputHTMLAttributes<any>> = ({
-  register,
-  name,
-  label,
-  inputWrapperClass,
-  ...props
-}) => (
-  <div className={`${inputWrapperClass || ''} shared-input-wrapper shared-input`}>
+export const LabeledInput = ({ register, name, label, inputWrapperClass, ...props }) => (
+  <div class={`${inputWrapperClass || ''} shared-input-wrapper shared-input`}>
     <input
       {...{
         ...props,
@@ -26,11 +17,11 @@ export const LabeledInput: React.FC<LabeledInputProps & InputHTMLAttributes<any>
         'aria-invalid': 'false',
         id: `standard-basic--${name}`,
         autoComplete: 'off',
-        className: 'shared-input',
+        class: 'shared-input',
       }}
     />
-    <label htmlFor={`standard-basic--${name}`} className="shared-input__label" data-content={label}>
-      <span className="hidden--visually">{label}</span>
+    <label htmlFor={`standard-basic--${name}`} class="shared-input__label" data-content={label}>
+      <span class="hidden--visually">{label}</span>
     </label>
   </div>
 );

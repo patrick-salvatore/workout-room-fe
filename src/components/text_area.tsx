@@ -21,8 +21,8 @@ export const FormTextArea: React.FC<FormTextAreaType & React.TextareaHTMLAttribu
   const { onChange: registerOnChange, ...register_values } = register(name);
   const [innerValue, setInnerValue] = React.useState<string>();
   const [focused, setFocused] = React.useState(hasValue);
-  const finalClassName = `shared-text-area ${focused ? 'shared-text-area-grow' : ''} ${
-    props.className ? props.className : ''
+  const finalclass = `shared-text-area ${focused ? 'shared-text-area-grow' : ''} ${
+    props.class ? props.class : ''
   }`;
 
   const handleFocus = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -39,9 +39,9 @@ export const FormTextArea: React.FC<FormTextAreaType & React.TextareaHTMLAttribu
   };
 
   return (
-    <div className={`${inputWrapperClass ? inputWrapperClass : ''} shared-text-area-wrapper`}>
+    <div class={`${inputWrapperClass ? inputWrapperClass : ''} shared-text-area-wrapper`}>
       <label
-        className={`shared-text-area-label ${
+        class={`shared-text-area-label ${
           focused ? 'shared-text-area-animated-color shared-text-area-animated-shrink' : ''
         }`}
         data-shrink="false"
@@ -49,7 +49,7 @@ export const FormTextArea: React.FC<FormTextAreaType & React.TextareaHTMLAttribu
       >
         {label}
       </label>
-      <div className="shared-text-area-base-wrapper shared-text-area shared-text-area-underline">
+      <div class="shared-text-area-base-wrapper shared-text-area shared-text-area-underline">
         <textarea
           {...{
             ...props,
@@ -57,7 +57,7 @@ export const FormTextArea: React.FC<FormTextAreaType & React.TextareaHTMLAttribu
             type: 'text',
             'aria-invalid': 'false',
             autoComplete: 'off',
-            className: finalClassName,
+            class: finalclass,
             onFocusCapture: handleFocus,
             onBlurCapture: handleBlur,
             onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => {

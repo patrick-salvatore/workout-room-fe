@@ -24,15 +24,15 @@ const Modal: React.FC<ModalProps> = ({ closeModal, children, open }) => {
   return (
     <>
       {open && (
-        <div id="modal-root" className="modal">
-          <div className="modal__container">
-            <div className="modal__wrapper">
+        <div id="modal-root" class="modal">
+          <div class="modal__container">
+            <div class="modal__wrapper">
               {closeModal && (
-                <div className="modal__close-container">
+                <div class="modal__close-container">
                   <XMarkIcon onClick={closeModal} />
                 </div>
               )}
-              <div className="modal__content_container">{children}</div>
+              <div class="modal__content_container">{children}</div>
             </div>
           </div>
         </div>

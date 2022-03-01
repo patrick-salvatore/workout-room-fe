@@ -1,24 +1,19 @@
-import React, { CSSProperties } from 'react';
+import { ComponentProps } from 'solid-js';
 
 type ButtonProps = {
   variant?: 'outlined' | 'block';
-  height?: CSSProperties['height'];
-} & React.ButtonHTMLAttributes<any>;
+  height?: string | number;
+  class?: 'string';
+} & ComponentProps<any>;
 
-export const Button: React.FC<ButtonProps> = ({
-  className,
-  children,
-  variant = 'block',
-  height,
-  ...rest
-}): JSX.Element => {
+export const Button = (props: ButtonProps) => {
   return (
     <button
-      className={`shared-button-component ${className} ${variant}-button`}
-      {...rest}
-      style={{ height }}
+      {...props}
+      class={`shared-button-component ${props.class || ''} ${props.variant || 'block'}-button`}
+      style={{ height: props.height }}
     >
-      {children}
+      {props.children}
     </button>
   );
 };

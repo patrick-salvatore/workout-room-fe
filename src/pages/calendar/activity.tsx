@@ -1,42 +1,38 @@
-import React, { Fragment } from 'react';
-import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
 import { fromNullable, match } from 'fp-ts/lib/Option';
 import { pipe } from 'fp-ts/lib/function';
 
-import { CalActivityMetaData, CalSessionSetType } from './calendar_types';
+import { CalActivityMetaData } from './calendar_types';
 
 import { activities_map } from './mock.data';
 import { ActivityForm, ActivitiesType } from './activity_form';
 
 export type CalActivityMetaDataType = CalActivityMetaData | null;
 
-const Sessions: React.FC<{ sessions: CalSessionSetType }> = ({ sessions }) => {
+const Sessions = ({ sessions }) => {
   return (
     <>
       {sessions.map(activity => (
-        <Fragment key={activity.session_id}>
-          <div className="activity-title-wrapper">
-            <h1 id="title" className="title">
+        <>
+          <div class="activity-title-wrapper">
+            <h1 id="title" class="title">
               {activity.session_main_title}
             </h1>
           </div>
-          <div className="activity-notes-wrapper">
+          <div class="activity-notes-wrapper">
             {activity.session_main_notes ? (
-              <p id="notes" className="notes">
+              <p id="notes" class="notes">
                 {activity.session_main_notes}
               </p>
             ) : null}
           </div>
-        </Fragment>
+        </>
       ))}
     </>
   );
 };
 
-export const SessionsStatic: React.FC<{
-  activityMeta: CalActivityMetaDataType;
-}> = ({ activityMeta }) =>
+export const SessionsStatic = ({ activityMeta }) =>
   pipe(
     fromNullable(activityMeta),
     match(
@@ -45,17 +41,15 @@ export const SessionsStatic: React.FC<{
     )
   );
 
-export const SessionsForms: React.FC<{
-  activityMeta: CalActivityMetaDataType;
-}> = ({ activityMeta = {} }) => {
+export const SessionsForms = ({ activityMeta }) => {
   return (
     <>
       {(activityMeta?.activity_id ? activities_map[activityMeta.activity_id] : []).map((__, i) => (
         <ActivityForm
           key={`activity_form_${i}`}
-          {...useForm({
-            shouldUnregister: true,
-          })}
+          // {...useForm({
+          //   shouldUnregister: true,
+          // })}
         />
       ))}
     </>

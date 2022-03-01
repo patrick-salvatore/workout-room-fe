@@ -9,7 +9,7 @@
 .triangle {
   position: relative;
   width: 10px;
-  height: 100%;
+  top: 50%;
 
   &::before {
     content: ' ';

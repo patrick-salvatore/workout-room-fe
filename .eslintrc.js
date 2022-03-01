@@ -1,12 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['prettier', '@typescript-eslint', 'react-hooks'],
-  extends: [
-    'plugin:prettier/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-  ],
+  plugins: ['prettier', '@typescript-eslint'],
+  extends: ['plugin:prettier/recommended', 'plugin:@typescript-eslint/recommended'],
   env: {
     browser: true,
     jasmine: true,
@@ -75,11 +70,6 @@ module.exports = {
     ],
     'no-param-reassign': 'off',
     'prettier/prettier': [2, { singleQuote: true, trailingComma: 'es5' }],
-
-    // react rules
-    'react/prop-types': [0],
-    'react-hooks/exhaustive-deps': [0],
-    'react-hooks/rules-of-hooks': [0],
 
     // typescript rules
     '@typescript-eslint/interface-name-prefix': [0],

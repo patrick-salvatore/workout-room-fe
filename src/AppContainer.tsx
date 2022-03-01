@@ -1,16 +1,20 @@
-import React from 'react';
 import { NavBarContainer } from '@components/navigation';
-import { navigationOpenState } from '@providers/global/global_ui';
+import { Component } from 'solid-js';
+import { useGlobalUiContext } from './providers/global_ui';
 
-export const AppContainer: React.FC = ({ children }) => (
-  <>
-    <NavBarContainer />
-    <div
-      className={`app--container compressable-container ${
-        navigationOpenState() ? 'compressed' : ''
-      }`}
-    >
-      {children}
-    </div>
-  </>
-);
+export const AppContainer: Component = props => {
+  const [uiState] = useGlobalUiContext();
+
+  return (
+    <>
+      <NavBarContainer />
+      <div
+        class={`app--container compressable-container ${
+          uiState().isNavigationOpen ? 'compressed' : ''
+        }`}
+      >
+        {props.children}
+      </div>
+    </>
+  );
+};

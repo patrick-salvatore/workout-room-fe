@@ -1,6 +1,4 @@
-import React from 'react';
 import { nanoid } from 'nanoid';
-import { UseFormReturn, UseFormRegister } from 'react-hook-form';
 
 import { LabeledInput } from '@components/labeled_input';
 import { Button } from '@components/button';
@@ -41,19 +39,18 @@ export const ActivityForm = ({
   getValues,
   defaultSessions = {},
   watch,
-}: ActivityFormProps): JSX.Element => {
+}: ActivityFormProps) => {
   const [ticks, setTicks] = React.useState<ReadonlyArray<string>>([]);
-  const { cleanup_calendar_day_view } = useCalendarContext();
 
   return (
-    <div className="form-wrapper">
-      <div className="form-top">
-        <div className="inputs-wrapper">
+    <div class="form-wrapper">
+      <div class="form-top">
+        <div class="inputs-wrapper">
           <LabeledInput
             {...{
               register: name => register(name, { required: true }),
               name: 'title',
-              className: 'create-activity-title-input',
+              class: 'create-activity-title-input',
               label: 'Title',
               inputWrapperClass: 'input-wrapper title-input-wrapper',
             }}
@@ -67,21 +64,21 @@ export const ActivityForm = ({
             }}
           />
         </div>
-        <div className="buttons-wrapper">
+        <div class="buttons-wrapper">
           <Button
-            className="save-button"
+            class="save-button"
             onClick={handleSubmit(({ title, notes, ...other }) => {
               console.log({ title, notes, ...concat_activities(other, ticks) });
             })}
           >
             Save
           </Button>
-          <Button className="cancel-button" onClick={() => cleanup_calendar_day_view()}>
+          <Button class="cancel-button" onClick={() => cleanup_calendar_day_view()}>
             Cancel
           </Button>
         </div>
       </div>
-      <div className="form-bottom">
+      <div class="form-bottom">
         <SessionTable
           {...{
             register,
@@ -185,60 +182,60 @@ export const SessionTable: React.FC<{
   };
 
   return (
-    <div className="session-table-wrapper">
+    <div class="session-table-wrapper">
       {Object.entries(sessionsMap).flatMap(([session_key, session_activities], session_index) => (
-        <table className="session-table" key={`session-${session_index}`}>
+        <table class="session-table" key={`session-${session_index}`}>
           <tbody>
-            <tr className="session-meta">
-              <td className="session-session">Session: {session_index + 1}</td>
-              <td className="session-button-cell">
-                <Button className="session-button" onClick={() => delete_session(session_key)}>
-                  <Minus className="minus-icon" /> Delete Session
+            <tr class="session-meta">
+              <td class="session-session">Session: {session_index + 1}</td>
+              <td class="session-button-cell">
+                <Button class="session-button" onClick={() => delete_session(session_key)}>
+                  <Minus class="minus-icon" /> Delete Session
                 </Button>
-                <Button className="session-button" onClick={() => add_row(session_key)}>
-                  <Plus className="plus-icon" /> Add
+                <Button class="session-button" onClick={() => add_row(session_key)}>
+                  <Plus class="plus-icon" /> Add
                 </Button>
               </td>
             </tr>
             <tr>
               <td>
                 {session_activities.map(({ activity_schema, _renderId }, activity_index) => (
-                  <table key={`${session_index}-${activity_index}`} className="activity-table">
-                    <thead className="activity-table-header">
+                  <table key={`${session_index}-${activity_index}`} class="activity-table">
+                    <thead class="activity-table-header">
                       <tr>
-                        <th className="header-cell title-cell">Title</th>
-                        <th className="header-cell title-cell">Notes</th>
-                        <th className="header-cell title-cell">Sets x Reps, Weight</th>
-                        <th className="header-cell empty-cell"></th>
+                        <th class="header-cell title-cell">Title</th>
+                        <th class="header-cell title-cell">Notes</th>
+                        <th class="header-cell title-cell">Sets x Reps, Weight</th>
+                        <th class="header-cell empty-cell"></th>
                       </tr>
                     </thead>
-                    <tbody className="activity-table-body">
-                      <tr className="activity-row" key={`${session_index}-${_renderId}`}>
-                        <td className="activity-cell">
+                    <tbody class="activity-table-body">
+                      <tr class="activity-row" key={`${session_index}-${_renderId}`}>
+                        <td class="activity-cell">
                           <textarea
                             {...register(`${session_key}.${_renderId}.activity_title`, {
                               required: true,
                             })}
                             {...{
-                              className: 'activity-cell-input activity-cell-input-input',
+                              class: 'activity-cell-input activity-cell-input-input',
                             }}
                           />
                         </td>
-                        <td className="activity-cell">
+                        <td class="activity-cell">
                           <textarea
                             {...register(`${session_key}.${_renderId}.activity_input`)}
                             {...{
-                              className: 'activity-cell-input activity-cell-input-input',
+                              class: 'activity-cell-input activity-cell-input-input',
                             }}
                           />
                         </td>
-                        <td className="activity-cell">
-                          <div className="activity-schema-wrapper">
-                            <div className="activity-buttons-wrapper">
+                        <td class="activity-cell">
+                          <div class="activity-schema-wrapper">
+                            <div class="activity-buttons-wrapper">
                               {Object.keys(activity_schema).length > 1 && (
                                 <div>
                                   <Minus
-                                    className="plus-icon"
+                                    class="plus-icon"
                                     height={15}
                                     width={15}
                                     onClick={() => delete_schema(session_key, activity_index)}
@@ -248,7 +245,7 @@ export const SessionTable: React.FC<{
                               {Object.keys(activity_schema).length < 4 && (
                                 <div>
                                   <Plus
-                                    className="plus-icon"
+                                    class="plus-icon"
                                     height={15}
                                     width={15}
                                     onClick={() => add_schema(session_key, activity_index)}
@@ -256,10 +253,10 @@ export const SessionTable: React.FC<{
                                 </div>
                               )}
                             </div>
-                            <div className="activity-schema">
+                            <div class="activity-schema">
                               {Object.entries(activity_schema).map(([schema_key], schema_index) => (
                                 <div
-                                  className="activity-schema-input-wrapper"
+                                  class="activity-schema-input-wrapper"
                                   key={`schema-${schema_key}-${schema_index}`}
                                 >
                                   <input
@@ -268,28 +265,27 @@ export const SessionTable: React.FC<{
                                       `${session_key}.${_renderId}.activity_schema.${schema_key}.sets`
                                     )}
                                     {...{
-                                      className: 'activity-schema-input activity-schema-input-sets',
+                                      class: 'activity-schema-input activity-schema-input-sets',
                                     }}
                                   />
-                                  <div className="activity-schema-input-spacer">x</div>
+                                  <div class="activity-schema-input-spacer">x</div>
                                   <input
                                     type="string"
                                     {...register(
                                       `${session_key}.${_renderId}.activity_schema.${schema_key}.reps`
                                     )}
                                     {...{
-                                      className: 'activity-schema-input activity-schema-input-reps',
+                                      class: 'activity-schema-input activity-schema-input-reps',
                                     }}
                                   />
-                                  <div className="activity-schema-input-spacer">,</div>
+                                  <div class="activity-schema-input-spacer">,</div>
                                   <input
                                     type="string"
                                     {...register(
                                       `${session_key}.${_renderId}.activity_schema.${schema_key}.weight`
                                     )}
                                     {...{
-                                      className:
-                                        'activity-schema-input activity-schema-input-weight',
+                                      class: 'activity-schema-input activity-schema-input-weight',
                                     }}
                                   />
                                 </div>
@@ -297,9 +293,9 @@ export const SessionTable: React.FC<{
                             </div>
                           </div>
                         </td>
-                        <td className="activity-cell action-cell">
+                        <td class="activity-cell action-cell">
                           <TrashCan onClick={() => delete_row(session_key, activity_index)} />
-                          {/* <Pencil className="pencil-icon" onClick={() => console.log('click')} /> */}
+                          {/* <Pencil class="pencil-icon" onClick={() => console.log('click')} /> */}
                         </td>
                       </tr>
                     </tbody>
@@ -311,8 +307,8 @@ export const SessionTable: React.FC<{
         </table>
       ))}
       {len(sessionsMap) < 2 && (
-        <div className="session-button-wrapper">
-          <Button variant="outlined" className="session-button" onClick={add_session}>
+        <div class="session-button-wrapper">
+          <Button variant="outlined" class="session-button" onClick={add_session}>
             <Plus height={24} width={24} /> Create Session
           </Button>
         </div>

@@ -1,15 +1,15 @@
-import React from 'react';
-import { RouteComponentProps } from '@reach/router';
-
+import { Component } from 'solid-js';
 import { Calendar } from './calendar';
 import { CalendarProvider } from './calendar_context';
 
-export const CalendarScreen: React.FC<unknown & RouteComponentProps> = () => {
+const CalendarScreen: Component = () => {
   return (
-    <div className="calendar">
+    <div class="calendar">
       <CalendarProvider>
         <Calendar />
       </CalendarProvider>
     </div>
   );
 };
+
+export default CalendarScreen;

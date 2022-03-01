@@ -1,114 +1,100 @@
-import React from 'react';
+import { For, createSignal, onCleanup, onMount, Show } from 'solid-js';
 
 import { LabelValuePair } from 'src/app_types';
-import { capitalize } from '@helpers/index';
+
 import { Button } from './button';
 
 export type DropDownProps<T = unknown> = {
-  defaultItem: LabelValuePair<T> | null;
+  defaultItem: LabelValuePair<T>;
   menuItems: ReadonlyArray<LabelValuePair<T> & { actionSymbol?: string }>;
   onSelect: (arg0: T) => void;
 };
 
 export type DropDownMenuProps<T> = Omit<DropDownProps<T>, 'defaultItem'> & {
-  isMenuOpen: boolean;
   closeMenu: () => void;
+  isMenuOpen: boolean;
 };
 
-const COMPONENT_IDENTIFIER = 'shared-dropdown-menu-component';
+const DropDownMenu = <T extends string>(props: DropDownMenuProps<T>) => {
+  function key_press(e) {
+    const { keyCode } = e;
+    const foundCode = props.menuItems.find(
+      ({ actionSymbol }) => actionSymbol?.substring(0, 1).charCodeAt(0) === keyCode
+    );
 
-const DropDownMenu = <T extends string>({
-  isMenuOpen,
-  menuItems,
-  closeMenu,
-  onSelect,
-}: DropDownMenuProps<T>) => {
-  React.useEffect(() => {
-    const _closeMenu = (e: MouseEvent) => {
-      if ((e.target as Element).closest(`#${COMPONENT_IDENTIFIER}`)) return;
-      closeMenu();
-    };
+    if (foundCode) {
+      props.onSelect(foundCode.value);
+    }
+  }
 
-    document.addEventListener('click', _closeMenu);
-    return () => {
-      document.removeEventListener('click', _closeMenu);
-    };
-  }, [isMenuOpen]);
+  onMount(() => {
+    document.addEventListener('keyup', key_press);
+  });
 
-  React.useEffect(() => {
-    const keyPress = e => {
-      const { keyCode } = e;
-      const foundCode = menuItems
-        .map(({ actionSymbol, value }) => ({
-          code: actionSymbol?.substring(0, 1).charCodeAt(0),
-          value,
-        }))
-        .find(({ code }) => code === keyCode);
+  onCleanup(() => {
+    document.removeEventListener('keyup', key_press);
+  });
 
-      if (foundCode) {
-        onSelect(foundCode.value);
-      }
-    };
+  return (
+    <Show when={props.isMenuOpen}>
+      <div id="SHARED_DROPDOWN_MENU" class="shared-dropdown-menu" role="menu" tabIndex={0}>
+        <div class="dropdown-menu">
+          <div class="dropdown-menu-item_wrappers">
+            <ul class="dropdown-menu-list">
+              <For each={props.menuItems}>
+                {({ label, value, actionSymbol }) => (
+                  <li onClick={() => props.onSelect(value)}>
+                    <div class="menu-item">
+                      <div class="menu-item-name">{label}</div>
+                      <div class="menu-item-action">{actionSymbol}</div>
+                    </div>
+                  </li>
+                )}
+              </For>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Show>
+  );
+};
 
-    document.addEventListener('keyup', keyPress);
-    return () => document.removeEventListener('keyup', keyPress);
-  }, []);
+export function DropDown<T extends string>(props: DropDownProps<T>) {
+  const [selectedItem, setSelectedItem] = createSignal(props.defaultItem?.label || '');
+  const [isMenuOpen, setMenuOpen] = createSignal(false);
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
+  function componentOnSelect(v: T) {
+    props.onSelect(v);
+    setSelectedItem(() => v);
+    closeMenu();
+  }
 
   return (
     <>
-      {isMenuOpen && (
-        <div className="shared-dropdown-menu" role="menu" tabIndex={0} data-back-to-cancel="false">
-          <div className="dropdown-menu">
-            <div className="dropdown-menu-item_wrappers">
-              <ul className="dropdown-menu-list">
-                {menuItems.map(({ label, value, actionSymbol }, i) => (
-                  <li key={i} onClick={() => onSelect(value)}>
-                    <div className="menu-item">
-                      <div className="menu-item-name">{label}</div>
-                      <div className="menu-item-action">{actionSymbol}</div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
+      <Show when={isMenuOpen()}>
+        <div class="shared-dropdown-menu-outside-click" onClick={closeMenu} />
+      </Show>
+      <div class="shared-dropdown-wrapper">
+        <Button
+          class={`shared-dropdown-button ${isMenuOpen() ? 'disabled-button' : ''}`}
+          onClick={() => setMenuOpen(!isMenuOpen())}
+        >
+          {selectedItem()?.toLowerCase()}
+          <span class="triangle" />
+        </Button>
+        <DropDownMenu<T>
+          {...{
+            onSelect: componentOnSelect,
+            isMenuOpen: isMenuOpen(),
+            menuItems: props.menuItems,
+            closeMenu,
+          }}
+        />
+      </div>
     </>
   );
-};
-
-export const DropDown = <T extends string>({
-  menuItems,
-  defaultItem,
-  onSelect,
-}: DropDownProps<T>): JSX.Element => {
-  const [selectedItem, setSelectedItem] = React.useState<string>(defaultItem?.label || '');
-  const [isMenuOpen, setMenuOpen] = React.useState(false);
-  const componentOnSelect = (v: T) => {
-    setSelectedItem(v);
-    onSelect(v);
-    setMenuOpen(false);
-  };
-
-  return (
-    <div className="shared-dropdown-wrapper" id={COMPONENT_IDENTIFIER}>
-      <Button
-        height={36}
-        className={`shared-dropdown-button ${isMenuOpen ? 'disabled-button' : ''}`}
-        onClick={() => setMenuOpen(!isMenuOpen)}
-      >
-        {capitalize(selectedItem?.toLowerCase() || '')}
-        <span className="triangle" />
-      </Button>
-      <DropDownMenu<T>
-        {...{
-          onSelect: componentOnSelect,
-          closeMenu: () => setMenuOpen(false),
-          isMenuOpen,
-          menuItems,
-        }}
-      />
-    </div>
-  );
-};
+}

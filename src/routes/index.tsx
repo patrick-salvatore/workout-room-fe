@@ -1,24 +1,23 @@
-import React, { Suspense } from 'react';
-import { Router as ReachRouter } from '@reach/router';
+import { Component, lazy } from 'solid-js';
 
-import { GlobalUiProvider } from '@providers/global/global_ui';
-
-import ROUTES from './constants';
+import { Router, Routes, Route } from 'solid-app-router';
+import * as ROUTES from './constants';
 
 /* COMPONENTS */
-import { AppContainer } from 'src/AppContainer';
+import { AppContainer } from '@/AppContainer';
 
-/* PAGES */
-import { CalendarScreen } from '@pages/calendar_page';
+const Calendar = lazy(() => import('@pages/calendar'));
 
-export const AppView: React.FC = (): JSX.Element => {
+export const AppView: Component = () => {
   return (
-    <GlobalUiProvider>
-      <AppContainer>
-        <ReachRouter className="screen--container">
-          <CalendarScreen path={ROUTES.CALENDAR} />
-        </ReachRouter>
-      </AppContainer>
-    </GlobalUiProvider>
+    <AppContainer>
+      <div class="screen--container">
+        <Router>
+          <Routes>
+            <Route path={ROUTES.INDEX} element={<Calendar />} />
+          </Routes>
+        </Router>
+      </div>
+    </AppContainer>
   );
 };

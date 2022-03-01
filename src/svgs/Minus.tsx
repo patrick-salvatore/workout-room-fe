@@ -1,14 +1,8 @@
-import * as React from 'react';
-
-type MinusSvgProps = {
-  dimensions?: { x1: number; x2: number; y1: number; y2: number };
-} & React.SVGAttributes<any>;
-
-function SvgMinusIcon({ dimensions, ...props }: MinusSvgProps) {
+function SvgMinusIcon({ dimensions, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="minus-icon"
+      class="minus-icon"
       height={15}
       width={15}
       fill="currentColor"

@@ -3,7 +3,7 @@ import LazyLoad from 'vanilla-lazyload';
 
 interface ILazyImageProps {
   alt: string;
-  className?: string;
+  class?: string;
   src: string;
   srcMobile?: string;
   width?: number | string;
@@ -51,13 +51,13 @@ const LazyImage: React.FunctionComponent<ILazyImageProps> = (props): JSX.Element
   }, []);
 
   // Just render the image with data-src
-  const { alt, className, src, width, height, style } = props;
+  const { alt, class, src, width, height, style } = props;
   const srcMobile = props.srcMobile ?? src;
 
   return (
     <img
       alt={alt}
-      className={`lazy ${className || ''}`}
+      class={`lazy ${class || ''}`}
       src={isMobile ? srcMobile : src}
       data-sizes="100w"
       width={width}

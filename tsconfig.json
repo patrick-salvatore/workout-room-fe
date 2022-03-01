@@ -5,6 +5,7 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
+      "@/*": ["./src/*"],
       "@pages/*": ["./src/pages/*"],
       "@routes/*": ["./src/routes/*"],
       "@hooks/*": ["./src/hooks/*"],
@@ -14,7 +15,7 @@
       "@helpers/*": ["src/helpers/*"],
       "@providers/*": ["./src/providers/*"],
       "@store/*": ["./src/store/*"],
-      "@svgs/*": ["./src/svgs/*"],
+      "@svgs/*": ["./src/svgs/*"]
     },
     "target": "es5",
     "declaration": false,
@@ -30,11 +31,12 @@
     "noImplicitAny": false,
     "forceConsistentCasingInFileNames": false,
     "module": "commonjs",
-    "jsx": "react",
-    "typeRoots": ["../../node_modules/@types"],
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "typeRoots": ["../../node_modules/@types"]
   },
   "awesomeTypescriptLoaderOptions": {
-    "reportFiles": ["./src/**/**/*",]
+    "reportFiles": ["./src/**/**/*"]
   },
   "exclude": [
     "./public",
@@ -45,10 +47,7 @@
     "build",
     "scripts",
     "webpack",
-    "jest",
+    "jest"
   ],
-  "include": [
-    "<rootDir>/src/__test__/test-setup.js",
-    "./src/**/**/*", "webpack", "webpack",
-  ]
+  "include": ["<rootDir>/src/__test__/test-setup.js", "./src/**/**/*", "webpack", "webpack"]
 }

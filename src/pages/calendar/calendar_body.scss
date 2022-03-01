@@ -3,7 +3,6 @@ $cell-width: 55px;
 .calendar--view {
   display: flex;
   flex-direction: column;
-  position: relative;
   height: 100%;
 
   table {
@@ -14,8 +13,6 @@ $cell-width: 55px;
   }
 
   .calendar--table {
-    flex-grow: 1;
-
     td,
     th,
     tr {

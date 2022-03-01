@@ -13,7 +13,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ errors }): JSX.Element => (
     {Object.keys(errors).map(
       k =>
         errors[k].error && (
-          <div key={k} className="alert">
+          <div key={k} class="alert">
             {errors[k].message}
           </div>
         )

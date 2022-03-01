@@ -22,6 +22,7 @@ export const chunk = <T>(array: T[], size = 1): T[][] => {
  */
 export const capitalize = (s: string): string =>
   s
+    .toLowerCase()
     .split('')
     .map((l, i) => (i === 0 ? l.toUpperCase() : l))
     .join('');
